@@ -1,29 +1,20 @@
-{
-  'use strict';
+import React from 'react';
+import NavBar from '../NavBar/index.jsx';
 
-  let React = require('react'),
-    NavBar = require('../NavBar/index.jsx');
+class Main extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.element.isRequired,
+    location: React.PropTypes.object
+  };
 
-  class Main extends React.Component {
-    static propTypes = {
-      children: React.PropTypes.element.isRequired,
-      location: React.PropTypes.object
-    };
-
-    constructor(props) {
-      super(props);
-    }
-
-    render() {
-      return (
-        <div>
-          <NavBar pathname={this.props.location.pathname}/>
-          {this.props.children}
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div>
+        <NavBar pathname={this.props.location.pathname}/>
+        {this.props.children}
+      </div>
+    );
   }
-
-  module.exports = Main;
-
 }
+
+export default Main;

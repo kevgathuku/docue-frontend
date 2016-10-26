@@ -1,32 +1,28 @@
-(() => {
-  'use strict';
+import AppConstants from '../constants/AppConstants';
+import BaseActions  from './BaseActions';
 
-  let AppConstants = require('../constants/AppConstants'),
-    BaseActions  = require('./BaseActions');
+export default {
+  login: (user) => {
+    BaseActions.post('/api/users/login', user, AppConstants.USER_LOGIN);
+  },
 
-  module.exports = {
-    login: (user) => {
-      BaseActions.post('/api/users/login', user, AppConstants.USER_LOGIN);
-    },
+  logout: (data, token) => {
+    BaseActions.post('/api/users/logout', data, AppConstants.USER_LOGOUT, token);
+  },
 
-    logout: (data, token) => {
-      BaseActions.post('/api/users/logout', data, AppConstants.USER_LOGOUT, token);
-    },
+  signup: (user) => {
+    BaseActions.post('/api/users', user, AppConstants.USER_SIGNUP);
+  },
 
-    signup: (user) => {
-      BaseActions.post('/api/users', user, AppConstants.USER_SIGNUP);
-    },
+  update: (userID, user, token) => {
+    BaseActions.put(`/api/users/${userID}`, user, AppConstants.USER_UPDATE, token);
+  },
 
-    update: (userID, user, token) => {
-      BaseActions.put(`/api/users/${userID}`, user, AppConstants.USER_UPDATE, token);
-    },
+  getSession: (token) => {
+    BaseActions.get('/api/users/session', AppConstants.USER_SESSION, token);
+  },
 
-    getSession: (token) => {
-      BaseActions.get('/api/users/session', AppConstants.USER_SESSION, token);
-    },
-
-    fetchAllUsers: (token) => {
-      BaseActions.get('/api/users', AppConstants.GET_USERS, token);
-    }
-  };
-})();
+  fetchAllUsers: (token) => {
+    BaseActions.get('/api/users', AppConstants.GET_USERS, token);
+  }
+};

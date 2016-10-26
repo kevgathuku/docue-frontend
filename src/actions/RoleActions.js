@@ -1,17 +1,12 @@
-(() => {
-  'use strict';
+import AppConstants from '../constants/AppConstants';
+import BaseActions  from './BaseActions';
 
-  let AppConstants = require('../constants/AppConstants'),
-    BaseActions  = require('./BaseActions');
+export default {
+  create: (data, token) => {
+    BaseActions.post('/api/roles', data, AppConstants.CREATE_ROLE, token);
+  },
 
-  module.exports = {
-    create: (data, token) => {
-      BaseActions.post('/api/roles', data, AppConstants.CREATE_ROLE, token);
-    },
-
-    getRoles: (token) => {
-      BaseActions.get('/api/roles', AppConstants.GET_ROLES, token);
-    }
-
-  };
-})();
+  getRoles: (token) => {
+    BaseActions.get('/api/roles', AppConstants.GET_ROLES, token);
+  }
+};
