@@ -46,7 +46,7 @@ node_modules
 public/lib/
 
 # Generated bundle
-public/build/
+build
 
 # Migration
 migrations/.migrate
