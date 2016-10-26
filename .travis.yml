@@ -7,13 +7,6 @@ node_js:
 cache:
   directories:
   - node_modules
-deploy:
-  provider: heroku
-  api_key:
-    secure: aL382tdEo3f0WsLBvgTLc2hP0zmjNZzc+XlC4M7arT71R432pzW/y51ZcNeVHn6PRt0VQKXPJRXpPJWghvRuwq9ayHjI1WZqPuyoITAoxLjPt97UGpciw4Sj3Gp6tGi0FevIPszCfzC/B2nBlnWw+KAbn790IJw0H1F0GeN+paFUEn7uqm8NDXGVMcxyQ6Ty80Sx+2JmhKlvoQNJPHFJqKTsFTFIistM70nlBpqybMfAz48T1aGSbNBKgjGMZAwVnXzuajMvgTOe3avv+rlqQoXTI6OAJ2F9v0RBarjGoRVScO8tPgGXIuay4PcZZ4CLF8Zth/b3HT2y2ubOCqp2bXNNIZ2pU8DUMnTapjRIn9z8I0IzFWQrhbtqSIVEgbsauPaCTNtTZ2nXKPArMAt4MYpjMzUJ0gRXRaUuAIGoDQ6K8B0Mha7h94c+N+28MGdpWpg+WOZOLxTdUwd3TSWmOe7sVvkCuKhuBtvCh2jp0T5P38rfi7fMleVECVdU0LbbleJw5Osg9A3wxvnhubdu0sXzsfBjievI61ZkUKsg2QiXaw9+tmeOgmPqp++LFMGVca+i9mJVZA9sus/4jY3ljE7AU7nrG3t+q5CP9q1N20gqzMMeut02HxjWIboJ61V4ghwBWL+ufqNnYTrF9UnKNfbRBnDn1/sG82FL+qz/y9w=
-  app: docue
-  on:
-    repo: kevgathuku/docue
-    branch: master
+  - public/build
 after_success:
 - npm run codecov
