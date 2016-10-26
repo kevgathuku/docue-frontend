@@ -3,11 +3,18 @@
 
   let AppDispatcher = require('../dispatcher/AppDispatcher');
   let request = require('superagent');
+  let BASE_URL;
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Running in DEV');
+    BASE_URL = 'http://localhost:8000';
+  } else {
+    BASE_URL = 'https://docue.herokuapp.com';
+  }
 
   module.exports = {
     get: (url: string, actionType: string, token: ?string =null) => {
       request
-        .get(url)
+        .get(BASE_URL + url)
         .set('x-access-token', token)
         .end((err, result) => {
           AppDispatcher.dispatch({
@@ -19,7 +26,7 @@
 
     delete: (url: string, actionType: string, token: ?string =null) => {
       request
-        .delete(url)
+        .delete(BASE_URL + url)
         .set('x-access-token', token)
         .end((err, result) => {
           AppDispatcher.dispatch({
@@ -32,7 +39,7 @@
 
     put: (url: string, data: Object, actionType: string, token: ?string =null) => {
       request
-        .put(url)
+        .put(BASE_URL + url)
         .set('x-access-token', token)
         .send(data)
         .end((err, result) => {
@@ -46,7 +53,7 @@
 
     post: (url: string, data: Object, actionType: string, token: ?string =null) => {
       request
-        .post(url)
+        .post(BASE_URL + url)
         .set('x-access-token', token)
         .send(data)
         .end((err, result) => {
