@@ -5,7 +5,6 @@
     "stage-0"
   ],
   "plugins": [
-    "typecheck",
     "syntax-flow",
     "transform-flow-strip-types"
   ]
