@@ -41,7 +41,7 @@
     "react-addons-update": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^2.0.0",
-    "react-select": "^1.0.0-beta13",
+    "react-select": "1.0.0-beta13",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.0",
     "superagent": "^2.0.0",

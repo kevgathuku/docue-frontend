@@ -5,6 +5,8 @@ import RoleStore from '../../stores/RoleStore';
 import UserActions from '../../actions/UserActions';
 import UserStore from '../../stores/UserStore';
 
+import 'react-select/dist/react-select.css';
+
 class UsersAdmin extends React.Component {
   constructor() {
     super();
