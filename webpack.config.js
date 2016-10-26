@@ -9,7 +9,7 @@
   let pathToReactDOM = path.resolve(nodeModulesPath,
     'react-dom/dist/react-dom.js');
   let buildPath = path.resolve(__dirname, 'public', 'build');
-  let mainPath = path.resolve(__dirname, 'app', 'main.js');
+  let mainPath = path.resolve(__dirname, 'src', 'index.js');
   let commonLoaders = require('./commonLoaders');
 
   module.exports = {
@@ -43,7 +43,7 @@
         // Eslint loader
         test: /\.jsx?$/,
         loader: 'eslint-loader',
-        include: [path.resolve(__dirname, 'app')],
+        include: [path.resolve(__dirname, 'src')],
         exclude: /node_modules/
       }],
       loaders: commonLoaders,

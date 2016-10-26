@@ -6,7 +6,7 @@
     "Kevin Ndung'u"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/kevgathuku/docue",
+  "homepage": "https://github.com/kevgathuku/docue-frontend",
   "moduleType": [
     "es6",
     "node"
@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "jquery": "~2.2.0",
-    "Materialize": "materialize#~0.97.5",
+    "Materialize": "materialize#0.97.7",
     "sweetalert": "^1.1.3"
   }
 }
