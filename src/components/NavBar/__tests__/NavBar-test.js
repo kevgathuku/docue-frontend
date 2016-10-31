@@ -16,7 +16,7 @@ describe('NavBar', function() {
       localStorage.clear();
     });
 
-    before(function() {
+    beforeAll(function() {
       window.$ = sinon.stub();
 
       window.$.withArgs('.dropdown-button').returns(sinon.stub({

@@ -11,7 +11,7 @@ describe('DocList', function() {
   describe('Component Rendering', function() {
     var docList;
 
-    before(function() {
+    beforeAll(function() {
       window.$ = sinon.stub();
 
       window.$.withArgs('.tooltipped').returns(sinon.stub({
@@ -34,7 +34,7 @@ describe('DocList', function() {
       docList = mount(<DocList docs={this.docs}/>);
     });
 
-    after(function() {
+    afterAll(function() {
       docList.unmount();
     });
 

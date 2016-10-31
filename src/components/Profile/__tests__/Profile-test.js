@@ -9,7 +9,7 @@ import UserActions from '../../../actions/UserActions';
 
 describe('Profile', function() {
 
-  before(function() {
+  beforeAll(function() {
     let user = {
       _id: 1,
       name: {
@@ -26,7 +26,7 @@ describe('Profile', function() {
     storage.withArgs('user').returns('faketoken');
   });
 
-  after(function() {
+  afterAll(function() {
     localStorage.getItem.restore();
   });
 

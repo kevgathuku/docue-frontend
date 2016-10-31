@@ -7,7 +7,7 @@ import sinon from 'sinon';
 describe('DocStore', function() {
   var registerSpy;
 
-  before(function() {
+  beforeAll(function() {
     // Don't emit the change in the tests
     sinon.stub(DocStore, 'emitChange', function() {
       return true;
@@ -17,7 +17,7 @@ describe('DocStore', function() {
     registerSpy.onFirstCall().returnsArg(0);
   });
 
-  after(function() {
+  afterAll(function() {
     AppDispatcher.dispatch.restore();
     AppDispatcher.register.restore();
     registerSpy.restore();

@@ -15,14 +15,14 @@ describe('BaseActions', function() {
   };
   let fakeURL = '/api/khaled';
 
-  before(function() {
+  beforeAll(function() {
     sinon.stub(AppDispatcher, 'dispatch').returns(true);
     sinon.stub(request.Request.prototype, 'end', function(cb) {
       cb(null, response);
     });
   });
 
-  after(function() {
+  afterAll(function() {
     AppDispatcher.dispatch.restore();
     request.Request.prototype.end.restore();
   });
