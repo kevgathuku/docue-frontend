@@ -1,17 +1,12 @@
 {
   "name": "react-docms",
   "version": "0.1.1",
-  "engines": {
-    "node": "6.2.1",
-    "npm": "3.9.3"
-  },
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nyc --reporter=text mocha ./test/helpers/browser.js src/**/*-test.js",
-    "jest": "react-scripts test --env=jsdom",
-    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "react-scripts test --env=jsdom",
+    "test:ci": "CI=true react-scripts test --env=jsdom --coverage",
     "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install; fi"
   },
   "dependencies": {

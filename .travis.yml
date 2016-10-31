@@ -9,4 +9,6 @@ cache:
   - node_modules
   - public/build
 after_success:
-- npm run codecov
+- ./node_modules/.bin/codecov
+script:
+  - npm test
