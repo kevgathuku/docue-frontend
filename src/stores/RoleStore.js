@@ -2,10 +2,6 @@ import AppConstants from '../constants/AppConstants';
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import BaseStore from './BaseStore';
 
-if (!Object.assign) {
-  Object.assign = require('object-assign');
-}
-
 let RoleStore = Object.assign({}, BaseStore, {
   createdRole: null,
   roles: null,

@@ -2,10 +2,6 @@ import AppConstants from '../constants/AppConstants';
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import BaseStore from './BaseStore';
 
-if (!Object.assign) {
-  Object.assign = require('object-assign');
-}
-
 let DocStore = Object.assign({}, BaseStore, {
   doc: null,
   docs: null,
