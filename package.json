@@ -10,6 +10,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "nyc --reporter=text mocha ./test/helpers/browser.js src/**/*-test.js",
+    "jest": "react-scripts test --env=jsdom",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install; fi"
   },
