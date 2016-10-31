@@ -15,8 +15,8 @@ class Profile extends React.Component {
       firstname: user.name.first,
       lastname: user.name.last,
       email: user.email,
-      password: null,
-      passwordConfirm: null
+      password: '',
+      passwordConfirm: ''
     };
   }
 

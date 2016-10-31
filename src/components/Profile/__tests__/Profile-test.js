@@ -57,7 +57,7 @@ describe('Profile', function() {
       expect(localStorage.getItem.withArgs('userInfo').called).toBe(true);
       expect(profile.state().profileDisplay).toEqual('block');
       expect(profile.state().editDisplay).toEqual('none');
-      expect(profile.state().password).toEqual(null);
+      expect(profile.state().password).toEqual('');
     });
 
     it('displays the edit form on edit click', function() {
