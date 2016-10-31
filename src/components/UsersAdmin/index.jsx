@@ -113,7 +113,7 @@ class UsersAdmin extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.users ? this.state.users.map(renderUser) : null}
+                    {this.state.users &&this.state.users.length > 0 ? this.state.users.map(renderUser) : null}
                   </tbody>
                 </table>
               </div>
