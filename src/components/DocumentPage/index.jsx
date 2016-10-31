@@ -43,8 +43,7 @@ class DocumentPage extends React.Component {
     this.setState({
       doc: result
     });
-    let createdDate = this.state.doc.dateCreated;
-    let m = moment(new Date(createdDate));
+    let m = moment(new Date(this.state.doc.dateCreated));
     this.setState({
       parsedDate: m.fromNow()
     });
@@ -104,7 +103,7 @@ class DocumentPage extends React.Component {
     let ownerName = this.state.doc
                       ? `${this.state.doc.ownerId.name.first} ${this.state.doc.ownerId.name.last}`
                       : 'User';
-    let docEdit = this.state.doc && this.state.roles
+    let docEdit = this.state.doc && this.state.roles && this.state.roles.length > 1
                 ?
                 <div id={`edit-modal-${this.state.doc._id}`} className="modal">
                   <DocEdit doc={this.state.doc} roles={this.state.roles} updateDoc={this.onEditUpdate}/>
