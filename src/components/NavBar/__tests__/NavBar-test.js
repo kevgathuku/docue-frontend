@@ -14,9 +14,6 @@ describe('NavBar', function() {
   describe('Component Rendering', function() {
     beforeEach(function() {
       localStorage.clear();
-    });
-
-    beforeAll(function() {
       window.$ = sinon.stub();
 
       window.$.withArgs('.dropdown-button').returns(sinon.stub({
@@ -105,15 +102,14 @@ describe('NavBar', function() {
     describe('userSession', function() {
 
       beforeEach(function() {
+        browserHistory.push = jest.fn();
         sinon.stub(UserActions, 'getSession').returns(true);
         sinon.spy(UserStore, 'getSession');
-        sinon.spy(browserHistory, 'push');
       });
 
       afterEach(function() {
         UserActions.getSession.restore();
         UserStore.getSession.restore();
-        browserHistory.push.restore();
       });
 
       it('calls the user session change listener', () => {
@@ -177,7 +173,7 @@ describe('NavBar', function() {
           }
         });
         expect(wrapper.state().pathname).toBe('/');
-        expect(browserHistory.push.withArgs('/dashboard').called).toBe(true);
+        expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
       });
     });
   });

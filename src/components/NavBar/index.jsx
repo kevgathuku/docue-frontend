@@ -28,17 +28,13 @@ class NavBar extends React.Component {
     UserStore.addChangeListener(this.afterLoginUpdate, 'login');
     UserStore.addChangeListener(this.afterSignupUpdate, 'signup');
     UserStore.addChangeListener(this.handleLogoutResult);
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
-      window.$('.dropdown-button').dropdown();
-      window.$('.button-collapse').sideNav();
-    }
+    window.$('.dropdown-button').dropdown();
+    window.$('.button-collapse').sideNav();
   }
 
   componentDidUpdate() {
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
-      window.$('.dropdown-button').dropdown();
-      window.$('.button-collapse').sideNav();
-    }
+    window.$('.dropdown-button').dropdown();
+    // window.$('.button-collapse').sideNav();
   }
 
   componentWillUnmount() {
