@@ -11,7 +11,7 @@
     "build": "react-scripts build",
     "test": "nyc --reporter=text mocha ./test/helpers/browser.js src/**/*-test.js",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install && npm run deploy; fi"
+    "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install; fi"
   },
   "dependencies": {
     "babel-cli": "^6.5.1",
