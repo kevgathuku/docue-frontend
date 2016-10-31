@@ -54,7 +54,7 @@ describe('CreateDocument', function() {
 
     describe('handleDocumentCreateResult', function() {
       it('should correctly handle document creation', function() {
-        sinon.spy(browserHistory, 'push');
+        browserHistory.push = jest.fn();
         DocStore.setDocCreateResult({
           doc: {
             title: 'Docue'
@@ -62,7 +62,6 @@ describe('CreateDocument', function() {
         });
         expect(DocStore.getDocCreateResult()).toBeA('object');
         expect(window.Materialize.toast.withArgs('Document created successfully!').called).toBe(true);
-        browserHistory.push.restore();
       });
 
       it('should correctly handle document creation error', function() {

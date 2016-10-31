@@ -51,14 +51,13 @@ describe('CreateRole', function() {
 
     describe('handleRoleCreateResult', function() {
       it('should correctly handle role creation', function() {
-        sinon.spy(browserHistory, 'push');
+        browserHistory.push = jest.fn();
         let role = {
           title: 'admin'
         };
         RoleStore.setCreatedRole(role);
         expect(RoleStore.getCreatedRole()).toBe(role);
         expect(window.Materialize.toast.withArgs('Role created successfully!').called).toBe(true);
-        browserHistory.push.restore();
       });
 
       it('should correctly handle document creation error', function() {

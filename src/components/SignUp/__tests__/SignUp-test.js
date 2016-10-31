@@ -81,9 +81,9 @@ describe('SignUp', function() {
 
     describe('handleSignup', function() {
       it('should return the correct result if signup is valid', function() {
-        sinon.spy(browserHistory, 'push');
         sinon.spy(localStorage, 'setItem');
         sinon.spy(UserStore, 'getSession');
+        browserHistory.push = jest.fn();
         // Trigger a change in the signup store
         let response = {
           token: 'weknfe',
@@ -99,9 +99,8 @@ describe('SignUp', function() {
         expect(UserStore.getSignupResult()).toBeA('object');
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
-        expect(browserHistory.push.withArgs('/dashboard').called).toBe(true);
+        expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
         localStorage.setItem.restore();
-        browserHistory.push.restore();
         UserStore.getSession.restore();
       });
 
