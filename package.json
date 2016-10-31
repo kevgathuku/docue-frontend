@@ -22,16 +22,12 @@
     "superagent": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-enzyme": "^0.5.0",
     "coveralls": "^2.11.14",
     "enzyme": "^2.0.0",
-    "eslint": "^3.1.1",
     "expect": "^1.14.0",
     "expect-jsx": "^2.6.0",
     "flow-bin": "^0.34.0",
     "localStorage": "^1.0.3",
-    "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.1.0",
     "react-scripts": "0.7.0",
     "sessionstorage": "0.0.1",
