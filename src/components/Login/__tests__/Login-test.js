@@ -54,7 +54,7 @@ describe('Login', function() {
 
     describe('handleLogin', function() {
       it('should return the correct result if login is valid', function() {
-        sinon.spy(browserHistory, 'push');
+        browserHistory.push = jest.fn();
         sinon.spy(localStorage, 'setItem');
         // Trigger a change in the login store
         let response = {
@@ -71,9 +71,9 @@ describe('Login', function() {
         expect(UserStore.getLoginResult()).toBeA('object');
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
-        expect(browserHistory.push.withArgs('/dashboard').called).toBe(true);
+        // The first arg of the first call to the function was '/dashboard'
+        expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
         localStorage.setItem.restore();
-        browserHistory.push.restore();
       });
 
       it('should return the correct result if login raised error', function() {
