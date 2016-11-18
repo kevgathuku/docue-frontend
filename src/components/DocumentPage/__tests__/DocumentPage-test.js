@@ -11,6 +11,9 @@ import DocStore from '../../../stores/DocStore';
 import RoleStore from '../../../stores/RoleStore';
 import DocumentPage from '../index.jsx';
 
+jest.mock('sweetalert');
+import swal from 'sweetalert';
+
 describe('DocumentPage', function() {
 
   beforeEach(function() {
@@ -105,7 +108,6 @@ describe('DocumentPage', function() {
 
     describe('handleDeleteResult', function() {
       it('should set state correctly on doc fetch', function() {
-        window.swal = sinon.spy();
         sinon.spy(DocStore, 'getDocDeleteResult');
         browserHistory.push = jest.fn();
         let result = {
@@ -114,7 +116,7 @@ describe('DocumentPage', function() {
         DocStore.setDocDeleteResult(result);
         // Should respond correctly
         expect(DocStore.getDocDeleteResult.called).toBe(true);
-        expect(window.swal.withArgs('Deleted!').called).toBe(true);
+        expect(swal.mock.calls[0][0]).toBe('Deleted!');
         expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
         DocStore.getDocDeleteResult.restore();
       });
