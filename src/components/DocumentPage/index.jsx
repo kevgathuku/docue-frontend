@@ -1,11 +1,14 @@
 import {browserHistory} from 'react-router';
 import React from 'react';
 import moment from 'moment';
+import swal from 'sweetalert';
 import DocEdit from './DocEdit.jsx';
 import DocActions from '../../actions/DocActions';
 import DocStore from '../../stores/DocStore';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
+
+import 'sweetalert/dist/sweetalert.css';
 
 class DocumentPage extends React.Component {
   static propTypes = {
@@ -52,7 +55,7 @@ class DocumentPage extends React.Component {
   handleDocumentDelete = (doc, event) => {
     // Prevent the default action for clicking on a link
     event.preventDefault();
-    window.swal({
+    swal({
       title: 'Are you sure?',
       text: 'You will not be able to recover this document!',
       type: 'warning',
@@ -68,7 +71,7 @@ class DocumentPage extends React.Component {
   handleDeleteResult = () => {
     let result = DocStore.getDocDeleteResult();
     if (result && result.statusCode === 204) {
-      window.swal('Deleted!', 'Your document has been deleted.', 'success');
+      swal('Deleted!', 'Your document has been deleted.', 'success');
       browserHistory.push('/dashboard');
     }
   };
