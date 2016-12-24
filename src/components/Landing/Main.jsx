@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from '../NavBar/index.jsx';
 
-class Main extends React.Component {
+class Main extends React.PureComponent {
   static propTypes = {
     children: React.PropTypes.element.isRequired,
     location: React.PropTypes.object

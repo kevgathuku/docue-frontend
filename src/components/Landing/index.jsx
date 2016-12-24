@@ -4,7 +4,7 @@ import React from 'react';
 import '../../styles/select.css';
 import '../../styles/style.css';
 
-class Landing extends React.Component {
+class Landing extends React.PureComponent {
   render() {
     return (
       <div id="hero">

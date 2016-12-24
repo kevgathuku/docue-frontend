@@ -2,7 +2,7 @@ import React from 'react';
 import Login from '../Login/index.jsx';
 import SignUp from '../SignUp/index.jsx';
 
-class Authenticate extends React.Component {
+class Authenticate extends React.PureComponent {
   render() {
     return (
       <div className="container">
