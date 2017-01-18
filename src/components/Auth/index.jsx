@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from '../Login/index.jsx';
-import SignUp from '../SignUp/index.jsx';
+import Login from '../Login/Login.jsx';
+import SignUp from '../SignUp/SignUp.jsx';
 
 class Authenticate extends React.PureComponent {
   render() {

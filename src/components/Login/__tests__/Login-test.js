@@ -7,7 +7,7 @@ import { mount, shallow } from 'enzyme';
 import { browserHistory } from 'react-router';
 import UserActions from '../../../actions/UserActions';
 import UserStore from '../../../stores/UserStore';
-import Login from '../index.jsx';
+import Login from '../Login.jsx';
 
 describe('Login', function() {
 
