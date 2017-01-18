@@ -13,6 +13,8 @@
     "bower": "^1.7.7",
     "flux": "^3.1.0",
     "keymirror": "^0.1.1",
+    "mobx": "^3.0.1",
+    "mobx-react": "^4.1.0",
     "moment": "^2.11.2",
     "react": "^15.4.0",
     "react-addons-update": "^15.4.0",
