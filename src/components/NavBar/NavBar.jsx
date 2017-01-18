@@ -11,7 +11,7 @@ const NavBar = observer(class NavBar extends React.Component {
   // Receive the current pathname as a prop
   static propTypes = {
     pathname: React.PropTypes.string,
-    store: PropTypes.observableObject
+    userStore: PropTypes.observableObject
   };
 
   constructor(props) {

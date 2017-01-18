@@ -1,13 +1,19 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import {observe} from 'mobx';
+import {observer, PropTypes} from 'mobx-react';
 
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
 
 const LoginForm = observer(class LoginForm extends React.Component {
+  static propTypes = {
+    userStore: PropTypes.observableObject
+  };
+
   constructor(props) {
     super(props);
-    this.store = props.store;
+
+    this.userStore = this.props.userStore;
     this.state = {
       email: null,
       password: null,
@@ -15,8 +21,13 @@ const LoginForm = observer(class LoginForm extends React.Component {
     };
   }
 
-  handleLogin = () => {
-    let data = this.store.getLoginResult();
+  componentDidMount() {
+    // Mobx eventListeners
+    observe(this.userStore, 'loginResult', this.handleLoginResult);
+  }
+
+  handleLoginResult = () => {
+    let data = this.userStore.loginResult;
     if (data) {
       if (data.error) {
         window.Materialize.toast(data.error, 2000, 'error-toast');
@@ -47,8 +58,7 @@ const LoginForm = observer(class LoginForm extends React.Component {
       username: this.state.email,
       password: this.state.password
     };
-    console.log(loginPayload);
-    UserActions.login(loginPayload, this.store);
+    UserActions.login(loginPayload, this.userStore);
   };
 
   render() {

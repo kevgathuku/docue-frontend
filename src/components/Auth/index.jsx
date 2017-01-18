@@ -1,8 +1,20 @@
 import React from 'react';
+import {observer, PropTypes} from 'mobx-react';
+
 import Login from '../Login/Login.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
 
-class Authenticate extends React.PureComponent {
+const Authenticate = observer(class Authenticate extends React.PureComponent {
+  static propTypes = {
+    userStore: PropTypes.observableObject
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.userStore = this.props.userStore;
+  }
+
   render() {
     return (
       <div className="container">
@@ -19,10 +31,10 @@ class Authenticate extends React.PureComponent {
                     </ul>
                   </div>
                   <div id="login" className="col s12">
-                   <Login/>
+                   <Login userStore={this.userStore}/>
                   </div>
                   <div id="signup" className="col s12">
-                    <SignUp />
+                    <SignUp userStore={this.userStore}/>
                   </div>
                 </div>
               </div>
@@ -32,6 +44,6 @@ class Authenticate extends React.PureComponent {
       </div>
     );
   }
-}
+});
 
 module.exports = Authenticate;
