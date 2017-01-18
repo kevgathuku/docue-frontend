@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import expect from 'expect';
 import expectJSX from 'expect-jsx';
 import Main from '../Main.jsx';
-import NavBar from '../../NavBar/index.jsx';
+import NavBar from '../../NavBar/NavBar.jsx';
 expect.extend(expectJSX);
 
 describe('Main component', function() {

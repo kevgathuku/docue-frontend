@@ -4,7 +4,7 @@ import React from 'react';
 import sinon from 'sinon';
 import expect from 'expect';
 import { mount, shallow } from 'enzyme';
-import NavBar from '../index.jsx';
+import NavBar from '../NavBar.jsx';
 import UserActions from '../../../actions/UserActions';
 import UserStore from '../../../stores/UserStore';
 import { browserHistory } from 'react-router';

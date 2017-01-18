@@ -1,18 +1,22 @@
 import React from 'react';
+import {observer, PropTypes} from 'mobx-react';
+
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
 import UserStore from '../../stores/UserStore';
 import logoSrc from '../../images/favicon.png';
 
-class NavBar extends React.Component {
+const NavBar = observer(class NavBar extends React.Component {
   // Receive the current pathname as a prop
   static propTypes = {
-    pathname: React.PropTypes.string
+    pathname: React.PropTypes.string,
+    store: PropTypes.observableObject
   };
 
   constructor(props) {
     super(props);
 
+    this.userStore = this.props.userStore;
     this.state = {
       pathname: this.props.pathname,
       token: localStorage.getItem('user'),
@@ -23,11 +27,7 @@ class NavBar extends React.Component {
 
   componentDidMount() {
     // Send a request to check if the user is logged in
-    UserActions.getSession(this.state.token);
-    UserStore.addChangeListener(this.userSession, 'session');
-    UserStore.addChangeListener(this.afterLoginUpdate, 'login');
-    UserStore.addChangeListener(this.afterSignupUpdate, 'signup');
-    UserStore.addChangeListener(this.handleLogoutResult);
+    UserActions.getSession(this.state.token, this.userStore);
     window.$('.dropdown-button').dropdown();
     window.$('.button-collapse').sideNav();
   }
@@ -35,13 +35,6 @@ class NavBar extends React.Component {
   componentDidUpdate() {
     window.$('.dropdown-button').dropdown();
     // window.$('.button-collapse').sideNav();
-  }
-
-  componentWillUnmount() {
-    UserStore.removeChangeListener(this.userSession, 'session');
-    UserStore.removeChangeListener(this.afterLoginUpdate, 'login');
-    UserStore.removeChangeListener(this.afterSignupUpdate, 'signup');
-    UserStore.removeChangeListener(this.handleLogoutResult);
   }
 
   afterLoginUpdate = () => {
@@ -70,7 +63,8 @@ class NavBar extends React.Component {
 
   userSession = () => {
     // Returns 'true' + the user object or 'false'
-    let response = UserStore.getSession();
+    let response = this.userStore.session;
+    console.log(response);
     if (response && !response.error) {
       this.setState({
         loggedIn: response.loggedIn,
@@ -177,6 +171,6 @@ class NavBar extends React.Component {
       </nav>
     );
   }
-}
+});
 
 export default NavBar;
