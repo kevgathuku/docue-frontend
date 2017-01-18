@@ -1,5 +1,7 @@
 import React from 'react';
-import NavBar from '../NavBar/index.jsx';
+import NavBar from '../NavBar/NavBar.jsx';
+
+import userStore from '../../stores/UserStore';
 
 class Main extends React.PureComponent {
   static propTypes = {
@@ -10,7 +12,7 @@ class Main extends React.PureComponent {
   render() {
     return (
       <div>
-        <NavBar pathname={this.props.location.pathname}/>
+        <NavBar pathname={this.props.location.pathname} userStore={userStore}/>
         {this.props.children}
       </div>
     );

@@ -18,11 +18,11 @@ class SignupForm extends React.Component {
   }
 
   componentDidMount() {
-    UserStore.addChangeListener(this.handleSignup, 'signup');
+    // UserStore.addChangeListener(this.handleSignup, 'signup');
   }
 
   componentWillUnmount() {
-    UserStore.removeChangeListener(this.handleSignup, 'signup');
+    // UserStore.removeChangeListener(this.handleSignup, 'signup');
   }
 
   comparePassword = (password, confirmPassword) => {

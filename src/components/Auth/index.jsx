@@ -19,7 +19,7 @@ class Authenticate extends React.PureComponent {
                     </ul>
                   </div>
                   <div id="login" className="col s12">
-                   <Login />
+                   <Login/>
                   </div>
                   <div id="signup" className="col s12">
                     <SignUp />

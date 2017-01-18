@@ -1,11 +1,13 @@
 import React from 'react';
+import {observer} from 'mobx-react';
+
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
-import UserStore from '../../stores/UserStore';
 
-class LoginForm extends React.Component {
-  constructor() {
-    super();
+const LoginForm = observer(class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.store = props.store;
     this.state = {
       email: null,
       password: null,
@@ -13,16 +15,8 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    UserStore.addChangeListener(this.handleLogin, 'login');
-  }
-
-  componentWillUnmount() {
-    UserStore.removeChangeListener(this.handleLogin, 'login');
-  }
-
   handleLogin = () => {
-    let data = UserStore.getLoginResult();
+    let data = this.store.getLoginResult();
     if (data) {
       if (data.error) {
         window.Materialize.toast(data.error, 2000, 'error-toast');
@@ -53,7 +47,8 @@ class LoginForm extends React.Component {
       username: this.state.email,
       password: this.state.password
     };
-    UserActions.login(loginPayload);
+    console.log(loginPayload);
+    UserActions.login(loginPayload, this.store);
   };
 
   render() {
@@ -93,6 +88,6 @@ class LoginForm extends React.Component {
       </div>
     );
   }
-}
+});
 
 module.exports = LoginForm;

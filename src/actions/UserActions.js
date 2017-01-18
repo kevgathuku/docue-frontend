@@ -1,9 +1,16 @@
+import request from 'superagent';
+
 import AppConstants from '../constants/AppConstants';
-import BaseActions  from './BaseActions';
+import BaseActions from './BaseActions';
 
 export default {
-  login: (user) => {
-    BaseActions.post('/api/users/login', user, AppConstants.USER_LOGIN);
+  login: (user, store) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users/login`)
+      .send(user)
+      .end((err, result) => {
+        store.setLoginResult(result.body);
+      });
   },
 
   logout: (data, token) => {
@@ -18,8 +25,13 @@ export default {
     BaseActions.put(`/api/users/${userID}`, user, AppConstants.USER_UPDATE, token);
   },
 
-  getSession: (token) => {
-    BaseActions.get('/api/users/session', AppConstants.USER_SESSION, token);
+  getSession: (token, store) => {
+    request
+      .get(BaseActions.BASE_URL + '/api/users/session')
+      .set('x-access-token', token)
+      .end((err, result) => {
+        store.setSession(result.body);
+      });
   },
 
   fetchAllUsers: (token) => {

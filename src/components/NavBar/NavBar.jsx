@@ -1,4 +1,5 @@
 import React from 'react';
+import {observe} from 'mobx';
 import {observer, PropTypes} from 'mobx-react';
 
 import UserActions from '../../actions/UserActions';
@@ -28,6 +29,9 @@ const NavBar = observer(class NavBar extends React.Component {
   componentDidMount() {
     // Send a request to check if the user is logged in
     UserActions.getSession(this.state.token, this.userStore);
+    // Acts as eventListeners
+    observe(this.userStore, 'session', this.userSession);
+
     window.$('.dropdown-button').dropdown();
     window.$('.button-collapse').sideNav();
   }
@@ -64,7 +68,6 @@ const NavBar = observer(class NavBar extends React.Component {
   userSession = () => {
     // Returns 'true' + the user object or 'false'
     let response = this.userStore.session;
-    console.log(response);
     if (response && !response.error) {
       this.setState({
         loggedIn: response.loggedIn,

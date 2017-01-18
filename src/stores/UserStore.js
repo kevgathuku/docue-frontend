@@ -1,95 +1,68 @@
-import AppConstants from '../constants/AppConstants';
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import BaseStore from './BaseStore';
+import {
+  action,
+  extendObservable
+} from 'mobx';
 
-let UserStore = Object.assign({}, BaseStore, {
-  users: null,
-  session: null,
-  loginResult: null,
-  logoutResult: null,
-  signupResult: null,
-  updateResult: null,
+class UserStore {
+  constructor() {
+    extendObservable(this, {
+      // Minimally defined state
+      users: null,
+      session: null,
+      loginResult: null,
+      logoutResult: null,
+      signupResult: null,
+      updateResult: null,
 
-  getUsers() {
-    return this.users;
-  },
+      setUsers: action(function(users) {
+        this.users = users;
+      }),
 
-  setUsers(users) {
-    this.users = users;
-    this.emitChange();
-  },
+      setSession: action(function(session) {
+        this.session = session;
+      }),
 
-  setSession(session) {
-    this.session = session;
-    this.emitChange('session');
-  },
+      setLoginResult: action(function(loginResult) {
+        this.loginResult = loginResult;
+      }),
 
-  getSession() {
-    return this.session;
-  },
+      setLogoutResult: action(function(logoutResult) {
+        this.logoutResult = logoutResult;
+      }),
 
-  setLoginResult(loginResult) {
-    this.loginResult = loginResult;
-    this.emitChange('login');
-  },
+      setSignupResult: action(function(signupResult) {
+        this.signupResult = signupResult;
+      }),
 
-  getLoginResult() {
-    return this.loginResult;
-  },
+      setUpdateResult: action(function(updateResult) {
+        this.updateResult = updateResult;
+      }),
 
-  setLogoutResult(logoutResult) {
-    this.logoutResult = logoutResult;
-    this.emitChange();
-  },
-
-  getLogoutResult() {
-    return this.logoutResult;
-  },
-
-  setSignupResult(signupResult) {
-    this.signupResult = signupResult;
-    this.emitChange('signup');
-  },
-
-  getSignupResult() {
-    return this.signupResult;
-  },
-
-  setUpdateResult(updateResult) {
-    this.updateResult = updateResult;
-    this.emitChange('update');
-  },
-
-  getUpdateResult() {
-    return this.updateResult;
+    });
   }
-});
+}
 
-AppDispatcher.register((action) => {
-  switch (action.actionType) {
-  case AppConstants.USER_LOGIN:
-    UserStore.setLoginResult(action.data);
-    break;
-  case AppConstants.USER_LOGOUT:
-    UserStore.setLogoutResult(action.data);
-    break;
-  case AppConstants.USER_SIGNUP:
-    UserStore.setSignupResult(action.data);
-    break;
-  case AppConstants.USER_SESSION:
-    UserStore.setSession(action.data);
-    break;
-  case AppConstants.USER_UPDATE:
-    UserStore.setUpdateResult(action.data);
-    break;
-  case AppConstants.GET_USERS:
-    UserStore.setUsers(action.data);
-    break;
-  default:
-      // no default action
-  }
+export default new UserStore();
 
-  return true;
-});
-
-export default UserStore;
+// AppDispatcher.register((action) => {
+//   switch (action.actionType) {
+//   case AppConstants.USER_LOGIN:
+//     UserStore.setLoginResult(action.data);
+//     break;
+//   case AppConstants.USER_LOGOUT:
+//     UserStore.setLogoutResult(action.data);
+//     break;
+//   case AppConstants.USER_SIGNUP:
+//     UserStore.setSignupResult(action.data);
+//     break;
+//   case AppConstants.USER_SESSION:
+//     UserStore.setSession(action.data);
+//     break;
+//   case AppConstants.USER_UPDATE:
+//     UserStore.setUpdateResult(action.data);
+//     break;
+//   case AppConstants.GET_USERS:
+//     UserStore.setUsers(action.data);
+//     break;
+//   default:
+//       // no default action
