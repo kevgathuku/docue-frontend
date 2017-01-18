@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { browserHistory } from 'react-router';
 import UserActions from '../../../actions/UserActions';
-import UserStore from '../../../stores/UserStore';
+import userStore from '../../../stores/UserStore';
 import Login from '../Login.jsx';
 
 describe('Login', function() {
@@ -21,21 +21,6 @@ describe('Login', function() {
       expect(shallow(<Login />).is('.row')).toEqual(true);
       expect(shallow(<Login />).find('.input-field').length).toEqual(2);
     });
-
-    it('calls componentDidMount', () => {
-      sinon.spy(Login.prototype, 'componentDidMount');
-      mount(<Login />);
-      expect(Login.prototype.componentDidMount.called).toBe(true);
-      Login.prototype.componentDidMount.restore();
-    });
-
-    it('calls componentWillUnmount', () => {
-      sinon.spy(Login.prototype, 'componentWillUnmount');
-      let login = mount(<Login />);
-      login.unmount();
-      expect(Login.prototype.componentWillUnmount.calledOnce).toBe(true);
-      Login.prototype.componentWillUnmount.restore();
-    });
   });
 
   describe('Class Functions', function() {
@@ -45,7 +30,7 @@ describe('Login', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      login = mount(<Login />);
+      login = mount(<Login userStore={userStore}/>);
     });
 
     afterEach(function() {
@@ -66,9 +51,8 @@ describe('Login', function() {
             }
           }
         };
-        UserStore.setLoginResult(response);
+        userStore.loginResult = response;
         // Should be handled correctly
-        expect(UserStore.getLoginResult()).toBeA('object');
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
         // The first arg of the first call to the function was '/dashboard'
@@ -81,9 +65,8 @@ describe('Login', function() {
         let response = {
           error: 'Error Occurred'
         };
-        UserStore.setLoginResult(response);
+        userStore.loginResult = response;
         // Should be handled correctly
-        expect(UserStore.getLoginResult()).toBeA('object');
         expect(window.Materialize.toast.withArgs(response.error).called).toBe(true);
       });
     });
