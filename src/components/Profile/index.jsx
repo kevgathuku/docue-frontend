@@ -1,11 +1,13 @@
 import React from 'react';
+import {observe} from 'mobx';
 import UserActions from '../../actions/UserActions';
-import UserStore from '../../stores/UserStore';
 import cardImage from '../../images/mountain.jpg';
 
 class Profile extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    this.userStore = this.props.userStore;
     let user = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
       profileDisplay: 'block',
@@ -21,11 +23,12 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    UserStore.addChangeListener(this.handleEditResult, 'update');
+    // Mobx eventListeners
+    observe(this.userStore, 'profileUpdateResult', this.handleProfileEditResult);
   }
 
   componentWillUnmount() {
-    UserStore.removeChangeListener(this.handleEditResult, 'update');
+    // TODO: Investigate if dispose function needs to be called here
   }
 
   comparePassword = (password, confirmPassword) => {
@@ -68,7 +71,7 @@ class Profile extends React.Component {
           email: this.state.email,
           password: this.state.password
         };
-        UserActions.update(this.state.user._id, userPayload, this.state.token);
+        UserActions.update(this.state.user._id, userPayload, this.userStore, this.state.token);
       }
     } else {
       let userPayload = {
@@ -76,7 +79,7 @@ class Profile extends React.Component {
         lastname: this.state.lastname,
         email: this.state.email
       };
-      UserActions.update(this.state.user._id, userPayload, this.state.token);
+      UserActions.update(this.state.user._id, userPayload, this.userStore, this.state.token);
     }
   };
 
@@ -95,8 +98,8 @@ class Profile extends React.Component {
     }
   };
 
-  handleEditResult = () => {
-    let result = UserStore.getUpdateResult();
+  handleProfileEditResult = () => {
+    let result = this.userStore.profileUpdateResult;
     if (result) {
       if (!result.error) {
         // Update the user object in localStorage

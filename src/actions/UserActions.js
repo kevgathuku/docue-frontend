@@ -21,8 +21,14 @@ export default {
     BaseActions.post('/api/users', user, AppConstants.USER_SIGNUP);
   },
 
-  update: (userID, user, token) => {
-    BaseActions.put(`/api/users/${userID}`, user, AppConstants.USER_UPDATE, token);
+  update: (userID, user, store, token) => {
+    request
+      .put(BaseActions.BASE_URL + `/api/users/${userID}`)
+      .set('x-access-token', token)
+      .send(user)
+      .end((err, result) => {
+        store.setProfileUpdateResult(result.body);
+      });
   },
 
   getSession: (token, store) => {

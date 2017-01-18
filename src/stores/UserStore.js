@@ -12,7 +12,7 @@ class UserStore {
       loginResult: null,
       logoutResult: null,
       signupResult: null,
-      updateResult: null,
+      profileUpdateResult: null,
 
       setUsers: action(function(users) {
         this.users = users;
@@ -34,8 +34,8 @@ class UserStore {
         this.signupResult = signupResult;
       }),
 
-      setUpdateResult: action(function(updateResult) {
-        this.updateResult = updateResult;
+      setProfileUpdateResult: action(function(profileUpdateResult) {
+        this.profileUpdateResult = profileUpdateResult;
       }),
 
     });
@@ -59,7 +59,7 @@ export default new UserStore();
 //     UserStore.setSession(action.data);
 //     break;
 //   case AppConstants.USER_UPDATE:
-//     UserStore.setUpdateResult(action.data);
+//     UserStore.setProfileUpdateResult(action.data);
 //     break;
 //   case AppConstants.GET_USERS:
 //     UserStore.setUsers(action.data);
