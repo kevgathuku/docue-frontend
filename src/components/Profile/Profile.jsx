@@ -71,7 +71,7 @@ class Profile extends React.Component {
           email: this.state.email,
           password: this.state.password
         };
-        UserActions.update(this.state.user._id, userPayload, this.userStore, this.state.token);
+        UserActions.update(this.state.user._id, userPayload, this.state.token, this.userStore);
       }
     } else {
       let userPayload = {
@@ -79,7 +79,7 @@ class Profile extends React.Component {
         lastname: this.state.lastname,
         email: this.state.email
       };
-      UserActions.update(this.state.user._id, userPayload, this.userStore, this.state.token);
+      UserActions.update(this.state.user._id, userPayload, this.state.token, this.userStore);
     }
   };
 

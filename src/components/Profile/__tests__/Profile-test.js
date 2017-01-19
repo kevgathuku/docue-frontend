@@ -65,6 +65,7 @@ describe('Profile', function() {
     var profile;
 
     beforeEach(function() {
+      sinon.stub(UserActions, 'update').returns(true);
       window.Materialize.toast = sinon.mock();
       // simulate the edit button click to display the edit form
       let toggleClickEvent = {
@@ -76,6 +77,7 @@ describe('Profile', function() {
     });
 
     afterEach(function() {
+      UserActions.update.restore();
       profile.unmount();
     });
 
@@ -105,7 +107,6 @@ describe('Profile', function() {
       });
 
       it('should call comparePassword on submit click', function() {
-        sinon.stub(UserActions, 'update').returns(true);
         // simulate the submit form event
         let editProfileEvent = {
           preventDefault: function() {}
@@ -129,11 +130,9 @@ describe('Profile', function() {
         expect(window.Materialize.toast.called).toBe(true);
         instance.comparePassword.restore();
         instance.handleSubmit.restore();
-        UserActions.update.restore();
       });
 
       it('should send the password if the passwords match', function() {
-        sinon.stub(UserActions, 'update').returns(true);
         let editProfileEvent = {
           preventDefault: function() {}
         };
@@ -162,15 +161,13 @@ describe('Profile', function() {
           email: profile.state().email,
           password: profile.state().password
         };
-        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.props().userStore, profile.state().token).called).toBe(true);
+        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.state().token, profile.props().userStore).called).toBe(true);
         expect(UserActions.update.called).toBe(true);
         instance.comparePassword.restore();
         instance.handleSubmit.restore();
-        UserActions.update.restore();
       });
 
       it('should not send password if it has not changed', function() {
-        sinon.stub(UserActions, 'update').returns(true);
         let editProfileEvent = {
           preventDefault: function() {}
         };
@@ -193,9 +190,8 @@ describe('Profile', function() {
           email: profile.state().email
         };
         expect(UserActions.update.called).toBe(true);
-        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.props().userStore, profile.state().token).called).toBe(true);
+        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.state().token, profile.props().userStore).called).toBe(true);
         instance.comparePassword.restore();
-        UserActions.update.restore();
       });
     });
 
