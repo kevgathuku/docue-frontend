@@ -1,21 +1,31 @@
 'use strict';
 
 import React from 'react';
+import nock from 'nock';
 import sinon from 'sinon';
 import expect from 'expect';
 import { mount, shallow } from 'enzyme';
 import { browserHistory } from 'react-router';
 import NavBar from '../NavBar.jsx';
+import BaseActions from '../../../actions/BaseActions';
 import UserActions from '../../../actions/UserActions';
 import userStore from '../../../stores/UserStore';
 
 describe('NavBar', function() {
 
+  beforeEach(function() {
+    sinon.stub(UserActions, 'getSession').returns(true);
+  });
+
+  afterEach(function() {
+    UserActions.getSession.restore();
+  });
+
   describe('Component Rendering', function() {
     beforeEach(function() {
       localStorage.clear();
-      window.$ = sinon.stub();
 
+      window.$ = sinon.stub();
       window.$.withArgs('.dropdown-button').returns(sinon.stub({
         dropdown: function() {}
       }));
@@ -26,21 +36,21 @@ describe('NavBar', function() {
 
     it('renders the correct mobile links', function() {
       // It should find the correct title
-      expect(shallow(<NavBar />).text()).toMatch(/Docue/);
+      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Docue/);
       // It should render the correct menu items
-      expect(shallow(<NavBar />).text()).toMatch(/Home/);
-      expect(shallow(<NavBar />).text()).toMatch(/Sign Up/);
-      expect(shallow(<NavBar />).text()).toMatch(/Login/);
+      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Home/);
+      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Sign Up/);
+      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Login/);
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<NavBar />).is('.transparent')).toEqual(true);
+      expect(shallow(<NavBar userStore={userStore}/>).is('.transparent')).toEqual(true);
       // It should render the site logo
-      expect(shallow(<NavBar />).find('img').length).toEqual(1);
+      expect(shallow(<NavBar userStore={userStore}/>).find('img').length).toEqual(1);
     });
 
     it('has the correct initial state', function() {
-      const navBar = shallow(<NavBar pathname='/'/>);
+      const navBar = shallow(<NavBar pathname='/' userStore={userStore}/>);
       expect(navBar.state().token).toEqual(null);
       expect(navBar.state().loggedIn).toEqual(null);
       expect(navBar.state().user).toEqual(null);
@@ -48,10 +58,9 @@ describe('NavBar', function() {
     });
 
     it('calls registered callbacks on mount', () => {
-      sinon.stub(UserActions, 'getSession').returns(true);
-      mount(<NavBar userStore={userStore}/>); // Mount the component
+      // Mount the component
+      mount(<NavBar userStore={userStore}/>);
       expect(UserActions.getSession.calledOnce).toBe(true);
-      UserActions.getSession.restore();
     });
 
     it('renders relevant links if user is logged in', function() {
@@ -85,11 +94,6 @@ describe('NavBar', function() {
 
       beforeEach(function() {
         browserHistory.push = jest.fn();
-        sinon.stub(UserActions, 'getSession').returns(true);
-      });
-
-      afterEach(function() {
-        UserActions.getSession.restore();
       });
 
       it('sets the correct state if the response is valid', function() {
@@ -120,7 +124,7 @@ describe('NavBar', function() {
 
       it('responds correctly if the user is not logged in', function() {
         sinon.spy(localStorage, 'removeItem');
-        shallow(<NavBar />);
+        shallow(<NavBar userStore={userStore} />);
         // Trigger a change in the UserStore
         userStore.session = {
           loggedIn: 'false'
