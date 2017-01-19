@@ -1,6 +1,5 @@
 import request from 'superagent';
 
-import AppConstants from '../constants/AppConstants';
 import BaseActions from './BaseActions';
 
 export default {
@@ -51,7 +50,12 @@ export default {
       });
   },
 
-  fetchAllUsers: (token) => {
-    BaseActions.get('/api/users', AppConstants.GET_USERS, token);
+  fetchAllUsers: (store, token) => {
+    request
+      .get(BaseActions.BASE_URL + '/api/users')
+      .set('x-access-token', token)
+      .end((err, result) => {
+        store.setUsers(result.body);
+      });
   }
 };
