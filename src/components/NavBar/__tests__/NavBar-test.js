@@ -252,11 +252,11 @@ describe('NavBar', function() {
       const inst = navBar.instance();
       sinon.spy(inst, 'handleLogoutSubmit');
       userStore.loginResult = user;
-        // The logout button should be in the DOM
+      // The logout button should be in the DOM
       expect(navBar.find('#logout-btn').length).toBe(1);
       navBar.find('#logout-btn').simulate('click', mockEvent);
       expect(mockEvent.preventDefault.called).toBe(true);
-      expect(UserActions.logout.withArgs({}, navBar.props().userStore, user.token).called).toBe(true);
+      expect(UserActions.logout.withArgs({}, user.token, navBar.props().userStore).called).toBe(true);
       expect(inst.handleLogoutSubmit.calledOnce).toBe(true);
       UserActions.logout.restore();
     });

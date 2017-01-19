@@ -12,7 +12,7 @@ export default {
       });
   },
 
-  logout: (data, store, token) => {
+  logout: (data, token, store) => {
     request
       .post(`${BaseActions.BASE_URL}/api/users/logout`)
       .set('x-access-token', token)

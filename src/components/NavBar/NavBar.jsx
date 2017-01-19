@@ -96,7 +96,7 @@ const NavBar = observer(class NavBar extends React.Component {
   handleLogoutSubmit = (event) => {
     event.preventDefault();
     // Send a request to check if the user is logged in
-    UserActions.logout({}, this.userStore, this.state.token);
+    UserActions.logout({}, this.state.token, this.userStore);
   };
 
   handleLogoutResult = () => {

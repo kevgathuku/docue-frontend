@@ -18,6 +18,10 @@ describe('UserActions', function() {
     nock(BaseActions.BASE_URL)
       .post('/api/users/login')
       .reply(200, response);
+
+    nock(BaseActions.BASE_URL)
+      .post('/api/users/logout')
+      .reply(200, response);
   });
 
   it('login triggers change in userStore', function(done) {
@@ -31,6 +35,25 @@ describe('UserActions', function() {
         // https://github.com/mobxjs/mobx/issues/494
         try {
           expect(store.loginResult).toEqual(response);
+          done();
+        } catch (e) {
+          done.fail(e);
+        }
+      }
+    );
+  });
+
+  it('logout triggers change in userStore', function(done) {
+    UserActions.logout(payload, 'token', store);
+
+    when(
+      () => store.logoutResult,
+      () => {
+        // async failing expects are not picked up with Jest,
+        // you have to try/catch and call done.fail(e);
+        // https://github.com/mobxjs/mobx/issues/494
+        try {
+          expect(store.logoutResult).toEqual(response);
           done();
         } catch (e) {
           done.fail(e);
