@@ -5,7 +5,7 @@ import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import RoleStore from '../../../stores/RoleStore';
-import UserStore from '../../../stores/UserStore';
+import userStore from '../../../stores/UserStore';
 import RoleActions from '../../../actions/RoleActions';
 import UserActions from '../../../actions/UserActions';
 import UsersAdmin from '../UsersAdmin.jsx';
@@ -14,23 +14,8 @@ describe('UsersAdmin', function() {
 
   describe('Component Rendering', function() {
     it('renders the correct component', function() {
-      expect(shallow(<UsersAdmin />).is('.container')).toEqual(true);
-      expect(shallow(<UsersAdmin />).text()).toMatch(/Manage Users/);
-    });
-
-    it('calls componentDidMount', () => {
-      sinon.spy(UsersAdmin.prototype, 'componentDidMount');
-      mount(<UsersAdmin />); // Mount the component
-      expect(UsersAdmin.prototype.componentDidMount.called).toBe(true);
-      UsersAdmin.prototype.componentDidMount.restore();
-    });
-
-    it('calls componentWillUnmount', () => {
-      sinon.spy(UsersAdmin.prototype, 'componentWillUnmount');
-      let usersAdmin = mount(<UsersAdmin />); // Mount the component
-      usersAdmin.unmount();
-      expect(UsersAdmin.prototype.componentWillUnmount.calledOnce).toBe(true);
-      UsersAdmin.prototype.componentWillUnmount.restore();
+      expect(shallow(<UsersAdmin userStore={userStore}/>).is('.container')).toEqual(true);
+      expect(shallow(<UsersAdmin userStore={userStore}/>).text()).toMatch(/Manage Users/);
     });
   });
 
@@ -44,7 +29,7 @@ describe('UsersAdmin', function() {
       sinon.stub(UserActions, 'fetchAllUsers').returns(true);
       sinon.stub(UserActions, 'update').returns(true);
       window.Materialize.toast = sinon.spy();
-      usersAdmin = mount(<UsersAdmin />);
+      usersAdmin = mount(<UsersAdmin userStore={userStore}/>);
     });
 
     afterEach(function() {
@@ -96,9 +81,8 @@ describe('UsersAdmin', function() {
             title: 'viewer'
           }
         }];
-        UserStore.setUsers(users);
-        expect(UserStore.getUsers()).toBe(users);
-        expect(usersAdmin.state().users).toBe(users);
+        userStore.users = users;
+        expect(usersAdmin.text()).toMatch(users[0].name.first);
       });
     });
 

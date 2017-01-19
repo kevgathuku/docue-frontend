@@ -1,15 +1,18 @@
 import React from 'react';
 import Select from 'react-select';
+import {observe} from 'mobx';
+import {observer} from 'mobx-react';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
 import UserActions from '../../actions/UserActions';
-import UserStore from '../../stores/UserStore';
 
 import 'react-select/dist/react-select.css';
 
-class UsersAdmin extends React.Component {
-  constructor() {
-    super();
+const UsersAdmin = observer(class UsersAdmin extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.userStore = this.props.userStore;
     this.state = {
       token: localStorage.getItem('user'),
       selectedRole: null,
@@ -26,14 +29,13 @@ class UsersAdmin extends React.Component {
 
   componentDidMount() {
     RoleActions.getRoles(this.state.token);
-    UserActions.fetchAllUsers(this.state.token);
+    UserActions.fetchAllUsers(this.userStore, this.state.token);
     RoleStore.addChangeListener(this.handleRolesResult);
-    UserStore.addChangeListener(this.handleUsersResult);
+    // observe(this.userStore, 'users', this.handleUsersResult);
   }
 
   componentWillUnmount() {
     RoleStore.removeChangeListener(this.handleRolesResult);
-    UserStore.removeChangeListener(this.handleUsersResult);
   }
 
   handleRolesResult = () => {
@@ -41,10 +43,10 @@ class UsersAdmin extends React.Component {
     this.setState({roles: roles});
   };
 
-  handleUsersResult = () => {
-    let users = UserStore.getUsers();
-    this.setState({users: users});
-  };
+  // handleUsersResult = () => {
+  //   let users = this.userStore.users;
+  //   this.setState({users: users});
+  // };
 
   getOptions = (input, callback) => {
     setTimeout(() => {
@@ -69,7 +71,7 @@ class UsersAdmin extends React.Component {
     // Don't update if the already existing role is the one chosen
     if (user.role._id !== val._id) {
       user.role = val;
-      UserActions.update(user._id, user, this.state.token);
+      UserActions.update(user._id, user, this.userStore, this.state.token);
     }
   };
 
@@ -113,7 +115,7 @@ class UsersAdmin extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.users &&this.state.users.length > 0 ? this.state.users.map(renderUser) : null}
+                    {this.userStore.users &&this.userStore.users.length > 0 ? this.userStore.users.map(renderUser) : null}
                   </tbody>
                 </table>
               </div>
@@ -122,6 +124,6 @@ class UsersAdmin extends React.Component {
       </div>
     );
   }
-}
+});
 
 module.exports = UsersAdmin;

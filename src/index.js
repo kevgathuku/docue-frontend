@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {IndexRoute, Redirect, Route, Router, browserHistory} from 'react-router';
 import Auth from './components/Auth/index.jsx';
-import Admin from './components/Admin/index.jsx';
+import Admin from './components/Admin/Admin.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
 import CreateRole from './components/CreateRole/index.jsx';
 import DocumentPage from './components/DocumentPage/index.jsx';
