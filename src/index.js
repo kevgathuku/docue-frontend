@@ -12,7 +12,7 @@ import Profile from './components/Profile/Profile.jsx';
 import Main from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/index.jsx';
 import RolesAdmin from './components/RolesAdmin/index.jsx';
-import UsersAdmin from './components/UsersAdmin/index.jsx';
+import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
 ReactDOM.render((
   <Router history={browserHistory}>
