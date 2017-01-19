@@ -43,26 +43,3 @@ class UserStore {
 }
 
 export default new UserStore();
-
-// AppDispatcher.register((action) => {
-//   switch (action.actionType) {
-//   case AppConstants.USER_LOGIN:
-//     UserStore.setLoginResult(action.data);
-//     break;
-//   case AppConstants.USER_LOGOUT:
-//     UserStore.setLogoutResult(action.data);
-//     break;
-//   case AppConstants.USER_SIGNUP:
-//     UserStore.setSignupResult(action.data);
-//     break;
-//   case AppConstants.USER_SESSION:
-//     UserStore.setSession(action.data);
-//     break;
-//   case AppConstants.USER_UPDATE:
-//     UserStore.setProfileUpdateResult(action.data);
-//     break;
-//   case AppConstants.GET_USERS:
-//     UserStore.setUsers(action.data);
-//     break;
-//   default:
-//       // no default action

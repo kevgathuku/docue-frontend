@@ -1,67 +1,41 @@
 'use strict';
 
-import sinon from 'sinon';
 import expect from 'expect';
-import AppConstants from '../../constants/AppConstants';
+import nock from 'nock';
+import {when} from 'mobx';
+import userStore from '../../stores/UserStore';
 import BaseActions from '../BaseActions';
 import UserActions from '../UserActions';
 
 describe('UserActions', function() {
-  let fakeToken = 'djfkffw';
   let payload = {};
-  let userID = 1;
+  let response = {
+    'status': 'OK'
+  };
+  let store = userStore;
 
   beforeEach(function() {
-    sinon.stub(BaseActions, 'delete').returns(true);
-    sinon.stub(BaseActions, 'get').returns(true);
-    sinon.stub(BaseActions, 'post').returns(true);
-    sinon.stub(BaseActions, 'put').returns(true);
+    nock(BaseActions.BASE_URL)
+      .post('/api/users/login')
+      .reply(200, response);
   });
 
-  afterEach(function() {
-    BaseActions.delete.restore();
-    BaseActions.get.restore();
-    BaseActions.post.restore();
-    BaseActions.put.restore();
-  });
+  it('login triggers change in userStore', function(done) {
+    UserActions.login(payload, store);
 
-  describe('calls BaseActions', function() {
-    it('login', function() {
-      UserActions.login(payload);
-      expect(BaseActions.post.withArgs(
-        '/api/users/login',
-        payload,
-        AppConstants.USER_LOGIN,
-      ).called).toBe(true);
-    });
-
-    it('logout', function() {
-      UserActions.logout(payload, fakeToken);
-      expect(BaseActions.post.withArgs(
-        '/api/users/logout',
-        payload,
-        AppConstants.USER_LOGOUT,
-        fakeToken
-      ).called).toBe(true);
-    });
-
-    it('signup', function() {
-      UserActions.signup(payload);
-      expect(BaseActions.post.withArgs(
-        '/api/users',
-        payload,
-        AppConstants.USER_SIGNUP
-      ).called).toBe(true);
-    });
-
-    it('update', function() {
-      UserActions.update(userID, payload, fakeToken);
-      expect(BaseActions.put.withArgs(
-        `/api/users/${userID}`,
-        payload,
-        AppConstants.USER_UPDATE,
-        fakeToken
-      ).called).toBe(true);
-    });
+    when(
+      () => store.loginResult,
+      () => {
+        // async failing expects are not picked up with Jest,
+        // you have to try/catch and call done.fail(e);
+        // https://github.com/mobxjs/mobx/issues/494
+        try {
+          expect(store.loginResult).toEqual(response);
+          done();
+        } catch (e) {
+          done.fail(e);
+        }
+      }
+    );
   });
 });
