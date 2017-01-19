@@ -64,7 +64,7 @@ const UsersAdmin = observer(class UsersAdmin extends React.Component {
     // Don't update if the already existing role is the one chosen
     if (user.role._id !== val._id) {
       user.role = val;
-      UserActions.update(user._id, user, this.userStore, this.state.token);
+      UserActions.update(user._id, user, this.state.token, this.userStore);
     }
   };
 

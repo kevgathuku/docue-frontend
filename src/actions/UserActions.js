@@ -31,7 +31,7 @@ export default {
       });
   },
 
-  update: (userID, user, store, token) => {
+  update: (userID, user, token, store) => {
     request
       .put(BaseActions.BASE_URL + `/api/users/${userID}`)
       .set('x-access-token', token)
@@ -50,7 +50,7 @@ export default {
       });
   },
 
-  fetchAllUsers: (store, token) => {
+  fetchAllUsers: (token, store) => {
     request
       .get(BaseActions.BASE_URL + '/api/users')
       .set('x-access-token', token)

@@ -19,7 +19,7 @@ const Admin = observer(class Admin extends React.Component {
   componentDidMount() {
     DocActions.getDocs(this.state.token);
     RoleActions.getRoles(this.state.token);
-    UserActions.fetchAllUsers(this.userStore, this.state.token);
+    UserActions.fetchAllUsers(this.state.token, this.userStore);
     DocStore.addChangeListener(this.handleDocsResult, 'fetchDocs');
     RoleStore.addChangeListener(this.handleRolesResult);
   }
