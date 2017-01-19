@@ -8,7 +8,7 @@ import CreateRole from './components/CreateRole/index.jsx';
 import DocumentPage from './components/DocumentPage/index.jsx';
 import Dashboard from './components/Dashboard/index.jsx';
 import Landing from './components/Landing/index.jsx';
-import Profile from './components/Profile/index.jsx';
+import Profile from './components/Profile/Profile.jsx';
 import Main from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/index.jsx';
 import RolesAdmin from './components/RolesAdmin/index.jsx';
