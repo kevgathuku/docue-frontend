@@ -2,9 +2,10 @@
 
 import React from 'react';
 import expect from 'expect';
-import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import userStore from '../../../stores/UserStore';
+import DocStore from '../../../stores/DocStore';
+import RoleStore from '../../../stores/RoleStore';
 import Admin from '../Admin.jsx';
 
 describe('Admin', function() {
@@ -40,5 +41,22 @@ describe('Admin', function() {
         expect(admin.find('#users-count').text()).toMatch(/5/);
       });
     });
+
+    describe('handleDocsResult', function() {
+      it('correctly updates the docs count', function() {
+        let documents = [1, 2, 3, 4];
+        DocStore.setDocs(documents);
+        expect(admin.find('#docs-count').text()).toMatch(/4/);
+      });
+    });
+
+    describe('handleDocsResult', function() {
+      it('correctly updates the docs count', function() {
+        let roles = [1, 2, 3, 4, 5, 6];
+        RoleStore.setRoles(roles);
+        expect(admin.find('#roles-count').text()).toMatch(/6/);
+      });
+    });
+
   });
 });

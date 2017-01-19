@@ -1,6 +1,5 @@
 import React from 'react';
 import Select from 'react-select';
-import {observe} from 'mobx';
 import {observer} from 'mobx-react';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
@@ -31,7 +30,6 @@ const UsersAdmin = observer(class UsersAdmin extends React.Component {
     RoleActions.getRoles(this.state.token);
     UserActions.fetchAllUsers(this.userStore, this.state.token);
     RoleStore.addChangeListener(this.handleRolesResult);
-    // observe(this.userStore, 'users', this.handleUsersResult);
   }
 
   componentWillUnmount() {
@@ -42,11 +40,6 @@ const UsersAdmin = observer(class UsersAdmin extends React.Component {
     let roles = RoleStore.getRoles();
     this.setState({roles: roles});
   };
-
-  // handleUsersResult = () => {
-  //   let users = this.userStore.users;
-  //   this.setState({users: users});
-  // };
 
   getOptions = (input, callback) => {
     setTimeout(() => {
