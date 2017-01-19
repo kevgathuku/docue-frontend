@@ -13,8 +13,14 @@ export default {
       });
   },
 
-  logout: (data, token) => {
-    BaseActions.post('/api/users/logout', data, AppConstants.USER_LOGOUT, token);
+  logout: (data, store, token) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users/logout`)
+      .set('x-access-token', token)
+      .send(data)
+      .end((err, result) => {
+        store.setLogoutResult(result.body);
+      });
   },
 
   signup: (user, store) => {

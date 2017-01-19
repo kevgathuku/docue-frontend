@@ -4,7 +4,6 @@ import {observer, PropTypes} from 'mobx-react';
 
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
-import UserStore from '../../stores/UserStore';
 import logoSrc from '../../images/favicon.png';
 
 const NavBar = observer(class NavBar extends React.Component {
@@ -31,6 +30,9 @@ const NavBar = observer(class NavBar extends React.Component {
     UserActions.getSession(this.state.token, this.userStore);
     // Acts as eventListeners
     observe(this.userStore, 'session', this.userSession);
+    observe(this.userStore, 'loginResult', this.afterLoginUpdate);
+    observe(this.userStore, 'signupResult', this.afterSignupUpdate);
+    observe(this.userStore, 'logoutResult', this.handleLogoutResult);
 
     window.$('.dropdown-button').dropdown();
     window.$('.button-collapse').sideNav();
@@ -43,7 +45,7 @@ const NavBar = observer(class NavBar extends React.Component {
 
   afterLoginUpdate = () => {
     // Update the state after a user login event
-    let data = UserStore.getLoginResult();
+    let data = this.userStore.loginResult;
     if (data && !data.error) {
       this.setState({
         loggedIn: 'true',
@@ -55,7 +57,7 @@ const NavBar = observer(class NavBar extends React.Component {
 
   afterSignupUpdate = () => {
     // Update the state after a user signs up
-    let data = UserStore.getSignupResult();
+    let data = this.userStore.signupResult;
     if (data && !data.error) {
       this.setState({
         loggedIn: 'true',
@@ -94,11 +96,11 @@ const NavBar = observer(class NavBar extends React.Component {
   handleLogoutSubmit = (event) => {
     event.preventDefault();
     // Send a request to check if the user is logged in
-    UserActions.logout({}, this.state.token);
+    UserActions.logout({}, this.userStore, this.state.token);
   };
 
   handleLogoutResult = () => {
-    let data = UserStore.getLogoutResult();
+    let data = this.userStore.logoutResult;
     if (data && !data.error) {
       // Remove the user's token and info
       localStorage.removeItem('user');

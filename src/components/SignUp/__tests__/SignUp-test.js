@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { browserHistory } from 'react-router';
 import UserActions from '../../../actions/UserActions';
-import UserStore from '../../../stores/UserStore';
 import SignUp from '../SignUp.jsx';
 import userStore from '../../../stores/UserStore';
 

@@ -4,10 +4,10 @@ import React from 'react';
 import sinon from 'sinon';
 import expect from 'expect';
 import { mount, shallow } from 'enzyme';
+import { browserHistory } from 'react-router';
 import NavBar from '../NavBar.jsx';
 import UserActions from '../../../actions/UserActions';
-import UserStore from '../../../stores/UserStore';
-import { browserHistory } from 'react-router';
+import userStore from '../../../stores/UserStore';
 
 describe('NavBar', function() {
 
@@ -47,34 +47,16 @@ describe('NavBar', function() {
       expect(navBar.state().pathname).toEqual('/');
     });
 
-    it('calls componentDidMount', () => {
-      sinon.spy(NavBar.prototype, 'componentDidMount');
-      mount(<NavBar />); // Mount the component
-      expect(NavBar.prototype.componentDidMount.calledOnce).toBe(true);
-      NavBar.prototype.componentDidMount.restore();
-    });
-
-    it('calls componentWillUnmount', () => {
-      sinon.spy(NavBar.prototype, 'componentWillUnmount');
-      let navBar = mount(<NavBar />); // Mount the component
-      navBar.unmount();
-      expect(NavBar.prototype.componentWillUnmount.calledOnce).toBe(true);
-      NavBar.prototype.componentWillUnmount.restore();
-    });
-
     it('calls registered callbacks on mount', () => {
       sinon.stub(UserActions, 'getSession').returns(true);
-      sinon.spy(UserStore, 'addChangeListener');
-      mount(<NavBar />); // Mount the component
+      mount(<NavBar userStore={userStore}/>); // Mount the component
       expect(UserActions.getSession.calledOnce).toBe(true);
-      expect(UserStore.addChangeListener.callCount).toBe(4);
-      UserStore.addChangeListener.restore();
       UserActions.getSession.restore();
     });
 
     it('renders relevant links if user is logged in', function() {
-      let navBar = mount(<NavBar />);
-      UserStore.setSession({
+      let navBar = mount(<NavBar userStore={userStore}/>);
+      userStore.session = {
         loggedIn: 'true',
         user: {
           name: 'Kevin',
@@ -82,13 +64,13 @@ describe('NavBar', function() {
             title: 'admin'
           }
         }
-      });
+      };
       expect(navBar.text()).toMatch(/Settings/);
       expect(navBar.text()).toMatch(/Profile/);
     });
 
     it('should activate the materialize dropdowns', function(done) {
-      mount(<NavBar />); // Mount the component
+      mount(<NavBar userStore={userStore}/>); // Mount the component
       // The menu activators should be activated after component mount & update
       expect(window.$.withArgs('.dropdown-button').called).toBe(true);
       expect(window.$.withArgs('.button-collapse').called).toBe(true);
@@ -104,26 +86,16 @@ describe('NavBar', function() {
       beforeEach(function() {
         browserHistory.push = jest.fn();
         sinon.stub(UserActions, 'getSession').returns(true);
-        sinon.spy(UserStore, 'getSession');
       });
 
       afterEach(function() {
         UserActions.getSession.restore();
-        UserStore.getSession.restore();
-      });
-
-      it('calls the user session change listener', () => {
-        shallow(<NavBar />); // Mount the component
-        // Trigger a change in the UserStore
-        UserStore.setSession({});
-        // The getSession function should be called
-        expect(UserStore.getSession.called).toBe(true);
       });
 
       it('sets the correct state if the response is valid', function() {
-        let navBar = mount(<NavBar />);
+        let navBar = mount(<NavBar userStore={userStore}/>);
         // Trigger a change in the UserStore
-        UserStore.setSession({
+        userStore.session = {
           loggedIn: 'true',
           user: {
             name: 'Kevin',
@@ -131,19 +103,17 @@ describe('NavBar', function() {
               title: 'viewer'
             }
           }
-        });
-        expect(UserStore.getSession()).toBeA('object');
+        };
         expect(navBar.state().loggedIn).toEqual('true');
         expect(navBar.state().user).toBeA('object');
       });
 
       it('sets the correct state if the response has an error', function() {
-        let navBar = mount(<NavBar />);
+        let navBar = mount(<NavBar userStore={userStore}/>);
         // Trigger a change in the UserStore
-        UserStore.setSession({
+        userStore.session = {
           error: 'Error Occurred!!!!!!'
-        });
-        expect(UserStore.getSession()).toBeA('object');
+        };
         expect(navBar.state().loggedIn).toNotExist();
         expect(navBar.state().user).toNotExist();
       });
@@ -152,18 +122,18 @@ describe('NavBar', function() {
         sinon.spy(localStorage, 'removeItem');
         shallow(<NavBar />);
         // Trigger a change in the UserStore
-        UserStore.setSession({
+        userStore.session = {
           loggedIn: 'false'
-        });
+        };
         expect(localStorage.removeItem.withArgs('user').called).toBe(true);
         expect(localStorage.removeItem.withArgs('userInfo').called).toBe(true);
         localStorage.removeItem.restore();
       });
 
       it('responds correctly if the user is logged in', function() {
-        const wrapper = mount(<NavBar pathname={'/'}/>);
+        const wrapper = mount(<NavBar pathname={'/'} userStore={userStore}/>);
         // Trigger a change in the UserStore
-        UserStore.setSession({
+        userStore.session = {
           loggedIn: 'true',
           user: {
             name: 'Kevin',
@@ -171,7 +141,7 @@ describe('NavBar', function() {
               title: 'viewer'
             }
           }
-        });
+        };
         expect(wrapper.state().pathname).toBe('/');
         expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
       });
@@ -185,9 +155,9 @@ describe('NavBar', function() {
     });
 
     it('sets the correct state after login', function() {
-      let navBar = mount(<NavBar />);
+      let navBar = mount(<NavBar userStore={userStore}/>);
         // Trigger a change in the UserStore
-      UserStore.setLoginResult({
+      userStore.loginResult  = {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         user: {
           name: 'Kevin',
@@ -195,20 +165,18 @@ describe('NavBar', function() {
             title: 'viewer'
           }
         }
-      });
-      expect(UserStore.getLoginResult()).toBeA('object');
+      };
       expect(navBar.state().loggedIn).toEqual('true');
       expect(navBar.state().user).toBeA('object');
       expect(navBar.state().token).toBeA('string');
     });
 
     it('does not change state if response has error', function() {
-      let navBar = mount(<NavBar />);
+      let navBar = mount(<NavBar userStore={userStore}/>);
         // Trigger a change in the UserStore
-      UserStore.setLoginResult({
+      userStore.loginResult = {
         error: 'Error!'
-      });
-      expect(UserStore.getLoginResult()).toBeA('object');
+      };
       expect(navBar.state().loggedIn).toNotExist();
       expect(navBar.state().user).toNotExist();
       expect(navBar.state().token).toNotExist();
@@ -217,9 +185,9 @@ describe('NavBar', function() {
 
   describe('afterSignupUpdate', function() {
     it('sets the correct state after signup', function() {
-      let navBar = mount(<NavBar />);
+      let navBar = mount(<NavBar userStore={userStore}/>);
         // Trigger a change in the UserStore
-      UserStore.setSignupResult({
+      userStore.signupResult = {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         user: {
           name: 'Kevin',
@@ -227,19 +195,18 @@ describe('NavBar', function() {
             title: 'viewer'
           }
         }
-      });
-      expect(UserStore.getSignupResult()).toBeA('object');
+      };
       expect(navBar.state().loggedIn).toEqual('true');
       expect(navBar.state().user).toBeA('object');
       expect(navBar.state().token).toBeA('string');
     });
 
     it('does not change state if response has error', function() {
-      let navBar = mount(<NavBar />);
-        // Trigger a change in the UserStore
-      UserStore.setSignupResult({
+      let navBar = mount(<NavBar userStore={userStore}/>);
+      // Trigger a change in the UserStore
+      userStore.signupResult = {
         error: 'Error!'
-      });
+      };
       expect(navBar.state().loggedIn).toNotExist();
       expect(navBar.state().user).toNotExist();
       expect(navBar.state().token).toNotExist();
@@ -250,19 +217,16 @@ describe('NavBar', function() {
 
     it('should logout the user on click', function() {
       sinon.spy(localStorage, 'removeItem');
-      sinon.spy(UserStore, 'getSession');
-      let navBar = shallow(<NavBar />);
-        // Trigger a change in the logout store
-      UserStore.setLogoutResult({
+      let navBar = mount(<NavBar userStore={userStore}/>);
+      // Trigger a change in the logout store
+      userStore.logoutResult = {
         message: 'Successfully logged out'
-      });
-        // Should set the state correctly
-      expect(UserStore.getLogoutResult()).toBeA('object');
+      };
+      // Should set the state correctly
       expect(navBar.state().loggedIn).toNotExist();
       expect(navBar.state().user).toNotExist();
       expect(localStorage.removeItem.withArgs('user').called).toBe(true);
       expect(localStorage.removeItem.withArgs('userInfo').called).toBe(true);
-      UserStore.getSession.restore();
     });
 
     it('should call the logout action on click', function() {
@@ -280,15 +244,15 @@ describe('NavBar', function() {
         }
       };
       sinon.spy(mockEvent, 'preventDefault');
-      let navBar = mount(<NavBar />);
+      let navBar = mount(<NavBar userStore={userStore}/>);
       const inst = navBar.instance();
       sinon.spy(inst, 'handleLogoutSubmit');
-      UserStore.setLoginResult(user);
+      userStore.loginResult = user;
         // The logout button should be in the DOM
       expect(navBar.find('#logout-btn').length).toBe(1);
       navBar.find('#logout-btn').simulate('click', mockEvent);
       expect(mockEvent.preventDefault.called).toBe(true);
-      expect(UserActions.logout.withArgs({}, user.token).called).toBe(true);
+      expect(UserActions.logout.withArgs({}, navBar.props().userStore, user.token).called).toBe(true);
       expect(inst.handleLogoutSubmit.calledOnce).toBe(true);
       UserActions.logout.restore();
     });
