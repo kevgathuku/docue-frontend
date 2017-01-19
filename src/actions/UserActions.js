@@ -17,8 +17,13 @@ export default {
     BaseActions.post('/api/users/logout', data, AppConstants.USER_LOGOUT, token);
   },
 
-  signup: (user) => {
-    BaseActions.post('/api/users', user, AppConstants.USER_SIGNUP);
+  signup: (user, store) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users`)
+      .send(user)
+      .end((err, result) => {
+        store.setSignupResult(result.body);
+      });
   },
 
   update: (userID, user, store, token) => {
