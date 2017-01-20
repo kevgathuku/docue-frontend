@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {IndexRoute, Redirect, Route, Router, browserHistory} from 'react-router';
 import Auth from './components/Auth/index.jsx';
-import Admin from './components/Admin/index.jsx';
+import Admin from './components/Admin/Admin.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
 import CreateRole from './components/CreateRole/index.jsx';
 import DocumentPage from './components/DocumentPage/index.jsx';
 import Dashboard from './components/Dashboard/index.jsx';
 import Landing from './components/Landing/index.jsx';
-import Profile from './components/Profile/index.jsx';
+import Profile from './components/Profile/Profile.jsx';
 import Main from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/index.jsx';
 import RolesAdmin from './components/RolesAdmin/index.jsx';
-import UsersAdmin from './components/UsersAdmin/index.jsx';
+import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
 ReactDOM.render((
   <Router history={browserHistory}>

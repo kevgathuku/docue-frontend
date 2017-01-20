@@ -1,11 +1,13 @@
 import React from 'react';
+import {observe} from 'mobx';
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
-import UserStore from '../../stores/UserStore';
 
 class SignupForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    this.userStore = this.props.userStore;
     this.state = {
       username: null,
       firstname: null,
@@ -18,11 +20,12 @@ class SignupForm extends React.Component {
   }
 
   componentDidMount() {
-    UserStore.addChangeListener(this.handleSignup, 'signup');
+    // Mobx eventListeners
+    observe(this.userStore, 'signupResult', this.handleSignup);
   }
 
   componentWillUnmount() {
-    UserStore.removeChangeListener(this.handleSignup, 'signup');
+    // UserStore.removeChangeListener(this.handleSignup, 'signup');
   }
 
   comparePassword = (password, confirmPassword) => {
@@ -38,7 +41,7 @@ class SignupForm extends React.Component {
   };
 
   handleSignup = () => {
-    let data = UserStore.getSignupResult();
+    let data = this.userStore.signupResult;
     if (data) {
       if (data.error) {
         window.Materialize.toast(data.error, 2000, 'error-toast');
@@ -62,7 +65,7 @@ class SignupForm extends React.Component {
         email: this.state.email,
         password: this.state.password
       };
-      UserActions.signup(userPayload);
+      UserActions.signup(userPayload, this.userStore);
     }
   };
 

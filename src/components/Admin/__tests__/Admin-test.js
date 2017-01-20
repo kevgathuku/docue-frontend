@@ -2,37 +2,60 @@
 
 import React from 'react';
 import expect from 'expect';
-import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import Admin from '../index.jsx';
+import userStore from '../../../stores/UserStore';
+import DocStore from '../../../stores/DocStore';
+import RoleStore from '../../../stores/RoleStore';
+import Admin from '../Admin.jsx';
 
 describe('Admin', function() {
 
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
-      expect(shallow(<Admin />).text()).toMatch(/Admin\s+Panel/);
-      expect(shallow(<Admin />).text()).toMatch(/Manage\s+Users/);
+      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(/Admin\s+Panel/);
+      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(/Manage\s+Users/);
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<Admin />).is('.container')).toEqual(true);
-      expect(shallow(<Admin />).find('.flow-text').length).toEqual(3);
+      expect(shallow(<Admin userStore={userStore} />).is('.container')).toEqual(true);
+      expect(shallow(<Admin userStore={userStore} />).find('.flow-text').length).toEqual(3);
+    });
+  });
+
+  describe('Class Functions', function() {
+    var admin;
+
+    beforeEach(function() {
+      admin = mount(<Admin userStore={userStore}/>);
     });
 
-    it('calls componentDidMount', () => {
-      sinon.spy(Admin.prototype, 'componentDidMount');
-      mount(<Admin />); // Mount the component
-      expect(Admin.prototype.componentDidMount.called).toBe(true);
-      Admin.prototype.componentDidMount.restore();
-    });
-
-    it('calls componentWillUnmount', () => {
-      sinon.spy(Admin.prototype, 'componentWillUnmount');
-      let admin = mount(<Admin />); // Mount the component
+    afterEach(function() {
       admin.unmount();
-      expect(Admin.prototype.componentWillUnmount.calledOnce).toBe(true);
-      Admin.prototype.componentWillUnmount.restore();
+    });
+
+    describe('handleUsersResult', function() {
+      it('correctly updates the users count', function() {
+        let users = [1, 2, 3, 4, 5];
+        userStore.users = users;
+        expect(admin.find('#users-count').text()).toMatch(/5/);
+      });
+    });
+
+    describe('handleDocsResult', function() {
+      it('correctly updates the docs count', function() {
+        let documents = [1, 2, 3, 4];
+        DocStore.setDocs(documents);
+        expect(admin.find('#docs-count').text()).toMatch(/4/);
+      });
+    });
+
+    describe('handleDocsResult', function() {
+      it('correctly updates the docs count', function() {
+        let roles = [1, 2, 3, 4, 5, 6];
+        RoleStore.setRoles(roles);
+        expect(admin.find('#roles-count').text()).toMatch(/6/);
+      });
     });
 
   });

@@ -1,11 +1,19 @@
 import React from 'react';
+import {observe} from 'mobx';
+import {observer, PropTypes} from 'mobx-react';
+
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
-import UserStore from '../../stores/UserStore';
 
-class LoginForm extends React.Component {
-  constructor() {
-    super();
+const LoginForm = observer(class LoginForm extends React.Component {
+  static propTypes = {
+    userStore: PropTypes.observableObject
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.userStore = this.props.userStore;
     this.state = {
       email: null,
       password: null,
@@ -14,15 +22,12 @@ class LoginForm extends React.Component {
   }
 
   componentDidMount() {
-    UserStore.addChangeListener(this.handleLogin, 'login');
+    // Mobx eventListeners
+    observe(this.userStore, 'loginResult', this.handleLoginResult);
   }
 
-  componentWillUnmount() {
-    UserStore.removeChangeListener(this.handleLogin, 'login');
-  }
-
-  handleLogin = () => {
-    let data = UserStore.getLoginResult();
+  handleLoginResult = () => {
+    let data = this.userStore.loginResult;
     if (data) {
       if (data.error) {
         window.Materialize.toast(data.error, 2000, 'error-toast');
@@ -53,7 +58,7 @@ class LoginForm extends React.Component {
       username: this.state.email,
       password: this.state.password
     };
-    UserActions.login(loginPayload);
+    UserActions.login(loginPayload, this.userStore);
   };
 
   render() {
@@ -93,6 +98,6 @@ class LoginForm extends React.Component {
       </div>
     );
   }
-}
+});
 
 module.exports = LoginForm;

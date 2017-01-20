@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default {
+  BASE_URL: BASE_URL,
   get: (url: string, actionType: string, token: ?string =null) => {
     request
       .get(BASE_URL + url)

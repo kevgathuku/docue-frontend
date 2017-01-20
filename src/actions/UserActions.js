@@ -1,28 +1,61 @@
-import AppConstants from '../constants/AppConstants';
-import BaseActions  from './BaseActions';
+import request from 'superagent';
+
+import BaseActions from './BaseActions';
 
 export default {
-  login: (user) => {
-    BaseActions.post('/api/users/login', user, AppConstants.USER_LOGIN);
+  login: (user, store) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users/login`)
+      .send(user)
+      .end((err, result) => {
+        store.setLoginResult(result.body);
+      });
   },
 
-  logout: (data, token) => {
-    BaseActions.post('/api/users/logout', data, AppConstants.USER_LOGOUT, token);
+  logout: (data, token, store) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users/logout`)
+      .set('x-access-token', token)
+      .send(data)
+      .end((err, result) => {
+        store.setLogoutResult(result.body);
+      });
   },
 
-  signup: (user) => {
-    BaseActions.post('/api/users', user, AppConstants.USER_SIGNUP);
+  signup: (user, store) => {
+    request
+      .post(`${BaseActions.BASE_URL}/api/users`)
+      .send(user)
+      .end((err, result) => {
+        store.setSignupResult(result.body);
+      });
   },
 
-  update: (userID, user, token) => {
-    BaseActions.put(`/api/users/${userID}`, user, AppConstants.USER_UPDATE, token);
+  update: (userID, user, token, store) => {
+    request
+      .put(BaseActions.BASE_URL + `/api/users/${userID}`)
+      .set('x-access-token', token)
+      .send(user)
+      .end((err, result) => {
+        store.setProfileUpdateResult(result.body);
+      });
   },
 
-  getSession: (token) => {
-    BaseActions.get('/api/users/session', AppConstants.USER_SESSION, token);
+  getSession: (token, store) => {
+    request
+      .get(BaseActions.BASE_URL + '/api/users/session')
+      .set('x-access-token', token)
+      .end((err, result) => {
+        store.setSession(result.body);
+      });
   },
 
-  fetchAllUsers: (token) => {
-    BaseActions.get('/api/users', AppConstants.GET_USERS, token);
+  fetchAllUsers: (token, store) => {
+    request
+      .get(BaseActions.BASE_URL + '/api/users')
+      .set('x-access-token', token)
+      .end((err, result) => {
+        store.setUsers(result.body);
+      });
   }
 };

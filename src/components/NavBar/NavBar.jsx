@@ -1,18 +1,22 @@
 import React from 'react';
+import {observe} from 'mobx';
+import {observer, PropTypes} from 'mobx-react';
+
 import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
-import UserStore from '../../stores/UserStore';
 import logoSrc from '../../images/favicon.png';
 
-class NavBar extends React.Component {
+const NavBar = observer(class NavBar extends React.Component {
   // Receive the current pathname as a prop
   static propTypes = {
-    pathname: React.PropTypes.string
+    pathname: React.PropTypes.string,
+    userStore: PropTypes.observableObject
   };
 
   constructor(props) {
     super(props);
 
+    this.userStore = this.props.userStore;
     this.state = {
       pathname: this.props.pathname,
       token: localStorage.getItem('user'),
@@ -23,11 +27,13 @@ class NavBar extends React.Component {
 
   componentDidMount() {
     // Send a request to check if the user is logged in
-    UserActions.getSession(this.state.token);
-    UserStore.addChangeListener(this.userSession, 'session');
-    UserStore.addChangeListener(this.afterLoginUpdate, 'login');
-    UserStore.addChangeListener(this.afterSignupUpdate, 'signup');
-    UserStore.addChangeListener(this.handleLogoutResult);
+    UserActions.getSession(this.state.token, this.userStore);
+    // Acts as eventListeners
+    observe(this.userStore, 'session', this.userSession);
+    observe(this.userStore, 'loginResult', this.afterLoginUpdate);
+    observe(this.userStore, 'signupResult', this.afterSignupUpdate);
+    observe(this.userStore, 'logoutResult', this.handleLogoutResult);
+
     window.$('.dropdown-button').dropdown();
     window.$('.button-collapse').sideNav();
   }
@@ -37,16 +43,9 @@ class NavBar extends React.Component {
     // window.$('.button-collapse').sideNav();
   }
 
-  componentWillUnmount() {
-    UserStore.removeChangeListener(this.userSession, 'session');
-    UserStore.removeChangeListener(this.afterLoginUpdate, 'login');
-    UserStore.removeChangeListener(this.afterSignupUpdate, 'signup');
-    UserStore.removeChangeListener(this.handleLogoutResult);
-  }
-
   afterLoginUpdate = () => {
     // Update the state after a user login event
-    let data = UserStore.getLoginResult();
+    let data = this.userStore.loginResult;
     if (data && !data.error) {
       this.setState({
         loggedIn: 'true',
@@ -58,7 +57,7 @@ class NavBar extends React.Component {
 
   afterSignupUpdate = () => {
     // Update the state after a user signs up
-    let data = UserStore.getSignupResult();
+    let data = this.userStore.signupResult;
     if (data && !data.error) {
       this.setState({
         loggedIn: 'true',
@@ -70,7 +69,7 @@ class NavBar extends React.Component {
 
   userSession = () => {
     // Returns 'true' + the user object or 'false'
-    let response = UserStore.getSession();
+    let response = this.userStore.session;
     if (response && !response.error) {
       this.setState({
         loggedIn: response.loggedIn,
@@ -97,11 +96,11 @@ class NavBar extends React.Component {
   handleLogoutSubmit = (event) => {
     event.preventDefault();
     // Send a request to check if the user is logged in
-    UserActions.logout({}, this.state.token);
+    UserActions.logout({}, this.state.token, this.userStore);
   };
 
   handleLogoutResult = () => {
-    let data = UserStore.getLogoutResult();
+    let data = this.userStore.logoutResult;
     if (data && !data.error) {
       // Remove the user's token and info
       localStorage.removeItem('user');
@@ -177,6 +176,6 @@ class NavBar extends React.Component {
       </nav>
     );
   }
-}
+});
 
 export default NavBar;

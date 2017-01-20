@@ -6,36 +6,21 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import { browserHistory } from 'react-router';
 import UserActions from '../../../actions/UserActions';
-import UserStore from '../../../stores/UserStore';
-import SignUp from '../index.jsx';
+import SignUp from '../SignUp.jsx';
+import userStore from '../../../stores/UserStore';
 
 describe('SignUp', function() {
 
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
-      expect(shallow(<SignUp />).text()).toMatch(/First Name/);
-      expect(shallow(<SignUp />).text()).toMatch(/Sign up/);
+      expect(shallow(<SignUp userStore={userStore}/>).text()).toMatch(/First Name/);
+      expect(shallow(<SignUp userStore={userStore}/>).text()).toMatch(/Sign up/);
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<SignUp />).is('.row')).toEqual(true);
-      expect(shallow(<SignUp />).find('.input-field').length).toEqual(5);
-    });
-
-    it('calls componentDidMount', () => {
-      sinon.spy(SignUp.prototype, 'componentDidMount');
-      mount(<SignUp />); // Mount the component
-      expect(SignUp.prototype.componentDidMount.called).toBe(true);
-      SignUp.prototype.componentDidMount.restore();
-    });
-
-    it('calls componentWillUnmount', () => {
-      sinon.spy(SignUp.prototype, 'componentWillUnmount');
-      let signUp = mount(<SignUp />); // Mount the component
-      signUp.unmount();
-      expect(SignUp.prototype.componentWillUnmount.calledOnce).toBe(true);
-      SignUp.prototype.componentWillUnmount.restore();
+      expect(shallow(<SignUp userStore={userStore}/>).is('.row')).toEqual(true);
+      expect(shallow(<SignUp userStore={userStore}/>).find('.input-field').length).toEqual(5);
     });
   });
 
@@ -46,7 +31,7 @@ describe('SignUp', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      signUp = mount(<SignUp />);
+      signUp = mount(<SignUp userStore={userStore}/>);
     });
 
     afterEach(function() {
@@ -82,7 +67,6 @@ describe('SignUp', function() {
     describe('handleSignup', function() {
       it('should return the correct result if signup is valid', function() {
         sinon.spy(localStorage, 'setItem');
-        sinon.spy(UserStore, 'getSession');
         browserHistory.push = jest.fn();
         // Trigger a change in the signup store
         let response = {
@@ -94,14 +78,12 @@ describe('SignUp', function() {
             }
           }
         };
-        UserStore.setSignupResult(response);
+        userStore.signupResult = response;
         // Should be handled correctly
-        expect(UserStore.getSignupResult()).toBeA('object');
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
         expect(browserHistory.push.mock.calls[0][0]).toBe('/dashboard');
         localStorage.setItem.restore();
-        UserStore.getSession.restore();
       });
 
       it('should return the correct result if signup raised error', function() {
@@ -109,9 +91,8 @@ describe('SignUp', function() {
         let response = {
           error: 'Error Occurred'
         };
-        UserStore.setSignupResult(response);
+        userStore.signupResult = response;
         // Should be handled correctly
-        expect(UserStore.getSignupResult()).toBeA('object');
         expect(window.Materialize.toast.withArgs(response.error).called).toBe(true);
       });
     });
