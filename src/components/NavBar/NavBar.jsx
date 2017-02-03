@@ -115,66 +115,66 @@ const NavBar = observer(class NavBar extends React.Component {
   };
 
   render() {
-    return (
-      <nav className="transparent black-text" role="navigation">
-        <div className="nav-wrapper container">
-          <a className="brand-logo brand-logo-small" href="/">
-            <img alt="Docue Logo" id="header-logo" src={logoSrc}/>
-            {'      Docue'}
-          </a>
-          <a href="#" data-activates="mobile-demo" className="button-collapse">
-            <i className="material-icons" style={{color: 'grey'}}>menu</i>
-          </a>
-          <ul className="side-nav" id="mobile-demo">
-            <li><a href="/">Home</a></li>
-            <li>
-              {this.state.loggedIn === 'true'
-                ? <a href="/profile" >Profile</a>
-                : <a href="/auth">Login</a>
-              }
-            </li>
-            <li>
-              {this.state.loggedIn === 'true'
-                ? <a href="/#" onClick={this.handleLogoutSubmit}>Logout</a>
-                : <a href="/auth">Sign Up</a>
-              }
-            </li>
-          </ul>
-          <ul className="right hide-on-med-and-down" id="nav-mobile">
-            <li>
-              {this.state.loggedIn === 'true'
-                ? <div>
-                    <ul id="dropdown" className="dropdown-content">
-                      <li><a href="/profile">My Profile</a></li>
-                      <li><a href="/dashboard">All Documents</a></li>
-                      {
-                        this.state.user.role.title === 'admin'
-                        ? <li><a href="/admin">Settings</a></li>
-                        : null
-                      }
-                      <li className="divider"></li>
-                      <li>
-                        <a href="/#" id="logout-btn"
-                            onClick={this.handleLogoutSubmit}
-                        > Logout
-                        </a>
-                      </li>
-                    </ul>
-                    <a className="dropdown-button"
-                        data-activates="dropdown"
-                        data-beloworigin="true"
-                        data-constrainwidth="false"
-                    >{this.state.user.name.first}
-                      <i className="material-icons right">arrow_drop_down</i>
-                    </a>
-                  </div>
-                : null
-              }
-            </li>
-          </ul>
-        </div>
-      </nav>
-    );
+    return this.props.pathname === '/' ? null : (
+        <nav className="transparent black-text" role="navigation">
+          <div className="nav-wrapper container">
+            <a className="brand-logo brand-logo-small" href="/">
+              <img alt="Docue Logo" id="header-logo" src={logoSrc}/>
+              {'      Docue'}
+            </a>
+            <a href="#" data-activates="mobile-demo" className="button-collapse">
+              <i className="material-icons" style={{color: 'grey'}}>menu</i>
+            </a>
+            <ul className="side-nav" id="mobile-demo">
+              <li><a href="/">Home</a></li>
+              <li>
+                {this.state.loggedIn === 'true'
+                  ? <a href="/profile" >Profile</a>
+                  : <a href="/auth">Login</a>
+                }
+              </li>
+              <li>
+                {this.state.loggedIn === 'true'
+                  ? <a href="/#" onClick={this.handleLogoutSubmit}>Logout</a>
+                  : <a href="/auth">Sign Up</a>
+                }
+              </li>
+            </ul>
+            <ul className="right hide-on-med-and-down" id="nav-mobile">
+              <li>
+                {this.state.loggedIn === 'true'
+                  ? <div>
+                      <ul id="dropdown" className="dropdown-content">
+                        <li><a href="/profile">My Profile</a></li>
+                        <li><a href="/dashboard">All Documents</a></li>
+                        {
+                          this.state.user.role.title === 'admin'
+                          ? <li><a href="/admin">Settings</a></li>
+                          : null
+                        }
+                        <li className="divider"></li>
+                        <li>
+                          <a href="/#" id="logout-btn"
+                              onClick={this.handleLogoutSubmit}
+                          > Logout
+                          </a>
+                        </li>
+                      </ul>
+                      <a className="dropdown-button"
+                          data-activates="dropdown"
+                          data-beloworigin="true"
+                          data-constrainwidth="false"
+                      >{this.state.user.name.first}
+                        <i className="material-icons right">arrow_drop_down</i>
+                      </a>
+                    </div>
+                  : null
+                }
+              </li>
+            </ul>
+          </div>
+        </nav>
+      )
   }
 });
 
