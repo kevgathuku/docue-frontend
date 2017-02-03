@@ -15,7 +15,7 @@ class Landing extends React.PureComponent {
                 <span className="bold" >{'Docue    '}</span>
                 <span className="thin">
                   is the simplest way for <br />
-                anyone to manage their documents online</span>
+                you to manage your documents online</span>
               </h1>
             </div>
           </div>
