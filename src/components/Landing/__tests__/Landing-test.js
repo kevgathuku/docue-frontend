@@ -7,7 +7,7 @@ import Landing from '../index.jsx';
 
 describe('Landing component', function() {
   it('renders the correct content', function() {
-    expect(shallow(<Landing />).text()).toMatch(/Docue\s+is the simplest way for anyone to manage their documents online/);
+    expect(shallow(<Landing />).text()).toMatch(/Docue\s+is the simplest way for you to manage your documents online/);
     expect(shallow(<Landing />).text()).toMatch(/Get\s+Started/);
   });
 
