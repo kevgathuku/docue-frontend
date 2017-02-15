@@ -24,10 +24,6 @@ class SignupForm extends React.Component {
     observe(this.userStore, 'signupResult', this.handleSignup);
   }
 
-  componentWillUnmount() {
-    // UserStore.removeChangeListener(this.handleSignup, 'signup');
-  }
-
   comparePassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
       window.Materialize.toast('passwords don\'t match', 2000, 'error-toast');
