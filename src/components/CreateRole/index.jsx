@@ -2,6 +2,7 @@ import React from 'react';
 import {browserHistory} from 'react-router';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
+import { handleFieldChange } from '../../utils/componentHelpers';
 
 class CreateRole extends React.Component {
   constructor() {
@@ -33,13 +34,9 @@ class CreateRole extends React.Component {
   };
 
   handleFieldChange = (event) => {
-    // A function bound to the event object
-    let stateObject = function() {
-      let returnObj = {};
-      returnObj[this.target.name] = this.target.value;
-      return returnObj;
-    }.bind(event)();
-
+    // Transform the event to a suitable state format
+    // i.e. event target name as key, event target value as value
+    let stateObject = handleFieldChange(event);
     this.setState(stateObject);
   };
 

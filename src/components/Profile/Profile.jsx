@@ -2,6 +2,7 @@ import React from 'react';
 import {observe} from 'mobx';
 import UserActions from '../../actions/UserActions';
 import cardImage from '../../images/mountain.jpg';
+import { handleFieldChange } from '../../utils/componentHelpers';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -50,13 +51,7 @@ class Profile extends React.Component {
     if (event.target.name === 'confirm-password') {
       this.setState({passwordConfirm: event.target.value});
     } else {
-      // A function bound to the event object
-      let stateObject = function() {
-        let returnObj = {};
-        returnObj[this.target.name] = this.target.value;
-        return returnObj;
-      }.bind(event)();
-
+      let stateObject = handleFieldChange(event);
       this.setState(stateObject);
     }
   };

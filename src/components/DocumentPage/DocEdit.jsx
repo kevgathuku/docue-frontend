@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import DocActions from '../../actions/DocActions';
 import DocStore from '../../stores/DocStore';
+import { handleFieldChange } from '../../utils/componentHelpers';
 
 class DocEdit extends React.Component {
   static propTypes = {
@@ -31,13 +32,7 @@ class DocEdit extends React.Component {
   }
 
   handleFieldChange = (event) => {
-    // A function bound to the event object
-    let stateObject = function() {
-      let returnObj = {};
-      returnObj[this.target.name] = this.target.value;
-      return returnObj;
-    }.bind(event)();
-
+    let stateObject = handleFieldChange(event);
     this.setState(stateObject);
   };
 

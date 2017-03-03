@@ -1,7 +1,9 @@
 import React from 'react';
 import {observe} from 'mobx';
-import UserActions from '../../actions/UserActions';
 import {browserHistory} from 'react-router';
+
+import { handleFieldChange } from '../../utils/componentHelpers';
+import UserActions from '../../actions/UserActions';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -69,13 +71,7 @@ class SignupForm extends React.Component {
     if (event.target.name === 'password-confirm') {
       this.setState({passwordConfirm: event.target.value});
     } else {
-      // A function bound to the event object
-      let stateObject = function() {
-        let returnObj = {};
-        returnObj[this.target.name] = this.target.value;
-        return returnObj;
-      }.bind(event)();
-
+      let stateObject = handleFieldChange(event);
       this.setState(stateObject);
     }
   };

@@ -5,6 +5,7 @@ import DocActions from '../../actions/DocActions';
 import DocStore from '../../stores/DocStore';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
+import { handleFieldChange } from '../../utils/componentHelpers';
 
 class CreateDocument extends React.Component {
 
@@ -62,13 +63,7 @@ class CreateDocument extends React.Component {
   };
 
   handleFieldChange = (event) => {
-    // A function bound to the event object
-    let stateObject = function() {
-      let returnObj = {};
-      returnObj[this.target.name] = this.target.value;
-      return returnObj;
-    }.bind(event)();
-
+    let stateObject = handleFieldChange(event);
     this.setState(stateObject);
   };
 
