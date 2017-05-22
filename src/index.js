@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {IndexRoute, Redirect, Route, Router, browserHistory} from 'react-router';
 import Auth from './components/Auth/index.jsx';
 import Admin from './components/Admin/Admin.jsx';
+import Buttons from './components/Buttons.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
 import CreateRole from './components/CreateRole/index.jsx';
 import DocumentPage from './components/DocumentPage/index.jsx';
@@ -23,6 +24,7 @@ ReactDOM.render((
       <Route path="admin/roles" component={RolesAdmin} />
       <Route path="admin/users" component={UsersAdmin} />
       <Route path="admin/roles/create" component={CreateRole} />
+      <Route path="buttons" component={Buttons} />
       <Route path="dashboard" component={Dashboard} />
       <Route path="documents/create" component={CreateDocument} />
       <Route path="documents/:id" component={DocumentPage} />
