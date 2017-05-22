@@ -1,7 +1,6 @@
 import React from 'react';
 import Elm from 'react-elm-components';
-import { Main } from '../elm-buttons.js';
-
+import { Main } from '../Buttons.elm';
 
 export default class Buttons extends React.Component {
   render() {
