@@ -21,6 +21,8 @@ import RolesAdmin from './components/RolesAdmin/index.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
 import 'normalize.css/normalize.css';
+import 'react-select/dist/react-select.css';
+import './styles/style.css';
 
 ReactDOM.render(
   <Router history={browserHistory}>
