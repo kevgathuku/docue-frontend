@@ -10,7 +10,7 @@ import {
 import Auth from './components/Auth/index.jsx';
 import Admin from './components/Admin/Admin.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
-import CreateRole from './components/CreateRole/index.jsx';
+import CreateRole from './components/CreateRole/CreateRole.jsx';
 import DocumentPage from './components/DocumentPage/index.jsx';
 import Dashboard from './components/Dashboard/index.jsx';
 import Landing from './components/Landing/Landing.jsx';
