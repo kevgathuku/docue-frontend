@@ -10,7 +10,6 @@ import userStore from '../../../stores/UserStore';
 import Login from '../Login.jsx';
 
 describe('Login', function() {
-
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
@@ -30,7 +29,7 @@ describe('Login', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      login = mount(<Login userStore={userStore}/>);
+      login = mount(<Login userStore={userStore} />);
     });
 
     afterEach(function() {
@@ -67,7 +66,9 @@ describe('Login', function() {
         };
         userStore.loginResult = response;
         // Should be handled correctly
-        expect(window.Materialize.toast.withArgs(response.error).called).toBe(true);
+        expect(window.Materialize.toast.withArgs(response.error).called).toBe(
+          true
+        );
       });
     });
 
@@ -83,10 +84,11 @@ describe('Login', function() {
         const instance = login.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(login.state()[fieldChangeEvent.target.name]).toBe(fieldChangeEvent.target.value);
+        expect(login.state()[fieldChangeEvent.target.name]).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
-
     });
 
     describe('handleSubmit', function() {
@@ -111,7 +113,5 @@ describe('Login', function() {
         UserActions.login.restore();
       });
     });
-
   });
-
 });

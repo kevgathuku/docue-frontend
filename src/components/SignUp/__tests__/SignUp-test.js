@@ -10,17 +10,24 @@ import SignUp from '../SignUp.jsx';
 import userStore from '../../../stores/UserStore';
 
 describe('SignUp', function() {
-
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
-      expect(shallow(<SignUp userStore={userStore}/>).text()).toMatch(/First Name/);
-      expect(shallow(<SignUp userStore={userStore}/>).text()).toMatch(/Sign up/);
+      expect(shallow(<SignUp userStore={userStore} />).text()).toMatch(
+        /First Name/
+      );
+      expect(shallow(<SignUp userStore={userStore} />).text()).toMatch(
+        /Sign up/
+      );
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<SignUp userStore={userStore}/>).is('.row')).toEqual(true);
-      expect(shallow(<SignUp userStore={userStore}/>).find('.input-field').length).toEqual(5);
+      expect(shallow(<SignUp userStore={userStore} />).is('.row')).toEqual(
+        true
+      );
+      expect(
+        shallow(<SignUp userStore={userStore} />).find('.input-field').length
+      ).toEqual(5);
     });
   });
 
@@ -31,7 +38,7 @@ describe('SignUp', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      signUp = mount(<SignUp userStore={userStore}/>);
+      signUp = mount(<SignUp userStore={userStore} />);
     });
 
     afterEach(function() {
@@ -39,7 +46,7 @@ describe('SignUp', function() {
     });
 
     describe('comparePassword', function() {
-      it('should return false if the passwords don\'t match', function() {
+      it("should return false if the passwords don't match", function() {
         const instance = signUp.instance();
         sinon.spy(instance, 'comparePassword');
         instance.comparePassword('password', 'klenfwnfef');
@@ -93,7 +100,9 @@ describe('SignUp', function() {
         };
         userStore.signupResult = response;
         // Should be handled correctly
-        expect(window.Materialize.toast.withArgs(response.error).called).toBe(true);
+        expect(window.Materialize.toast.withArgs(response.error).called).toBe(
+          true
+        );
       });
     });
 
@@ -109,7 +118,9 @@ describe('SignUp', function() {
         const instance = signUp.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(signUp.state()[fieldChangeEvent.target.name]).toBe(fieldChangeEvent.target.value);
+        expect(signUp.state()[fieldChangeEvent.target.name]).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
 
@@ -124,7 +135,9 @@ describe('SignUp', function() {
         const instance = signUp.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(signUp.state().passwordConfirm).toBe(fieldChangeEvent.target.value);
+        expect(signUp.state().passwordConfirm).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
     });
@@ -154,7 +167,5 @@ describe('SignUp', function() {
         UserActions.signup.restore();
       });
     });
-
   });
-
 });

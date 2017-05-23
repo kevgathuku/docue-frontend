@@ -73,5 +73,4 @@ describe('DocStore', function() {
     delete deleteDocAction.actionType;
     expect(data).toEqual(deleteDocAction);
   });
-
 });

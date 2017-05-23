@@ -79,7 +79,7 @@ AppDispatcher.register(function(action) {
     DocStore.setDoc(action.data);
     break;
   default:
-      // no default action
+    // no default action
   }
 
   return true;

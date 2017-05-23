@@ -8,7 +8,6 @@ import RolesAdmin from '../index.jsx';
 import RoleActions from '../../../actions/RoleActions';
 
 describe('RolesAdmin', function() {
-
   beforeEach(function() {
     sinon.stub(RoleActions, 'getRoles').returns(true);
   });
@@ -20,7 +19,9 @@ describe('RolesAdmin', function() {
   describe('Component Rendering', function() {
     it('renders the correct component', function() {
       expect(shallow(<RolesAdmin />).is('.container')).toEqual(true);
-      expect(shallow(<RolesAdmin />).find('.fixed-action-btn').length).toEqual(1);
+      expect(shallow(<RolesAdmin />).find('.fixed-action-btn').length).toEqual(
+        1
+      );
       expect(shallow(<RolesAdmin />).text()).toMatch(/Manage Roles/);
     });
 
@@ -38,6 +39,5 @@ describe('RolesAdmin', function() {
       expect(RolesAdmin.prototype.componentWillUnmount.calledOnce).toBe(true);
       RolesAdmin.prototype.componentWillUnmount.restore();
     });
-
   });
 });

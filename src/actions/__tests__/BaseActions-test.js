@@ -30,45 +30,44 @@ describe('BaseActions', function() {
   describe('HTTP methods', function() {
     it('delete', function() {
       BaseActions.delete(fakeURL, fakeActionType, fakeToken);
-      expect(AppDispatcher.dispatch.withArgs(
-        {
+      expect(
+        AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body,
           statusCode: response.statusCode
-        }
-      ).called).toBe(true);
+        }).called
+      ).toBe(true);
     });
 
     it('get', function() {
       BaseActions.get(fakeURL, fakeActionType, fakeToken);
-      expect(AppDispatcher.dispatch.withArgs(
-        {
+      expect(
+        AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body
-        }
-      ).called).toBe(true);
+        }).called
+      ).toBe(true);
     });
 
     it('post', function() {
       BaseActions.post(fakeURL, response, fakeActionType, fakeToken);
-      expect(AppDispatcher.dispatch.withArgs(
-        {
+      expect(
+        AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body
-        }
-      ).called).toBe(true);
+        }).called
+      ).toBe(true);
     });
 
     it('put', function() {
       BaseActions.put(fakeURL, response, fakeActionType, fakeToken);
-      expect(AppDispatcher.dispatch.withArgs(
-        {
+      expect(
+        AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body,
           statusCode: response.statusCode
-        }
-      ).called).toBe(true);
+        }).called
+      ).toBe(true);
     });
-
   });
 });

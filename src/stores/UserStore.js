@@ -1,7 +1,4 @@
-import {
-  action,
-  extendObservable
-} from 'mobx';
+import { action, extendObservable } from 'mobx';
 
 class UserStore {
   constructor() {
@@ -36,8 +33,7 @@ class UserStore {
 
       setProfileUpdateResult: action(function(profileUpdateResult) {
         this.profileUpdateResult = profileUpdateResult;
-      }),
-
+      })
     });
   }
 }

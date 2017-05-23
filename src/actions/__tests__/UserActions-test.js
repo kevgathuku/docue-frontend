@@ -2,7 +2,7 @@
 
 import expect from 'expect';
 import nock from 'nock';
-import {when} from 'mobx';
+import { when } from 'mobx';
 import userStore from '../../stores/UserStore';
 import BaseActions from '../BaseActions';
 import UserActions from '../UserActions';
@@ -10,35 +10,23 @@ import UserActions from '../UserActions';
 describe('UserActions', function() {
   let payload = {};
   let response = {
-    'status': 'OK'
+    status: 'OK'
   };
   let store = userStore;
   let userID = 4;
 
   beforeEach(function() {
-    nock(BaseActions.BASE_URL)
-      .post('/api/users/login')
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).post('/api/users/login').reply(200, response);
 
-    nock(BaseActions.BASE_URL)
-      .post('/api/users/logout')
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).post('/api/users/logout').reply(200, response);
 
-    nock(BaseActions.BASE_URL)
-      .post('/api/users')
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).post('/api/users').reply(200, response);
 
-    nock(BaseActions.BASE_URL)
-      .put(`/api/users/${userID}`)
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).put(`/api/users/${userID}`).reply(200, response);
 
-    nock(BaseActions.BASE_URL)
-      .get('/api/users/session')
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).get('/api/users/session').reply(200, response);
 
-    nock(BaseActions.BASE_URL)
-      .get('/api/users')
-      .reply(200, response);
+    nock(BaseActions.BASE_URL).get('/api/users').reply(200, response);
   });
 
   it('login triggers change in userStore', function(done) {

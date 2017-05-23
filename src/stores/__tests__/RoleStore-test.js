@@ -45,5 +45,4 @@ describe('RoleStore', function() {
     const roles = RoleStore.getCreatedRole();
     expect(roles).toBe(rolePayload.data);
   });
-
 });

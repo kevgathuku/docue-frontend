@@ -10,7 +10,6 @@ import DocStore from '../../../stores/DocStore';
 import CreateDocument from '../index.jsx';
 
 describe('CreateDocument', function() {
-
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
@@ -19,7 +18,9 @@ describe('CreateDocument', function() {
 
     it('renders the correct component', function() {
       expect(shallow(<CreateDocument />).is('.container')).toEqual(true);
-      expect(shallow(<CreateDocument />).find('.input-field').length).toEqual(3);
+      expect(shallow(<CreateDocument />).find('.input-field').length).toEqual(
+        3
+      );
     });
 
     it('calls componentDidMount', () => {
@@ -33,7 +34,9 @@ describe('CreateDocument', function() {
       sinon.spy(CreateDocument.prototype, 'componentWillUnmount');
       let createDoc = mount(<CreateDocument />); // Mount the component
       createDoc.unmount();
-      expect(CreateDocument.prototype.componentWillUnmount.calledOnce).toBe(true);
+      expect(CreateDocument.prototype.componentWillUnmount.calledOnce).toBe(
+        true
+      );
       CreateDocument.prototype.componentWillUnmount.restore();
     });
   });
@@ -61,7 +64,10 @@ describe('CreateDocument', function() {
           }
         });
         expect(DocStore.getDocCreateResult()).toBeA('object');
-        expect(window.Materialize.toast.withArgs('Document created successfully!').called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs('Document created successfully!')
+            .called
+        ).toBe(true);
       });
 
       it('should correctly handle document creation error', function() {
@@ -70,7 +76,9 @@ describe('CreateDocument', function() {
         };
         DocStore.setDocCreateResult(errorResponse);
         expect(DocStore.getDocCreateResult()).toBeA('object');
-        expect(window.Materialize.toast.withArgs(errorResponse.error).called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs(errorResponse.error).called
+        ).toBe(true);
       });
     });
 
@@ -86,7 +94,9 @@ describe('CreateDocument', function() {
         const instance = createDoc.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(createDoc.state()[fieldChangeEvent.target.name]).toBe(fieldChangeEvent.target.value);
+        expect(createDoc.state()[fieldChangeEvent.target.name]).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
     });
@@ -117,7 +127,9 @@ describe('CreateDocument', function() {
         createDoc.find('form').simulate('submit', createDocEvent);
         expect(createDocEvent.preventDefault.called).toBe(true);
         expect(instance.handleSubmit.calledOnce).toBe(true);
-        expect(window.Materialize.toast.withArgs('Please Select a Role').called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs('Please Select a Role').called
+        ).toBe(true);
         instance.handleSubmit.restore();
       });
 

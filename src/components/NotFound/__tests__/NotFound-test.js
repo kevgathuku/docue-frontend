@@ -10,6 +10,7 @@ describe('Not Found', function() {
     expect(shallow(<NotFound />).is('.container')).toEqual(true);
     expect(shallow(<NotFound />).text()).toMatch(/Not Found/);
     expect(shallow(<NotFound />).text()).toMatch(
-      /This is not the page you were looking for/);
+      /This is not the page you were looking for/
+    );
   });
 });

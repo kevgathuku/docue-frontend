@@ -7,7 +7,6 @@ import { mount, shallow } from 'enzyme';
 import Dashboard from '../index.jsx';
 
 describe('Dashboard', function() {
-
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
@@ -16,7 +15,9 @@ describe('Dashboard', function() {
 
     it('renders the correct component', function() {
       expect(shallow(<Dashboard />).is('.container')).toEqual(true);
-      expect(shallow(<Dashboard />).find('.fixed-action-btn').length).toEqual(1);
+      expect(shallow(<Dashboard />).find('.fixed-action-btn').length).toEqual(
+        1
+      );
     });
 
     it('calls componentDidMount', () => {
@@ -33,6 +34,5 @@ describe('Dashboard', function() {
       expect(Dashboard.prototype.componentWillUnmount.calledOnce).toBe(true);
       Dashboard.prototype.componentWillUnmount.restore();
     });
-
   });
 });
