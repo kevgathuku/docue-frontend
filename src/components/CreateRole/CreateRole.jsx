@@ -23,7 +23,7 @@ export default class Main extends React.Component {
   setupPorts(ports) {
     ports.handleSubmit.subscribe(function(title) {
       if (!title) {
-        window.Materialize.toast(
+        return window.Materialize.toast(
           'Please Provide a Role Title',
           2000,
           'error-toast'
