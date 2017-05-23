@@ -1,14 +1,31 @@
 language: node_js
 sudo: false
-services:
-- mongodb
 node_js:
 - "6"
 cache:
   directories:
   - node_modules
   - public/build
+  - tests/elm-stuff/build-artifacts
+
+env:
+- ELM_VERSION=0.18.0
+
+install:
+  - node --version
+  - npm --version
+  - npm install -g elm-use elm-format
+  - elm-use $ELM_VERSION
+  - npm install
+  - travis_retry elm-package install --yes
+  - cd tests
+  - travis_retry elm-package install --yes
+  - cd ..
+
 after_success:
 - cat coverage/lcov.info | ./node_modules/.bin/coveralls
+- firebase deploy
 script:
+  - elm-format --validate src tests
+  - npm run test:elm
   - npm run test:ci
