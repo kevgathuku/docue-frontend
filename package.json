@@ -6,7 +6,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "test:ci": "CI=true node scripts/test.js --env=jsdom --coverage",
+    "test:ci": "node scripts/test.js --env=jsdom --coverage",
+    "test:elm": "elm-test",
     "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install; fi"
   },
   "dependencies": {
