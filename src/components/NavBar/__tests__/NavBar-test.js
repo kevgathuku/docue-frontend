@@ -12,7 +12,6 @@ import UserActions from '../../../actions/UserActions';
 import userStore from '../../../stores/UserStore';
 
 describe('NavBar', function() {
-
   beforeEach(function() {
     sinon.stub(UserActions, 'getSession').returns(true);
   });
@@ -26,31 +25,41 @@ describe('NavBar', function() {
       localStorage.clear();
 
       window.$ = sinon.stub();
-      window.$.withArgs('.dropdown-button').returns(sinon.stub({
-        dropdown: function() {}
-      }));
-      window.$.withArgs('.button-collapse').returns(sinon.stub({
-        sideNav: function() {}
-      }));
+      window.$.withArgs('.dropdown-button').returns(
+        sinon.stub({
+          dropdown: function() {}
+        })
+      );
+      window.$.withArgs('.button-collapse').returns(
+        sinon.stub({
+          sideNav: function() {}
+        })
+      );
     });
 
     it('renders the correct mobile links', function() {
       // It should find the correct title
-      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Docue/);
+      expect(shallow(<NavBar userStore={userStore} />).text()).toMatch(/Docue/);
       // It should render the correct menu items
-      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Home/);
-      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Sign Up/);
-      expect(shallow(<NavBar userStore={userStore}/>).text()).toMatch(/Login/);
+      expect(shallow(<NavBar userStore={userStore} />).text()).toMatch(/Home/);
+      expect(shallow(<NavBar userStore={userStore} />).text()).toMatch(
+        /Sign Up/
+      );
+      expect(shallow(<NavBar userStore={userStore} />).text()).toMatch(/Login/);
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<NavBar userStore={userStore}/>).is('.transparent')).toEqual(true);
+      expect(
+        shallow(<NavBar userStore={userStore} />).is('.transparent')
+      ).toEqual(true);
       // It should render the site logo
-      expect(shallow(<NavBar userStore={userStore}/>).find('img').length).toEqual(1);
+      expect(
+        shallow(<NavBar userStore={userStore} />).find('img').length
+      ).toEqual(1);
     });
 
     it('has the correct initial state', function() {
-      const navBar = shallow(<NavBar pathname='/' userStore={userStore}/>);
+      const navBar = shallow(<NavBar pathname="/" userStore={userStore} />);
       expect(navBar.state().token).toEqual(null);
       expect(navBar.state().loggedIn).toEqual(null);
       expect(navBar.state().user).toEqual(null);
@@ -59,12 +68,12 @@ describe('NavBar', function() {
 
     it('calls registered callbacks on mount', () => {
       // Mount the component
-      mount(<NavBar userStore={userStore}/>);
+      mount(<NavBar userStore={userStore} />);
       expect(UserActions.getSession.calledOnce).toBe(true);
     });
 
     it('renders relevant links if user is logged in', function() {
-      let navBar = mount(<NavBar userStore={userStore}/>);
+      let navBar = mount(<NavBar userStore={userStore} />);
       userStore.session = {
         loggedIn: 'true',
         user: {
@@ -79,25 +88,22 @@ describe('NavBar', function() {
     });
 
     it('should activate the materialize dropdowns', function(done) {
-      mount(<NavBar userStore={userStore}/>); // Mount the component
+      mount(<NavBar userStore={userStore} />); // Mount the component
       // The menu activators should be activated after component mount & update
       expect(window.$.withArgs('.dropdown-button').called).toBe(true);
       expect(window.$.withArgs('.button-collapse').called).toBe(true);
       done();
     });
-
   });
 
   describe('Class functions:', function() {
-
     describe('userSession', function() {
-
       beforeEach(function() {
         browserHistory.push = jest.fn();
       });
 
       it('sets the correct state if the response is valid', function() {
-        let navBar = mount(<NavBar userStore={userStore}/>);
+        let navBar = mount(<NavBar userStore={userStore} />);
         // Trigger a change in the UserStore
         userStore.session = {
           loggedIn: 'true',
@@ -113,7 +119,7 @@ describe('NavBar', function() {
       });
 
       it('sets the correct state if the response has an error', function() {
-        let navBar = mount(<NavBar userStore={userStore}/>);
+        let navBar = mount(<NavBar userStore={userStore} />);
         // Trigger a change in the UserStore
         userStore.session = {
           error: 'Error Occurred!!!!!!'
@@ -135,7 +141,7 @@ describe('NavBar', function() {
       });
 
       it('responds correctly if the user is logged in', function() {
-        const wrapper = mount(<NavBar pathname={'/'} userStore={userStore}/>);
+        const wrapper = mount(<NavBar pathname={'/'} userStore={userStore} />);
         // Trigger a change in the UserStore
         userStore.session = {
           loggedIn: 'true',
@@ -154,14 +160,14 @@ describe('NavBar', function() {
 
   describe('afterLoginUpdate', function() {
     beforeEach(function() {
-        // Start with an empty localStorage instance
+      // Start with an empty localStorage instance
       localStorage.clear();
     });
 
     it('sets the correct state after login', function() {
-      let navBar = mount(<NavBar userStore={userStore}/>);
-        // Trigger a change in the UserStore
-      userStore.loginResult  = {
+      let navBar = mount(<NavBar userStore={userStore} />);
+      // Trigger a change in the UserStore
+      userStore.loginResult = {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         user: {
           name: 'Kevin',
@@ -176,8 +182,8 @@ describe('NavBar', function() {
     });
 
     it('does not change state if response has error', function() {
-      let navBar = mount(<NavBar userStore={userStore}/>);
-        // Trigger a change in the UserStore
+      let navBar = mount(<NavBar userStore={userStore} />);
+      // Trigger a change in the UserStore
       userStore.loginResult = {
         error: 'Error!'
       };
@@ -189,8 +195,8 @@ describe('NavBar', function() {
 
   describe('afterSignupUpdate', function() {
     it('sets the correct state after signup', function() {
-      let navBar = mount(<NavBar userStore={userStore}/>);
-        // Trigger a change in the UserStore
+      let navBar = mount(<NavBar userStore={userStore} />);
+      // Trigger a change in the UserStore
       userStore.signupResult = {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         user: {
@@ -206,7 +212,7 @@ describe('NavBar', function() {
     });
 
     it('does not change state if response has error', function() {
-      let navBar = mount(<NavBar userStore={userStore}/>);
+      let navBar = mount(<NavBar userStore={userStore} />);
       // Trigger a change in the UserStore
       userStore.signupResult = {
         error: 'Error!'
@@ -218,10 +224,9 @@ describe('NavBar', function() {
   });
 
   describe('handleLogout', function() {
-
     it('should logout the user on click', function() {
       sinon.spy(localStorage, 'removeItem');
-      let navBar = mount(<NavBar userStore={userStore}/>);
+      let navBar = mount(<NavBar userStore={userStore} />);
       // Trigger a change in the logout store
       userStore.logoutResult = {
         message: 'Successfully logged out'
@@ -248,7 +253,7 @@ describe('NavBar', function() {
         }
       };
       sinon.spy(mockEvent, 'preventDefault');
-      let navBar = mount(<NavBar userStore={userStore}/>);
+      let navBar = mount(<NavBar userStore={userStore} />);
       const inst = navBar.instance();
       sinon.spy(inst, 'handleLogoutSubmit');
       userStore.loginResult = user;
@@ -256,7 +261,10 @@ describe('NavBar', function() {
       expect(navBar.find('#logout-btn').length).toBe(1);
       navBar.find('#logout-btn').simulate('click', mockEvent);
       expect(mockEvent.preventDefault.called).toBe(true);
-      expect(UserActions.logout.withArgs({}, user.token, navBar.props().userStore).called).toBe(true);
+      expect(
+        UserActions.logout.withArgs({}, user.token, navBar.props().userStore)
+          .called
+      ).toBe(true);
       expect(inst.handleLogoutSubmit.calledOnce).toBe(true);
       UserActions.logout.restore();
     });

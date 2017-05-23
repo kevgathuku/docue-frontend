@@ -125,9 +125,9 @@ const NavBar = observer(
                 {'      Docue'}
               </a>
               <a
-                href="#"
-                data-activates="mobile-demo"
-                className="button-collapse"
+                  href="#"
+                  data-activates="mobile-demo"
+                  className="button-collapse"
               >
                 <i className="material-icons" style={{ color: 'grey' }}>menu</i>
               </a>
@@ -157,19 +157,19 @@ const NavBar = observer(
                           <li className="divider" />
                           <li>
                             <a
-                              href="/#"
-                              id="logout-btn"
-                              onClick={this.handleLogoutSubmit}
+                                href="/#"
+                                id="logout-btn"
+                                onClick={this.handleLogoutSubmit}
                             >
                               {' '}Logout
                             </a>
                           </li>
                         </ul>
                         <a
-                          className="dropdown-button"
-                          data-activates="dropdown"
-                          data-beloworigin="true"
-                          data-constrainwidth="false"
+                            className="dropdown-button"
+                            data-activates="dropdown"
+                            data-beloworigin="true"
+                            data-constrainwidth="false"
                         >
                           {this.state.user.name.first}
                           <i className="material-icons right">

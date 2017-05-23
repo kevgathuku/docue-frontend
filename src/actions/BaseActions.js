@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export default {
   BASE_URL: BASE_URL,
-  get: (url: string, actionType: string, token: ?string =null) => {
+  get: (url: string, actionType: string, token: ?string = null) => {
     request
       .get(BASE_URL + url)
       .set('x-access-token', token)
@@ -24,7 +24,7 @@ export default {
       });
   },
 
-  delete: (url: string, actionType: string, token: ?string =null) => {
+  delete: (url: string, actionType: string, token: ?string = null) => {
     request
       .delete(BASE_URL + url)
       .set('x-access-token', token)
@@ -37,7 +37,12 @@ export default {
       });
   },
 
-  put: (url: string, data: Object, actionType: string, token: ?string =null) => {
+  put: (
+    url: string,
+    data: Object,
+    actionType: string,
+    token: ?string = null
+  ) => {
     request
       .put(BASE_URL + url)
       .set('x-access-token', token)
@@ -51,7 +56,12 @@ export default {
       });
   },
 
-  post: (url: string, data: Object, actionType: string, token: ?string =null) => {
+  post: (
+    url: string,
+    data: Object,
+    actionType: string,
+    token: ?string = null
+  ) => {
     request
       .post(BASE_URL + url)
       .set('x-access-token', token)

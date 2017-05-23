@@ -7,16 +7,17 @@ import DocList from '../DocList.jsx';
 import sinon from 'sinon';
 
 describe('DocList', function() {
-
   describe('Component Rendering', function() {
     var docList;
 
     beforeAll(function() {
       window.$ = sinon.stub();
 
-      window.$.withArgs('.tooltipped').returns(sinon.stub({
-        tooltip: function() {}
-      }));
+      window.$.withArgs('.tooltipped').returns(
+        sinon.stub({
+          tooltip: function() {}
+        })
+      );
       this.docs = [
         {
           _id: 2,
@@ -31,7 +32,7 @@ describe('DocList', function() {
           }
         }
       ];
-      docList = mount(<DocList docs={this.docs}/>);
+      docList = mount(<DocList docs={this.docs} />);
     });
 
     afterAll(function() {
@@ -52,6 +53,5 @@ describe('DocList', function() {
       expect(docList.find('.card-image').length).toEqual(this.docs.length);
       expect(docList.find('.btn-floating').length).toEqual(this.docs.length);
     });
-
   });
 });

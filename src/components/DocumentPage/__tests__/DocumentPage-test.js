@@ -15,7 +15,6 @@ jest.mock('sweetalert');
 import swal from 'sweetalert';
 
 describe('DocumentPage', function() {
-
   beforeEach(function() {
     sinon.stub(DocActions, 'deleteDoc').returns(true);
     sinon.stub(DocActions, 'fetchDoc').returns(true);
@@ -30,20 +29,25 @@ describe('DocumentPage', function() {
 
   describe('Component Rendering', function() {
     it('renders the correct component', function() {
-      expect(shallow(<DocumentPage  params={{id: 4}} />).is('.container')).toEqual(true);
-      expect(shallow(<DocumentPage  params={{id: 4}} />).find('.fixed-action-btn').length).toEqual(1);
+      expect(
+        shallow(<DocumentPage params={{ id: 4 }} />).is('.container')
+      ).toEqual(true);
+      expect(
+        shallow(<DocumentPage params={{ id: 4 }} />).find('.fixed-action-btn')
+          .length
+      ).toEqual(1);
     });
 
     it('calls componentDidMount', () => {
       sinon.spy(DocumentPage.prototype, 'componentDidMount');
-      mount(<DocumentPage params={{id: 4}} />); // Mount the component
+      mount(<DocumentPage params={{ id: 4 }} />); // Mount the component
       expect(DocumentPage.prototype.componentDidMount.called).toBe(true);
       DocumentPage.prototype.componentDidMount.restore();
     });
 
     it('calls componentWillUnmount', () => {
       sinon.spy(DocumentPage.prototype, 'componentWillUnmount');
-      let documentPage = mount(<DocumentPage params={{id: 4}} />); // Mount the component
+      let documentPage = mount(<DocumentPage params={{ id: 4 }} />); // Mount the component
       documentPage.unmount();
       expect(DocumentPage.prototype.componentWillUnmount.calledOnce).toBe(true);
       DocumentPage.prototype.componentWillUnmount.restore();
@@ -57,7 +61,7 @@ describe('DocumentPage', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      docPage = mount(<DocumentPage params={{id: 4}}/>);
+      docPage = mount(<DocumentPage params={{ id: 4 }} />);
     });
 
     afterEach(function() {
@@ -81,17 +85,19 @@ describe('DocumentPage', function() {
         };
         let roles = [
           {
-            '_id': '5816eeee66fe25b861af286d',
-            'accessLevel': 0,
-            'title': 'viewer'
-          }, {
-            '_id': '5816eeee66fe25b861af286e',
-            'accessLevel': 1,
-            'title': 'staff'
-          }, {
-            '_id': '5816eeee66fe25b861af286f',
-            'accessLevel': 2,
-            'title': 'admin'
+            _id: '5816eeee66fe25b861af286d',
+            accessLevel: 0,
+            title: 'viewer'
+          },
+          {
+            _id: '5816eeee66fe25b861af286e',
+            accessLevel: 1,
+            title: 'staff'
+          },
+          {
+            _id: '5816eeee66fe25b861af286f',
+            accessLevel: 2,
+            title: 'admin'
           }
         ];
         DocStore.getDoc.mockReturnValue(doc);
@@ -101,8 +107,9 @@ describe('DocumentPage', function() {
         expect(DocStore.getDoc.mock.calls.length).toBeGreaterThan(0);
         expect(docPage.state().doc).toBe(doc);
         // Ensure the content is displayed
-        expect(docPage.find('div.col.s10.offset-s1').text())
-          .toInclude(doc.content);
+        expect(docPage.find('div.col.s10.offset-s1').text()).toInclude(
+          doc.content
+        );
       });
     });
 
@@ -142,6 +149,5 @@ describe('DocumentPage', function() {
         instance.onEditUpdate.restore();
       });
     });
-
   });
 });

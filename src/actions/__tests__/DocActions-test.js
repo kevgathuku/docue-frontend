@@ -28,40 +28,48 @@ describe('DocActions', function() {
   describe('calls BaseActions', function() {
     it('createDoc', function() {
       DocActions.createDoc(payload, fakeToken);
-      expect(BaseActions.post.withArgs(
-        '/api/documents',
-        payload,
-        AppConstants.CREATE_DOC,
-        fakeToken
-      ).called).toBe(true);
+      expect(
+        BaseActions.post.withArgs(
+          '/api/documents',
+          payload,
+          AppConstants.CREATE_DOC,
+          fakeToken
+        ).called
+      ).toBe(true);
     });
 
     it('getDocs', function() {
       DocActions.getDocs(fakeToken);
-      expect(BaseActions.get.withArgs(
-        '/api/documents',
-        AppConstants.USER_DOCS,
-        fakeToken
-      ).called).toBe(true);
+      expect(
+        BaseActions.get.withArgs(
+          '/api/documents',
+          AppConstants.USER_DOCS,
+          fakeToken
+        ).called
+      ).toBe(true);
     });
 
     it('deleteDocs', function() {
       DocActions.deleteDoc(docID, fakeToken);
-      expect(BaseActions.delete.withArgs(
-        `/api/documents/${docID}`,
-        AppConstants.DELETE_DOC,
-        fakeToken
-      ).called).toBe(true);
+      expect(
+        BaseActions.delete.withArgs(
+          `/api/documents/${docID}`,
+          AppConstants.DELETE_DOC,
+          fakeToken
+        ).called
+      ).toBe(true);
     });
 
     it('editDoc', function() {
       DocActions.editDoc(docID, payload, fakeToken);
-      expect(BaseActions.put.withArgs(
-        `/api/documents/${docID}`,
-        payload,
-        AppConstants.EDIT_DOC,
-        fakeToken
-      ).called).toBe(true);
+      expect(
+        BaseActions.put.withArgs(
+          `/api/documents/${docID}`,
+          payload,
+          AppConstants.EDIT_DOC,
+          fakeToken
+        ).called
+      ).toBe(true);
     });
   });
 });

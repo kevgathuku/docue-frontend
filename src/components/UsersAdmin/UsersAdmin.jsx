@@ -85,15 +85,15 @@ const UsersAdmin = observer(
             <td>{user.email}</td>
             <td>
               <Select.Async
-                clearable={false}
-                labelKey="title"
-                valueKey="_id"
-                loadOptions={this.getOptions}
-                name="role"
-                options={this.state.options}
-                onChange={this.handleSelectChange.bind(null, user)}
-                placeholder="Select Role"
-                value={user.role}
+                  clearable={false}
+                  labelKey="title"
+                  valueKey="_id"
+                  loadOptions={this.getOptions}
+                  name="role"
+                  options={this.state.options}
+                  onChange={this.handleSelectChange.bind(null, user)}
+                  placeholder="Select Role"
+                  value={user.role}
               />
             </td>
             <td>{description}</td>

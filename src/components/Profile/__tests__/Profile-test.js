@@ -9,7 +9,6 @@ import UserActions from '../../../actions/UserActions';
 import userStore from '../../../stores/UserStore';
 
 describe('Profile', function() {
-
   beforeAll(function() {
     let user = {
       _id: 1,
@@ -32,7 +31,6 @@ describe('Profile', function() {
   });
 
   describe('Component Rendering', function() {
-
     it('renders the profile component by default', function() {
       expect(shallow(<Profile />).is('.container')).toEqual(true);
       expect(shallow(<Profile />).text()).toMatch(/My\s+Profile/);
@@ -72,7 +70,7 @@ describe('Profile', function() {
         preventDefault: function() {}
       };
       sinon.spy(toggleClickEvent, 'preventDefault');
-      profile = mount(<Profile userStore={userStore}/>);
+      profile = mount(<Profile userStore={userStore} />);
       profile.find('a.btn-floating').simulate('click', toggleClickEvent);
     });
 
@@ -90,7 +88,7 @@ describe('Profile', function() {
         instance.comparePassword.restore();
       });
 
-      it('should return false if the passwords don\'t match', function() {
+      it("should return false if the passwords don't match", function() {
         const instance = profile.instance();
         sinon.spy(instance, 'comparePassword');
         instance.comparePassword('password', 'paewewjwenfssword');
@@ -122,7 +120,9 @@ describe('Profile', function() {
         expect(profile.state().password).toEqual('pass');
         expect(profile.state().passwordConfirm).toEqual('pass');
         // Submit the edit form
-        profile.find('button.btn.blue.center').simulate('click', editProfileEvent);
+        profile
+          .find('button.btn.blue.center')
+          .simulate('click', editProfileEvent);
         expect(editProfileEvent.preventDefault.called).toBe(true);
         expect(instance.handleSubmit.calledOnce).toBe(true);
         expect(instance.comparePassword.called).toBe(true);
@@ -146,22 +146,32 @@ describe('Profile', function() {
         sinon.spy(editProfileEvent, 'preventDefault');
         profile.setState(passwordStates);
         // Submit the edit form
-        profile.find('button.btn.blue.center')
+        profile
+          .find('button.btn.blue.center')
           .simulate('click', editProfileEvent);
         // Confirm the form was submitted
         expect(editProfileEvent.preventDefault.called).toBe(true);
         expect(instance.handleSubmit.calledOnce).toBe(true);
-        expect(instance.comparePassword.withArgs(
+        expect(
+          instance.comparePassword.withArgs(
             profile.state().password,
             profile.state().passwordConfirm
-          ).called).toBe(true);
+          ).called
+        ).toBe(true);
         let payload = {
           firstname: profile.state().firstname,
           lastname: profile.state().lastname,
           email: profile.state().email,
           password: profile.state().password
         };
-        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.state().token, profile.props().userStore).called).toBe(true);
+        expect(
+          UserActions.update.withArgs(
+            profile.state().user._id,
+            payload,
+            profile.state().token,
+            profile.props().userStore
+          ).called
+        ).toBe(true);
         expect(UserActions.update.called).toBe(true);
         instance.comparePassword.restore();
         instance.handleSubmit.restore();
@@ -179,7 +189,8 @@ describe('Profile', function() {
           password: 'password'
         });
         // Submit the edit form
-        profile.find('button.btn.blue.center')
+        profile
+          .find('button.btn.blue.center')
           .simulate('click', editProfileEvent);
         // Confirm the form was submitted
         expect(editProfileEvent.preventDefault.called).toBe(true);
@@ -190,7 +201,14 @@ describe('Profile', function() {
           email: profile.state().email
         };
         expect(UserActions.update.called).toBe(true);
-        expect(UserActions.update.withArgs(profile.state().user._id, payload, profile.state().token, profile.props().userStore).called).toBe(true);
+        expect(
+          UserActions.update.withArgs(
+            profile.state().user._id,
+            payload,
+            profile.state().token,
+            profile.props().userStore
+          ).called
+        ).toBe(true);
         instance.comparePassword.restore();
       });
     });
@@ -207,7 +225,9 @@ describe('Profile', function() {
         const instance = profile.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(profile.state()[fieldChangeEvent.target.name]).toBe(fieldChangeEvent.target.value);
+        expect(profile.state()[fieldChangeEvent.target.name]).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
 
@@ -222,7 +242,9 @@ describe('Profile', function() {
         const instance = profile.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(profile.state().passwordConfirm).toBe(fieldChangeEvent.target.value);
+        expect(profile.state().passwordConfirm).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
     });

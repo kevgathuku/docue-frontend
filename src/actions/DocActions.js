@@ -4,28 +4,15 @@ import BaseActions from './BaseActions';
 
 export default {
   createDoc: (body, token: ?string) => {
-    BaseActions.post(
-      '/api/documents',
-      body,
-      AppConstants.CREATE_DOC,
-      token
-    );
+    BaseActions.post('/api/documents', body, AppConstants.CREATE_DOC, token);
   },
 
   getDocs: (token: ?string) => {
-    BaseActions.get(
-      '/api/documents',
-      AppConstants.USER_DOCS,
-      token
-    );
+    BaseActions.get('/api/documents', AppConstants.USER_DOCS, token);
   },
 
   fetchDoc: (docId, token: ?string) => {
-    BaseActions.get(
-      `/api/documents/${docId}`,
-      AppConstants.GET_DOC,
-      token
-    );
+    BaseActions.get(`/api/documents/${docId}`, AppConstants.GET_DOC, token);
   },
 
   deleteDoc: (docID, token: ?string) => {

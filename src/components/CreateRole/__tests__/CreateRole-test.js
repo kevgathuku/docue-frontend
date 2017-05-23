@@ -10,7 +10,6 @@ import RoleStore from '../../../stores/RoleStore';
 import CreateRole from '../index.jsx';
 
 describe('CreateRole', function() {
-
   describe('Component Rendering', function() {
     it('renders the correct component', function() {
       expect(shallow(<CreateRole />).is('.container')).toEqual(true);
@@ -57,7 +56,9 @@ describe('CreateRole', function() {
         };
         RoleStore.setCreatedRole(role);
         expect(RoleStore.getCreatedRole()).toBe(role);
-        expect(window.Materialize.toast.withArgs('Role created successfully!').called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs('Role created successfully!').called
+        ).toBe(true);
       });
 
       it('should correctly handle document creation error', function() {
@@ -66,7 +67,9 @@ describe('CreateRole', function() {
         };
         RoleStore.setCreatedRole(errorResponse);
         expect(RoleStore.getCreatedRole()).toBe(errorResponse);
-        expect(window.Materialize.toast.withArgs(errorResponse.error).called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs(errorResponse.error).called
+        ).toBe(true);
       });
     });
 
@@ -82,7 +85,9 @@ describe('CreateRole', function() {
         const instance = createRole.instance();
         sinon.spy(instance, 'handleFieldChange');
         instance.handleFieldChange(fieldChangeEvent);
-        expect(createRole.state()[fieldChangeEvent.target.name]).toBe(fieldChangeEvent.target.value);
+        expect(createRole.state()[fieldChangeEvent.target.name]).toBe(
+          fieldChangeEvent.target.value
+        );
         instance.handleFieldChange.restore();
       });
     });
@@ -103,7 +108,10 @@ describe('CreateRole', function() {
         createRole.find('form').simulate('submit', createRoleEvent);
         expect(createRoleEvent.preventDefault.called).toBe(true);
         expect(instance.handleSubmit.calledOnce).toBe(true);
-        expect(window.Materialize.toast.withArgs('Please Provide a Role Title').called).toBe(true);
+        expect(
+          window.Materialize.toast.withArgs('Please Provide a Role Title')
+            .called
+        ).toBe(true);
         instance.handleSubmit.restore();
       });
 
@@ -127,5 +135,4 @@ describe('CreateRole', function() {
       });
     });
   });
-
 });

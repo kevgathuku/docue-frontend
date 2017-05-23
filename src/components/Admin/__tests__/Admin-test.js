@@ -9,17 +9,24 @@ import RoleStore from '../../../stores/RoleStore';
 import Admin from '../Admin.jsx';
 
 describe('Admin', function() {
-
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
-      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(/Admin\s+Panel/);
-      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(/Manage\s+Users/);
+      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(
+        /Admin\s+Panel/
+      );
+      expect(shallow(<Admin userStore={userStore} />).text()).toMatch(
+        /Manage\s+Users/
+      );
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<Admin userStore={userStore} />).is('.container')).toEqual(true);
-      expect(shallow(<Admin userStore={userStore} />).find('.flow-text').length).toEqual(3);
+      expect(shallow(<Admin userStore={userStore} />).is('.container')).toEqual(
+        true
+      );
+      expect(
+        shallow(<Admin userStore={userStore} />).find('.flow-text').length
+      ).toEqual(3);
     });
   });
 
@@ -27,7 +34,7 @@ describe('Admin', function() {
     var admin;
 
     beforeEach(function() {
-      admin = mount(<Admin userStore={userStore}/>);
+      admin = mount(<Admin userStore={userStore} />);
     });
 
     afterEach(function() {
@@ -57,6 +64,5 @@ describe('Admin', function() {
         expect(admin.find('#roles-count').text()).toMatch(/6/);
       });
     });
-
   });
 });

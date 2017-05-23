@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {IndexRoute, Redirect, Route, Router, browserHistory} from 'react-router';
+import {
+  IndexRoute,
+  Redirect,
+  Route,
+  Router,
+  browserHistory
+} from 'react-router';
 import Auth from './components/Auth/index.jsx';
 import Admin from './components/Admin/Admin.jsx';
 import Buttons from './components/Buttons.jsx';
@@ -15,9 +21,9 @@ import NotFound from './components/NotFound/index.jsx';
 import RolesAdmin from './components/RolesAdmin/index.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
-ReactDOM.render((
+ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/" component={Main} >
+    <Route path="/" component={Main}>
       <IndexRoute component={Landing} />
       <Route path="auth" component={Auth} />
       <Route path="admin" component={Admin} />
@@ -32,4 +38,6 @@ ReactDOM.render((
       <Route path="404" component={NotFound} />
       <Redirect from="*" to="404" />
     </Route>
-  </Router>), document.getElementById('content'));
+  </Router>,
+  document.getElementById('content')
+);

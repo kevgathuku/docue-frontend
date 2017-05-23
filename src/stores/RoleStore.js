@@ -23,10 +23,9 @@ let RoleStore = Object.assign({}, BaseStore, {
   getCreatedRole() {
     return this.createdRole;
   }
-
 });
 
-AppDispatcher.register((action) => {
+AppDispatcher.register(action => {
   switch (action.actionType) {
   case AppConstants.CREATE_ROLE:
     RoleStore.setCreatedRole(action.data);
@@ -35,7 +34,7 @@ AppDispatcher.register((action) => {
     RoleStore.setRoles(action.data);
     break;
   default:
-      // no default action
+    // no default action
   }
   return true;
 });
