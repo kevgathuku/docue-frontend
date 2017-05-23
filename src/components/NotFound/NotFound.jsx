@@ -1,8 +1,8 @@
 import React from 'react';
 import Elm from 'react-elm-components';
-import { Main } from '../Buttons.elm';
+import { Main } from '../NotFound.elm';
 
-export default class Buttons extends React.Component {
+export default class NotFound extends React.PureComponent {
   render() {
     return <Elm src={Main} />;
   }
