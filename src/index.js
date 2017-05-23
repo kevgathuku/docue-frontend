@@ -20,6 +20,8 @@ import NotFound from './components/NotFound/NotFound.jsx';
 import RolesAdmin from './components/RolesAdmin/index.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
+import 'normalize.css/normalize.css';
+
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={Main}>
