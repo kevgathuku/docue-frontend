@@ -1,9 +1,9 @@
-port module Admin exposing (..)
+module Admin exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http exposing (..)
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (int, field, map3)
 import HttpBuilder exposing (..)
 
 
@@ -21,20 +21,23 @@ baseURL =
     "http://localhost:8000"
 
 
-type alias Model =
-    { token : String
-    , docsCount : Int
+type alias Stats =
+    { docsCount : Int
     , usersCount : Int
-    , usersError : String
     , rolesCount : Int
     }
 
 
+type alias Model =
+    { token : String
+    , countStats : Stats
+    , countStatsError : String
+    }
+
+
 type Msg
-    = FetchUsers
-    | FetchRoles
-    | FetchDocs
-    | HandleUsers (Result Http.Error Int)
+    = FetchCountStats
+    | HandleCountStats (Result Http.Error Stats)
 
 
 type alias Flags =
@@ -47,29 +50,32 @@ subscriptions model =
     Sub.none
 
 
-getWithToken : String -> String -> Request Int
+getWithToken : String -> String -> Request Stats
 getWithToken url token =
     HttpBuilder.get url
         |> withHeader "x-access-token" token
-        |> withExpect (Http.expectJson decodeUsers)
+        |> withExpect (Http.expectJson decodeStats)
         |> toRequest
 
 
-getUsersCount : String -> Cmd Msg
-getUsersCount token =
+getStatsCount : String -> Cmd Msg
+getStatsCount token =
     let
         url =
-            baseURL ++ "/api/users/stats"
+            baseURL ++ "/api/stats"
 
         request =
             getWithToken url token
     in
-        Http.send HandleUsers request
+        Http.send HandleCountStats request
 
 
-decodeUsers : Decode.Decoder Int
-decodeUsers =
-    Decode.at [ "count" ] Decode.int
+decodeStats : Decode.Decoder Stats
+decodeStats =
+    Decode.map3 Stats
+        (field "documents" int)
+        (field "users" int)
+        (field "roles" int)
 
 
 httpErrorToString : Http.Error -> String
@@ -98,25 +104,32 @@ httpErrorToString error =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        FetchUsers ->
+        FetchCountStats ->
             ( model, Cmd.none )
 
-        HandleUsers (Ok numUsers) ->
-            ( { model | usersCount = numUsers }, Cmd.none )
+        HandleCountStats (Ok stats) ->
+            ( { model | countStats = stats }, Cmd.none )
 
-        HandleUsers (Err error) ->
-            ( { model | usersError = httpErrorToString error }, Cmd.none )
+        HandleCountStats (Err error) ->
+            ( { model | countStatsError = httpErrorToString error }, Cmd.none )
 
-        FetchRoles ->
-            ( model, Cmd.none )
 
-        FetchDocs ->
-            ( model, Cmd.none )
+emptyStats : Stats
+emptyStats =
+    { docsCount = 0
+    , usersCount = 0
+    , rolesCount = 0
+    }
 
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { token = flags.token, docsCount = 0, usersCount = 0, rolesCount = 0, usersError = "" }, getUsersCount flags.token )
+    ( { token = flags.token
+      , countStats = emptyStats
+      , countStatsError = ""
+      }
+    , getStatsCount flags.token
+    )
 
 
 main : Program Flags Model Msg
@@ -132,7 +145,7 @@ view model =
             , div [ class "row" ]
                 [ div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Users" ]
-                    , p [ id "users-count", class "flow-text" ] [ text (toString model.usersCount) ]
+                    , p [ id "users-count", class "flow-text" ] [ text (toString model.countStats.usersCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/admin/users" ]
                         [ i [ class "material-icons left" ] [ text "face" ]
                         , text "Manage Users"
@@ -140,7 +153,7 @@ view model =
                     ]
                 , div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Documents" ]
-                    , p [ id "docs-count", class "flow-text" ] [ text (toString model.docsCount) ]
+                    , p [ id "docs-count", class "flow-text" ] [ text (toString model.countStats.docsCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/dashboard" ]
                         [ i [ class "material-icons left" ] [ text "drafts" ]
                         , text "Manage Documents"
@@ -148,7 +161,7 @@ view model =
                     ]
                 , div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Roles" ]
-                    , p [ id "roles-count", class "flow-text" ] [ text (toString model.rolesCount) ]
+                    , p [ id "roles-count", class "flow-text" ] [ text (toString model.countStats.rolesCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/admin/roles" ]
                         [ i [ class "material-icons left" ] [ text "settings" ]
                         , text "Manage Roles"
