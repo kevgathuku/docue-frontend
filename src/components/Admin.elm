@@ -7,20 +7,6 @@ import Json.Decode as Decode exposing (int, field, map3)
 import HttpBuilder exposing (..)
 
 
--- let BASE_URL;
--- if (process.env.NODE_ENV === 'development') {
---   console.log('Running in DEV');
---   BASE_URL = 'http://localhost:8000';
--- } else {
---   BASE_URL = 'https://docue.herokuapp.com';
--- }
-
-
-baseURL : String
-baseURL =
-    "http://localhost:8000"
-
-
 type alias Stats =
     { docsCount : Int
     , usersCount : Int
@@ -30,6 +16,7 @@ type alias Stats =
 
 type alias Model =
     { token : String
+    , baseURL : String
     , countStats : Stats
     , countStatsError : String
     }
@@ -42,6 +29,7 @@ type Msg
 
 type alias Flags =
     { token : String
+    , baseURL : String
     }
 
 
@@ -58,8 +46,8 @@ getWithToken url token =
         |> toRequest
 
 
-getStatsCount : String -> Cmd Msg
-getStatsCount token =
+getStatsCount : String -> String -> Cmd Msg
+getStatsCount token baseURL =
     let
         url =
             baseURL ++ "/api/stats"
@@ -127,8 +115,9 @@ init flags =
     ( { token = flags.token
       , countStats = emptyStats
       , countStatsError = ""
+      , baseURL = flags.baseURL
       }
-    , getStatsCount flags.token
+    , getStatsCount flags.token flags.baseURL
     )
 
 
