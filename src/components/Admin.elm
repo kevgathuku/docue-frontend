@@ -7,18 +7,18 @@ import Json.Decode as Decode exposing (int, field, map3)
 import HttpBuilder exposing (..)
 
 
-type alias Stats =
-    { docsCount : Int
-    , usersCount : Int
-    , rolesCount : Int
-    }
-
-
 type alias Model =
     { token : String
     , baseURL : String
     , countStats : Stats
     , countStatsError : String
+    }
+
+
+type alias Stats =
+    { docsCount : Int
+    , usersCount : Int
+    , rolesCount : Int
     }
 
 

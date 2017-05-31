@@ -88,7 +88,7 @@ describe('Profile', function() {
         instance.comparePassword.restore();
       });
 
-      it("should return false if the passwords don't match", function() {
+      it('should return false if the passwords don\'t match', function() {
         const instance = profile.instance();
         sinon.spy(instance, 'comparePassword');
         instance.comparePassword('password', 'paewewjwenfssword');
@@ -210,42 +210,6 @@ describe('Profile', function() {
           ).called
         ).toBe(true);
         instance.comparePassword.restore();
-      });
-    });
-
-    describe('handleFieldChange', function() {
-      it('should correctly update the state', function() {
-        let fieldChangeEvent = {
-          target: {
-            name: 'email',
-            value: 'my@email.com'
-          },
-          preventDefault: function() {}
-        };
-        const instance = profile.instance();
-        sinon.spy(instance, 'handleFieldChange');
-        instance.handleFieldChange(fieldChangeEvent);
-        expect(profile.state()[fieldChangeEvent.target.name]).toBe(
-          fieldChangeEvent.target.value
-        );
-        instance.handleFieldChange.restore();
-      });
-
-      it('should correctly update the confirm password state', function() {
-        let fieldChangeEvent = {
-          target: {
-            name: 'confirm-password',
-            value: 'my@email.com'
-          },
-          preventDefault: function() {}
-        };
-        const instance = profile.instance();
-        sinon.spy(instance, 'handleFieldChange');
-        instance.handleFieldChange(fieldChangeEvent);
-        expect(profile.state().passwordConfirm).toBe(
-          fieldChangeEvent.target.value
-        );
-        instance.handleFieldChange.restore();
       });
     });
 
