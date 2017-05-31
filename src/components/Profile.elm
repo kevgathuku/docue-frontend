@@ -3,8 +3,8 @@ port module Profile exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput, onWithOptions)
-import Json.Decode as Decode exposing (int, field, map3, string)
-import Json.Encode as Encode exposing (..)
+import Json.Decode as Decode
+import Json.Encode as Encode
 import Http exposing (..)
 import HttpBuilder exposing (..)
 
@@ -95,11 +95,11 @@ httpErrorToString error =
 decodeUserUpdateResponse : Decode.Decoder User
 decodeUserUpdateResponse =
     Decode.map5 User
-        (field "_id" Decode.string)
-        (field "email" Decode.string)
-        (field "firstname" Decode.string)
-        (field "lastname" Decode.string)
-        (field "role" (Decode.field "title" Decode.string))
+        (Decode.field "_id" Decode.string)
+        (Decode.field "email" Decode.string)
+        (Decode.field "firstname" Decode.string)
+        (Decode.field "lastname" Decode.string)
+        (Decode.field "role" (Decode.field "title" Decode.string))
 
 
 userBody : Model -> Encode.Value
