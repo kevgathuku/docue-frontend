@@ -27,7 +27,7 @@ port handleSubmit : String -> Cmd msg
 
 type Msg
     = Submit
-    | Title String
+    | TitleChange String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -36,7 +36,7 @@ update msg model =
         Submit ->
             ( model, handleSubmit model.title )
 
-        Title value ->
+        TitleChange value ->
             ( { model | title = value }, Cmd.none )
 
 
@@ -77,7 +77,7 @@ view model =
         , div [ class "row" ]
             [ Html.form [ class "col s12", onSubmit Submit ]
                 [ div [ class "input-field col s4 offset-s2" ]
-                    [ input [ class "validate", id "title", name "title", type_ "text", value model.title, onInput Title ] []
+                    [ input [ class "validate", id "title", name "title", type_ "text", value model.title, onInput TitleChange ] []
                     , label [ class "active", for "title" ] [ text "Title" ]
                     ]
                 , div [ class "col s6" ]
