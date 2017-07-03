@@ -129,10 +129,14 @@ const NavBar = observer(
                   data-activates="mobile-demo"
                   className="button-collapse"
               >
-                <i className="material-icons" style={{ color: 'grey' }}>menu</i>
+                <i className="material-icons" style={{ color: 'grey' }}>
+                  menu
+                </i>
               </a>
               <ul className="side-nav" id="mobile-demo">
-                <li><a href="/">Home</a></li>
+                <li>
+                  <a href="/">Home</a>
+                </li>
                 <li>
                   {this.state.loggedIn === 'true'
                     ? <a href="/profile">Profile</a>
@@ -140,7 +144,9 @@ const NavBar = observer(
                 </li>
                 <li>
                   {this.state.loggedIn === 'true'
-                    ? <a href="/#" onClick={this.handleLogoutSubmit}>Logout</a>
+                    ? <a href="/#" onClick={this.handleLogoutSubmit}>
+                        Logout
+                      </a>
                     : <a href="/auth">Sign Up</a>}
                 </li>
               </ul>
@@ -149,10 +155,17 @@ const NavBar = observer(
                   {this.state.loggedIn === 'true'
                     ? <div>
                         <ul id="dropdown" className="dropdown-content">
-                          <li><a href="/profile">My Profile</a></li>
-                          <li><a href="/dashboard">All Documents</a></li>
-                          {this.state.user.role.title === 'admin'
-                            ? <li><a href="/admin">Settings</a></li>
+                          <li>
+                            <a href="/profile">My Profile</a>
+                          </li>
+                          <li>
+                            <a href="/dashboard">All Documents</a>
+                          </li>
+                          {this.state.user.role &&
+                          this.state.user.role.title === 'admin'
+                            ? <li>
+                                <a href="/admin">Settings</a>
+                              </li>
                             : null}
                           <li className="divider" />
                           <li>
