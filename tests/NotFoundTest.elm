@@ -1,17 +1,9 @@
-module Example exposing (..)
+module NotFoundTest exposing (..)
 
 import Test exposing (..)
-import Expect
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (attribute, text, tag)
-import Landing
 import NotFound
-
-
-suite : Test
-suite =
-    describe "Docue Test Suite"
-        [ notFound, landing ]
 
 
 notFound : Test
@@ -29,16 +21,4 @@ notFound =
                     |> Query.fromHtml
                     |> Query.find [ tag "p" ]
                     |> Query.has [ text "Sorry. This is not the page you were looking for" ]
-        ]
-
-
-landing : Test
-landing =
-    describe "Landing"
-        [ test "Correctly Renders Model Content" <|
-            \() ->
-                Landing.view { authLink = "/authenticate" }
-                    |> Query.fromHtml
-                    |> Query.find [ attribute "href" "/authenticate" ]
-                    |> Query.has [ text "Get Started" ]
         ]
