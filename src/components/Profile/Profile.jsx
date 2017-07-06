@@ -19,12 +19,10 @@ export default class Main extends React.PureComponent {
   };
 
   setupPorts(ports) {
-    // Receives tuple, which corresponds to fixed-length, mixed JS arrays
-    function handler(message, displayLength, className) {
-      return window.Materialize.toast(message, displayLength, className);
-    }
-    ports.materializeToast.subscribe(function(args) {
-      handler.apply(null, args);
+    // Receives tuple from Elm of message, displayLength, className
+    // tuple converted to fixed-length, mixed JS array
+    ports.materializeToast.subscribe(function(toastParams) {
+      window.Materialize.toast.apply(null, toastParams);
     });
   }
 
