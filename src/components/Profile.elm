@@ -57,6 +57,9 @@ type PasswordState
 port materializeToast : ( String, Int, String ) -> Cmd msg
 
 
+port updateCachedUserInfo : User -> Cmd msg
+
+
 comparePassword : String -> String -> ( PasswordState, Cmd msg )
 comparePassword password confirmPassword =
     if (password == "" && confirmPassword == "") then
@@ -97,9 +100,9 @@ decodeUserUpdateResponse =
     Decode.map5 User
         (Decode.field "_id" Decode.string)
         (Decode.field "email" Decode.string)
-        (Decode.field "firstname" Decode.string)
-        (Decode.field "lastname" Decode.string)
-        (Decode.field "role" (Decode.field "title" Decode.string))
+        (Decode.at [ "name", "first" ] Decode.string)
+        (Decode.at [ "name", "last" ] Decode.string)
+        (Decode.at [ "role", "title" ] Decode.string)
 
 
 userBody : Model -> Encode.Value
@@ -199,12 +202,12 @@ update msg model =
                 ( Match, _ ) ->
                     ( model, updateUserDetails model.token model.baseURL model.user.id_ (userBodyWithPassword model) )
 
+                -- if Invalid, execute Cmd, don't send anything
                 ( Invalid, cmd ) ->
                     ( model, cmd )
 
-        -- if valid is False, execute Cmd, don't send anything
         HandleUpdateResponse (Ok user) ->
-            ( { model | user = user }, Cmd.none )
+            ( { model | user = user }, updateCachedUserInfo model.user )
 
         HandleUpdateResponse (Err error) ->
             ( { model | userUpdateError = httpErrorToString error }, Cmd.none )
