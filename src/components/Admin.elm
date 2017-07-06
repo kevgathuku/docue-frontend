@@ -110,13 +110,18 @@ emptyStats =
     }
 
 
+intialModel : Model
+intialModel =
+    { token = ""
+    , countStats = emptyStats
+    , countStatsError = ""
+    , baseURL = ""
+    }
+
+
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { token = flags.token
-      , countStats = emptyStats
-      , countStatsError = ""
-      , baseURL = flags.baseURL
-      }
+    ( { intialModel | token = flags.token, baseURL = flags.baseURL }
     , getStatsCount flags.token flags.baseURL
     )
 
@@ -145,7 +150,7 @@ view model =
                     , p [ id "docs-count", class "flow-text" ] [ text (toString model.countStats.docsCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/dashboard" ]
                         [ i [ class "material-icons left" ] [ text "drafts" ]
-                        , text "Manage Documents"
+                        , text "Manage Docs"
                         ]
                     ]
                 , div [ class "col s4 center-align" ]
