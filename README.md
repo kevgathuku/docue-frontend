@@ -1,6 +1,6 @@
 # Document Management System
 
-[![Build Status](https://travis-ci.org/kevgathuku/docue-frontend.svg?branch=develop)](https://travis-ci.org/kevgathuku/docue-frontend)    [![Coverage Status](https://coveralls.io/repos/github/kevgathuku/docue-frontend/badge.svg?branch=develop)](https://coveralls.io/github/kevgathuku/docue-frontend?branch=develop)
+[![Build Status](https://semaphoreci.com/api/v1/kevgathuku/docue-frontend/branches/develop/badge.svg)](https://semaphoreci.com/kevgathuku/docue-frontend)   [![Coverage Status](https://coveralls.io/repos/github/kevgathuku/docue-frontend/badge.svg?branch=develop)](https://coveralls.io/github/kevgathuku/docue-frontend?branch=develop)
 
 [View on Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1515788)
 
