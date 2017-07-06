@@ -17,7 +17,7 @@ import Landing from './components/Landing/Landing.jsx';
 import Profile from './components/Profile/Profile.jsx';
 import Main from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
-import RolesAdmin from './components/RolesAdmin/index.jsx';
+import RolesAdmin from './components/RolesAdmin/RolesAdmin.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
 import 'normalize.css/normalize.css';

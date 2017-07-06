@@ -10,7 +10,14 @@ export default class RolesAdminComponent extends React.Component {
     baseURL: BaseActions.BASE_URL
   };
 
+  setupPorts(ports) {
+    ports.tooltips.subscribe(function() {
+      window.$('.tooltipped').tooltip();
+    });
+
+  }
+
   render() {
-    return <Elm src={RolesAdmin} flags={this.flags} />;
+    return <Elm src={RolesAdmin} flags={this.flags} ports={this.setupPorts} />;
   }
 }

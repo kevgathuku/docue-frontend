@@ -1,7 +1,8 @@
-module RolesAdmin exposing (..)
+port module RolesAdmin exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onMouseEnter)
 import Http exposing (..)
 import Json.Decode as Decode exposing (int, field, string, map3)
 import HttpBuilder exposing (..)
@@ -84,13 +85,17 @@ httpErrorToString error =
 
 
 type Msg
-    = FetchRoles
+    = ActivateTooltip
+    | FetchRoles
     | HandleRolesResult (Result Http.Error (List Role))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        ActivateTooltip ->
+            ( model, tooltips () )
+
         FetchRoles ->
             ( model, Cmd.none )
 
@@ -114,6 +119,9 @@ type alias Flags =
     { token : String
     , baseURL : String
     }
+
+
+port tooltips : () -> Cmd msg
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -160,8 +168,15 @@ view model =
                     [ ( "bottom", "45px" )
                     , ( "right", "24px" )
                     ]
+                , onMouseEnter ActivateTooltip
                 ]
-                [ a [ class "btn-floating btn-large tooltipped pink", attribute "data-delay" "50", attribute "data-position" "left", attribute "data-tooltip" "Create Role", href "/admin/roles/create" ]
+                [ a
+                    [ class "btn-floating btn-large tooltipped pink"
+                    , attribute "data-delay" "50"
+                    , attribute "data-position" "left"
+                    , attribute "data-tooltip" "Create Role"
+                    , href "/admin/roles/create"
+                    ]
                     [ i [ class "material-icons" ] [ text "edit" ]
                     ]
                 ]
