@@ -2,7 +2,6 @@ module Example exposing (..)
 
 import Test exposing (..)
 import Expect
-import Fuzz exposing (list, int, string)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (attribute, text, tag)
 import Landing
