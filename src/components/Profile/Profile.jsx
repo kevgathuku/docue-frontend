@@ -24,6 +24,21 @@ export default class Main extends React.PureComponent {
     ports.materializeToast.subscribe(function(toastParams) {
       window.Materialize.toast.apply(null, toastParams);
     });
+
+    ports.updateCachedUserInfo.subscribe(function(userInfo) {
+      localStorage.setItem('userInfo', JSON.stringify({
+        _id: userInfo.id_,
+        email: userInfo.email,
+        name: {
+          first: userInfo.firstName,
+          last: userInfo.lastName,
+        },
+        role: {
+          title: userInfo.role
+        }
+      }));
+      window.Materialize.toast('Profile Info Updated!', 2000, 'success-toast');
+    });
   }
 
   render() {
