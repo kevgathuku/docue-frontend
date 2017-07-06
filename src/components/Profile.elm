@@ -97,9 +97,9 @@ decodeUserUpdateResponse =
     Decode.map5 User
         (Decode.field "_id" Decode.string)
         (Decode.field "email" Decode.string)
-        (Decode.field "firstname" Decode.string)
-        (Decode.field "lastname" Decode.string)
-        (Decode.field "role" (Decode.field "title" Decode.string))
+        (Decode.at [ "name", "first" ] Decode.string)
+        (Decode.at [ "name", "last" ] Decode.string)
+        (Decode.at [ "role", "title" ] Decode.string)
 
 
 userBody : Model -> Encode.Value
