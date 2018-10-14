@@ -1,9 +1,9 @@
 import React from 'react';
-import Elm from 'react-elm-components';
-import { Landing } from '../Landing.elm';
+import Elm from '../../utils/ReactElm';
+import ElmComponents from '../Landing.elm';
 
 export default class Main extends React.PureComponent {
   render() {
-    return <Elm src={Landing} />;
+    return <Elm src={ElmComponents.Elm.Landing} />;
   }
 }

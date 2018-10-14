@@ -1,8 +1,8 @@
 import React from 'react';
-import Elm from 'react-elm-components';
+import Elm from '../../utils/ReactElm';
 
 import BaseActions from '../../actions/BaseActions';
-import { RolesAdmin } from '../RolesAdmin.elm';
+import ElmComponents from '../RolesAdmin.elm';
 
 export default class RolesAdminComponent extends React.Component {
   flags = {
@@ -18,6 +18,6 @@ export default class RolesAdminComponent extends React.Component {
   }
 
   render() {
-    return <Elm src={RolesAdmin} flags={this.flags} ports={this.setupPorts} />;
+    return <Elm src={ElmComponents.Elm.RolesAdmin} flags={this.flags} ports={this.setupPorts} />;
   }
 }

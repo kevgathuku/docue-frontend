@@ -1,9 +1,9 @@
 import React from 'react';
-import Elm from 'react-elm-components';
+import Elm from '../../utils/ReactElm';
 import { observe } from 'mobx';
 import { observer, PropTypes } from 'mobx-react';
 import { browserHistory } from 'react-router';
-import { Login } from '../Login.elm';
+import ElmComponents from '../Login.elm';
 
 import UserActions from '../../actions/UserActions';
 
@@ -55,7 +55,7 @@ const LoginForm = observer(
     };
 
     render() {
-      return <Elm src={Login} ports={this.setupPorts} />;
+      return <Elm src={ElmComponents.Elm.Login} ports={this.setupPorts} />;
     }
   }
 );

@@ -1,9 +1,9 @@
 import React from 'react';
-import Elm from 'react-elm-components';
+import Elm from '../../utils/ReactElm';
 import { browserHistory } from 'react-router';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
-import { CreateRole } from '../CreateRole.elm';
+import ElmComponents from '../CreateRole.elm';
 
 const token = localStorage.getItem('user');
 
@@ -53,6 +53,6 @@ export default class Main extends React.Component {
   };
 
   render() {
-    return <Elm src={CreateRole} flags={this.flags} ports={this.setupPorts} />;
+    return <Elm src={ElmComponents.Elm.CreateRole} flags={this.flags} ports={this.setupPorts} />;
   }
 }

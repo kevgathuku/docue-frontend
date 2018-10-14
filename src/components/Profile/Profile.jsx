@@ -1,7 +1,7 @@
 import React from 'react';
-import Elm from 'react-elm-components';
+import Elm from '../../utils/ReactElm';
 import BaseActions from '../../actions/BaseActions';
-import { Profile } from '../Profile.elm';
+import ElmComponents from '../Profile.elm';
 
 const user = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -14,8 +14,8 @@ export default class Main extends React.PureComponent {
       email: user.email,
       firstName: user.name.first,
       lastName: user.name.last,
-      role: user.role.title
-    }
+      role: user.role ? user.role.title : ''
+    },
   };
 
   setupPorts(ports) {
@@ -26,22 +26,25 @@ export default class Main extends React.PureComponent {
     });
 
     ports.updateCachedUserInfo.subscribe(function(userInfo) {
-      localStorage.setItem('userInfo', JSON.stringify({
-        _id: userInfo.id_,
-        email: userInfo.email,
-        name: {
-          first: userInfo.firstName,
-          last: userInfo.lastName,
-        },
-        role: {
-          title: userInfo.role
-        }
-      }));
+      localStorage.setItem(
+        'userInfo',
+        JSON.stringify({
+          _id: userInfo.id_,
+          email: userInfo.email,
+          name: {
+            first: userInfo.firstName,
+            last: userInfo.lastName,
+          },
+          role: {
+            title: userInfo.role,
+          },
+        })
+      );
       window.Materialize.toast('Profile Info Updated!', 2000, 'success-toast');
     });
   }
 
   render() {
-    return <Elm src={Profile} flags={this.flags} ports={this.setupPorts} />;
+    return <Elm src={ElmComponents.Elm.Profile} flags={this.flags} ports={this.setupPorts} />;
   }
 }

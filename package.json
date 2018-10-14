@@ -21,7 +21,6 @@
     "react": "^15.4.0",
     "react-addons-update": "^15.4.0",
     "react-dom": "^15.4.0",
-    "react-elm-components": "^1.0.1",
     "react-router": "^3.0.0",
     "react-select": "1.0.0-rc.2",
     "superagent": "^3.7.0",
