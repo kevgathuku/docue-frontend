@@ -1,5 +1,6 @@
-module Landing exposing (..)
+module Landing exposing (Model, initialModel, main, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -9,8 +10,8 @@ type alias Model =
     }
 
 
-model : Model
-model =
+initialModel : Model
+initialModel =
     { authLink = "/auth" }
 
 
@@ -19,7 +20,7 @@ update msg model =
 
 
 main =
-    beginnerProgram { model = model, view = view, update = update }
+    Browser.sandbox { init = initialModel, view = view, update = update }
 
 
 view : Model -> Html msg

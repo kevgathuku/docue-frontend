@@ -1,10 +1,11 @@
-module Admin exposing (..)
+module Admin exposing (Flags, Model, Msg(..), Stats, decodeStats, emptyStats, getStatsCount, getWithToken, httpErrorToString, init, intialModel, main, subscriptions, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http exposing (..)
-import Json.Decode as Decode exposing (int, field, map3)
 import HttpBuilder exposing (..)
+import Json.Decode as Decode exposing (field, int, map3)
 
 
 type alias Model =
@@ -55,7 +56,7 @@ getStatsCount token baseURL =
         request =
             getWithToken url token
     in
-        Http.send HandleCountStats request
+    Http.send HandleCountStats request
 
 
 decodeStats : Decode.Decoder Stats
@@ -79,13 +80,13 @@ httpErrorToString error =
             "Network Error"
 
         BadStatus response ->
-            "Bad Http Status: " ++ toString response.status.code
+            "Bad Http Status: " ++ String.fromInt response.status.code
 
         BadPayload message response ->
             "Bad Http Payload: "
-                ++ toString message
+                ++ message
                 ++ " ("
-                ++ toString response.status.code
+                ++ String.fromInt response.status.code
                 ++ ")"
 
 
@@ -128,7 +129,7 @@ init flags =
 
 main : Program Flags Model Msg
 main =
-    programWithFlags { init = init, view = view, update = update, subscriptions = subscriptions }
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
 
 
 view : Model -> Html Msg
@@ -139,7 +140,7 @@ view model =
             , div [ class "row" ]
                 [ div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Users" ]
-                    , p [ id "users-count", class "flow-text" ] [ text (toString model.countStats.usersCount) ]
+                    , p [ id "users-count", class "flow-text" ] [ text (String.fromInt model.countStats.usersCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/admin/users" ]
                         [ i [ class "material-icons left" ] [ text "face" ]
                         , text "Manage Users"
@@ -147,7 +148,7 @@ view model =
                     ]
                 , div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Documents" ]
-                    , p [ id "docs-count", class "flow-text" ] [ text (toString model.countStats.docsCount) ]
+                    , p [ id "docs-count", class "flow-text" ] [ text (String.fromInt model.countStats.docsCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/dashboard" ]
                         [ i [ class "material-icons left" ] [ text "drafts" ]
                         , text "Manage Docs"
@@ -155,7 +156,7 @@ view model =
                     ]
                 , div [ class "col s4 center-align" ]
                     [ h5 [] [ text "Total Roles" ]
-                    , p [ id "roles-count", class "flow-text" ] [ text (toString model.countStats.rolesCount) ]
+                    , p [ id "roles-count", class "flow-text" ] [ text (String.fromInt model.countStats.rolesCount) ]
                     , a [ class "waves-effect waves-light btn blue", href "/admin/roles" ]
                         [ i [ class "material-icons left" ] [ text "settings" ]
                         , text "Manage Roles"

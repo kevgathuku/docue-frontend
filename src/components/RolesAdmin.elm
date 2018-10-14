@@ -1,11 +1,12 @@
-port module RolesAdmin exposing (..)
+port module RolesAdmin exposing (Flags, Model, Msg(..), Role, decodeRoles, fetchRoles, getWithToken, httpErrorToString, init, intialModel, main, renderRole, roleDecoder, subscriptions, tooltips, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onMouseEnter)
 import Http exposing (..)
-import Json.Decode as Decode exposing (int, field, string, map3)
 import HttpBuilder exposing (..)
+import Json.Decode as Decode exposing (field, int, map3, string)
 
 
 type alias Model =
@@ -45,7 +46,7 @@ fetchRoles token baseURL =
         request =
             getWithToken url token
     in
-        Http.send HandleRolesResult request
+    Http.send HandleRolesResult request
 
 
 roleDecoder : Decode.Decoder Role
@@ -74,13 +75,13 @@ httpErrorToString error =
             "Network Error"
 
         BadStatus response ->
-            "Bad Http Status: " ++ toString response.status.code
+            "Bad Http Status: " ++ String.fromInt response.status.code
 
         BadPayload message response ->
             "Bad Http Payload: "
-                ++ toString message
+                ++ message
                 ++ " ("
-                ++ toString response.status.code
+                ++ String.fromInt response.status.code
                 ++ ")"
 
 
@@ -133,14 +134,14 @@ init flags =
 
 main : Program Flags Model Msg
 main =
-    programWithFlags { init = init, view = view, update = update, subscriptions = subscriptions }
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
 
 
 renderRole : Role -> Html Msg
 renderRole role =
     tr []
         [ td [] [ text role.title ]
-        , td [] [ text (toString role.accessLevel) ]
+        , td [] [ text (String.fromInt role.accessLevel) ]
         ]
 
 
@@ -164,10 +165,8 @@ view model =
                 ]
             , div
                 [ class "fixed-action-btn"
-                , style
-                    [ ( "bottom", "45px" )
-                    , ( "right", "24px" )
-                    ]
+                , style "bottom" "45px"
+                , style "right" "24px"
                 , onMouseEnter ActivateTooltip
                 ]
                 [ a

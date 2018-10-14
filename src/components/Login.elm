@@ -1,5 +1,6 @@
-port module Login exposing (..)
+port module Login exposing (Model, Msg(..), handleSubmit, initialModel, main, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onSubmit)
@@ -58,15 +59,20 @@ view model =
         ]
 
 
+initialModel : Model
+initialModel =
+    { email = "", password = "" }
+
+
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( initialModel, Cmd.none )
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { email = "", password = "" }, Cmd.none )
-
-
 main =
-    program { init = init, view = view, update = update, subscriptions = subscriptions }
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }

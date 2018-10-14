@@ -1,12 +1,13 @@
-port module Profile exposing (..)
+port module Profile exposing (Flags, Model, Msg(..), PasswordState(..), User, comparePassword, decodeUserUpdateResponse, editForm, httpErrorToString, init, main, materializeToast, onClickNoDefault, profileView, putWithToken, subscriptions, update, updateCachedUserInfo, updateUserDetails, userBody, userBodyWithPassword, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, onInput, onWithOptions)
-import Json.Decode as Decode
-import Json.Encode as Encode
+import Html.Events exposing (onClick, onInput, preventDefaultOn)
 import Http exposing (..)
 import HttpBuilder exposing (..)
+import Json.Decode as Decode
+import Json.Encode as Encode
 
 
 type alias Model =
@@ -62,12 +63,15 @@ port updateCachedUserInfo : User -> Cmd msg
 
 comparePassword : String -> String -> ( PasswordState, Cmd msg )
 comparePassword password confirmPassword =
-    if (password == "" && confirmPassword == "") then
+    if password == "" && confirmPassword == "" then
         ( Empty, Cmd.none )
+
     else if password /= confirmPassword then
         ( Invalid, materializeToast ( "Passwords don't match", 2000, "error-toast" ) )
+
     else if String.length password <= 6 then
         ( Invalid, materializeToast ( "Passwords should be > 6 characters ", 2000, "error-toast" ) )
+
     else
         ( Match, Cmd.none )
 
@@ -85,13 +89,13 @@ httpErrorToString error =
             "Network Error"
 
         BadStatus response ->
-            "Bad Http Status: " ++ toString response.status.code
+            "Bad Http Status: " ++ String.fromInt response.status.code
 
         BadPayload message response ->
             "Bad Http Payload: "
-                ++ toString message
+                ++ message
                 ++ " ("
-                ++ toString response.status.code
+                ++ String.fromInt response.status.code
                 ++ ")"
 
 
@@ -134,15 +138,15 @@ putWithToken url token body =
 
 
 updateUserDetails : String -> String -> String -> Encode.Value -> Cmd Msg
-updateUserDetails token baseURL userId userBody =
+updateUserDetails token baseURL userId body =
     let
         url =
             baseURL ++ "/api/users/" ++ userId
 
         request =
-            putWithToken url token userBody
+            putWithToken url token body
     in
-        Http.send HandleUpdateResponse request
+    Http.send HandleUpdateResponse request
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -151,6 +155,7 @@ update msg model =
         ToggleEdit ->
             ( if model.editDisplay == "none" then
                 { model | editDisplay = "block", profileDisplay = "none" }
+
               else
                 { model | editDisplay = "none", profileDisplay = "block" }
             , Cmd.none
@@ -164,7 +169,9 @@ update msg model =
                 newUser =
                     { oldUser | email = updatedEmail }
             in
-                { model | user = newUser } ! []
+            ( { model | user = newUser }
+            , Cmd.none
+            )
 
         FirstNameChange updatedFirstName ->
             let
@@ -174,7 +181,9 @@ update msg model =
                 newUser =
                     { oldUser | firstName = updatedFirstName }
             in
-                { model | user = newUser } ! []
+            ( { model | user = newUser }
+            , Cmd.none
+            )
 
         LastNameChange updatedLastName ->
             let
@@ -184,13 +193,19 @@ update msg model =
                 newUser =
                     { oldUser | lastName = updatedLastName }
             in
-                { model | user = newUser } ! []
+            ( { model | user = newUser }
+            , Cmd.none
+            )
 
         PasswordChange updatedPassword ->
-            { model | password = updatedPassword } ! []
+            ( { model | password = updatedPassword }
+            , Cmd.none
+            )
 
         PasswordConfirmChange updatedPasswordConfirmation ->
-            { model | passwordConfirm = updatedPasswordConfirmation } ! []
+            ( { model | passwordConfirm = updatedPasswordConfirmation }
+            , Cmd.none
+            )
 
         HandleSubmit ->
             case comparePassword model.password model.passwordConfirm of
@@ -235,12 +250,12 @@ subscriptions model =
 
 main : Program Flags Model Msg
 main =
-    programWithFlags { init = init, view = view, update = update, subscriptions = subscriptions }
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
 
 
 profileView : Model -> Html Msg
 profileView model =
-    div [ style [ ( "display", model.profileDisplay ) ] ]
+    div [ style "display" model.profileDisplay ]
         [ div [ class "row" ]
             [ h2 [ class "header center-align" ] [ text "My Profile" ]
             ]
@@ -289,7 +304,7 @@ profileView model =
 
 editForm : Model -> Html Msg
 editForm model =
-    div [ class "card-panel", style [ ( "display", model.editDisplay ) ] ]
+    div [ class "card-panel", style "display" model.editDisplay ]
         [ div [ class "row" ]
             [ h2 [ class "header center-align" ] [ text "Edit Profile" ]
             ]
@@ -297,31 +312,31 @@ editForm model =
             [ div [ class "row" ]
                 [ div [ class "col s4 offset-s4" ]
                     [ label [ for "email" ] [ text "Email" ]
-                    , input [ id "email", name "email", type_ "text", defaultValue model.user.email, onInput EmailChange ] []
+                    , input [ id "email", name "email", type_ "text", value model.user.email, onInput EmailChange ] []
                     ]
                 ]
             , div [ class "row" ]
                 [ div [ class "col s4 offset-s4" ]
                     [ label [ for "firstname" ] [ text "First Name" ]
-                    , input [ id "firstname", name "firstname", type_ "text", defaultValue model.user.firstName, onInput FirstNameChange ] []
+                    , input [ id "firstname", name "firstname", type_ "text", value model.user.firstName, onInput FirstNameChange ] []
                     ]
                 ]
             , div [ class "row" ]
                 [ div [ class "col s4 offset-s4" ]
                     [ label [ for "lastname" ] [ text "Last Name" ]
-                    , input [ id "lastname", name "lastname", type_ "text", defaultValue model.user.lastName, onInput LastNameChange ] []
+                    , input [ id "lastname", name "lastname", type_ "text", value model.user.lastName, onInput LastNameChange ] []
                     ]
                 ]
             , div [ class "row" ]
                 [ div [ class "col s4 offset-s4" ]
                     [ label [ for "password" ] [ text "New Password" ]
-                    , input [ id "password", name "password", type_ "password", defaultValue model.password, onInput PasswordChange ] []
+                    , input [ id "password", name "password", type_ "password", value model.password, onInput PasswordChange ] []
                     ]
                 ]
             , div [ class "row" ]
                 [ div [ class "col s4 offset-s4" ]
                     [ label [ for "confirm-password" ] [ text "New Password" ]
-                    , input [ id "confirm-password", name "confirm-password", type_ "password", defaultValue model.passwordConfirm, onInput PasswordConfirmChange ] []
+                    , input [ id "confirm-password", name "confirm-password", type_ "password", value model.passwordConfirm, onInput PasswordConfirmChange ] []
                     ]
                 ]
             , div [ class "row" ]
@@ -336,15 +351,14 @@ editForm model =
         ]
 
 
+alwaysPreventDefault : msg -> ( msg, Bool )
+alwaysPreventDefault msg =
+    ( msg, True )
+
+
 onClickNoDefault : msg -> Attribute msg
 onClickNoDefault message =
-    let
-        config =
-            { stopPropagation = True
-            , preventDefault = True
-            }
-    in
-        onWithOptions "click" config (Decode.succeed message)
+    preventDefaultOn "click" (Decode.map alwaysPreventDefault (Decode.succeed message))
 
 
 view : Model -> Html Msg
@@ -352,6 +366,7 @@ view model =
     div [ class "container" ]
         [ if model.editDisplay == "none" then
             profileView model
+
           else
             editForm model
         ]

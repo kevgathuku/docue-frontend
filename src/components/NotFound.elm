@@ -1,11 +1,21 @@
-module NotFound exposing (..)
+module NotFound exposing (main, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
+type alias Model =
+    String
+
+
+initialModel : Model
+initialModel =
+    "Not Found"
+
+
 main =
-    beginnerProgram { model = "Not Found", view = view, update = update }
+    Browser.sandbox { init = initialModel, view = view, update = update }
 
 
 update msg model =

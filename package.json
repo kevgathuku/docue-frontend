@@ -10,8 +10,7 @@
     "test:elm": "elm-test"
   },
   "dependencies": {
-    "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "^4.3.1",
+    "elm-webpack-loader": "^5.0.0",
     "flux": "^3.1.0",
     "keymirror": "^0.1.1",
     "mobx": "^3.0.1",
@@ -44,6 +43,7 @@
     "css-loader": "0.25.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
+    "elm-hot-webpack-loader": "^1.0.2",
     "elm-test": "^0.18.2",
     "enzyme": "^2.0.0",
     "eslint": "3.8.1",

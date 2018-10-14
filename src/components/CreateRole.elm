@@ -1,5 +1,6 @@
-port module CreateRole exposing (..)
+port module CreateRole exposing (Flags, Model, Msg(..), handleSubmit, init, main, model, subscriptions, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onSubmit)
@@ -31,13 +32,13 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg state =
     case msg of
         Submit ->
-            ( model, handleSubmit model.title )
+            ( state, handleSubmit state.title )
 
         TitleChange value ->
-            ( { model | title = value }, Cmd.none )
+            ( { state | title = value }, Cmd.none )
 
 
 type alias Flags =
@@ -46,7 +47,7 @@ type alias Flags =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -56,19 +57,11 @@ init flags =
 
 
 main =
-    programWithFlags { init = init, view = view, update = update, subscriptions = subscriptions }
-
-
-buttonStyle : Attribute msg
-buttonStyle =
-    style
-        [ ( "top", "25px" )
-        , ( "position", "relative" )
-        ]
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
 
 
 view : Model -> Html Msg
-view model =
+view state =
     div [ class "container" ]
         [ div [ class "row" ]
             [ h2 [ class "header center-align" ]
@@ -77,11 +70,11 @@ view model =
         , div [ class "row" ]
             [ Html.form [ class "col s12", onSubmit Submit ]
                 [ div [ class "input-field col s4 offset-s2" ]
-                    [ input [ class "validate", id "title", name "title", type_ "text", value model.title, onInput TitleChange ] []
+                    [ input [ class "validate", id "title", name "title", type_ "text", value state.title, onInput TitleChange ] []
                     , label [ class "active", for "title" ] [ text "Title" ]
                     ]
                 , div [ class "col s6" ]
-                    [ button [ class "btn waves-effect header-btn blue", name "action", type_ "submit", buttonStyle ] [ text "submit", i [ class "material-icons right" ] [ text "send" ] ]
+                    [ button [ class "btn waves-effect header-btn blue", name "action", type_ "submit", style "top" "25px", style "position" "relative" ] [ text "submit", i [ class "material-icons right" ] [ text "send" ] ]
                     ]
                 ]
             ]
