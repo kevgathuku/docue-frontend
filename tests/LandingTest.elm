@@ -1,9 +1,9 @@
-module LandingTest exposing (..)
+module LandingTest exposing (suite)
 
+import Landing
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (attribute, text)
-import Landing
 
 
 suite : Test

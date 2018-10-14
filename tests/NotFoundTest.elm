@@ -1,9 +1,9 @@
-module NotFoundTest exposing (..)
+module NotFoundTest exposing (notFound)
 
+import NotFound
 import Test exposing (..)
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (attribute, text, tag)
-import NotFound
+import Test.Html.Selector exposing (attribute, tag, text)
 
 
 notFound : Test

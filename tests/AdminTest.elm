@@ -1,10 +1,10 @@
-module AdminTest exposing (..)
+module AdminTest exposing (modelWithDocs, modelWithRoles, modelWithUsers, rendering, statsDisplay, suite)
 
-import Test exposing (..)
-import Test.Html.Query as Query
-import Test.Html.Selector exposing (attribute, text, tag, id, class, className, classes)
 import Admin
 import Expect
+import Test exposing (..)
+import Test.Html.Query as Query
+import Test.Html.Selector exposing (attribute, class, className, classes, id, tag, text)
 
 
 suite : Test
