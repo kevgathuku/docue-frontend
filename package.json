@@ -7,11 +7,9 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "test:ci": "node scripts/test.js --env=jsdom --coverage",
-    "test:elm": "elm-test",
-    "postinstall": "if [ -n \"$npm_config_production\" ]; then ./node_modules/bower/bin/bower install; fi"
+    "test:elm": "elm-test"
   },
   "dependencies": {
-    "bower": "^1.7.7",
     "elm-hot-loader": "^0.5.4",
     "elm-webpack-loader": "^4.3.1",
     "flux": "^3.1.0",
