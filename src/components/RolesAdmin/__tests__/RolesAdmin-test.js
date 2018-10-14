@@ -1,10 +1,8 @@
-'use strict';
-
 import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import RolesAdmin from '../index.jsx';
+import RolesAdmin from '../RolesAdmin.jsx';
 import RoleActions from '../../../actions/RoleActions';
 
 describe('RolesAdmin', function() {
