@@ -61,3 +61,4 @@ repl-temp-*
 # End of https://www.gitignore.io/api/elm
 
 tmp
+.firebase/
