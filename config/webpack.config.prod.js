@@ -159,7 +159,7 @@ module.exports = {
       {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loader: 'elm-hot!elm-webpack?verbose=true'
+        loader: 'elm-hot!elm-webpack?verbose=true&optimize=true'
       }
     ]
   },
