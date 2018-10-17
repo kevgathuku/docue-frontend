@@ -1,39 +1,27 @@
 import React from 'react';
-import NavBar from '../NavBar/NavBar.jsx';
+import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 import userStore from '../../stores/UserStore';
+import Provider from './Provider';
 
-// Props to http://jaketrent.com/post/send-props-to-children-react/ 😃
-// Renders children props with extra props we may want to add
-const renderChildren = function(props) {
-  return React.Children.map(props.children, (child) => {
-    return React.cloneElement(child, {
-      userStore: props.userStore
-    });
-  });
+import NavBar from '../NavBar/NavBar.jsx';
+
+export const DefaultLayout = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(matchProps) => {
+        return (
+          <Provider userStore={userStore}>
+            <NavBar pathname={matchProps.location.pathname} {...matchProps} />
+            <Component {...matchProps} />
+          </Provider>
+        );
+      }}
+    />
+  );
 };
 
-function Provider(props) {
-  return (
-    <div>
-      {renderChildren(props)}
-    </div>
-  );
-}
-
-class Main extends React.PureComponent {
-  static propTypes = {
-    children: React.PropTypes.element.isRequired,
-    location: React.PropTypes.object
-  };
-
-  render() {
-    return (
-      <Provider userStore={userStore}>
-        <NavBar pathname={this.props.location.pathname} />
-        {this.props.children}
-      </Provider>
-    );
-  }
-}
-
-export default Main;
+DefaultLayout.propTypes = {
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+};

@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Elm from '../../utils/ReactElm';
 import { observe } from 'mobx';
-import { observer, PropTypes } from 'mobx-react';
-import { browserHistory } from 'react-router';
+import { observer, PropTypes as MobxPropTypes } from 'mobx-react';
 import ElmComponents from '../Login.elm';
 
 import UserActions from '../../actions/UserActions';
@@ -10,7 +10,8 @@ import UserActions from '../../actions/UserActions';
 const LoginForm = observer(
   class LoginForm extends React.Component {
     static propTypes = {
-      userStore: PropTypes.observableObject
+      history: PropTypes.object,
+      userStore: MobxPropTypes.observableObject,
     };
 
     constructor(props) {
@@ -37,18 +38,18 @@ const LoginForm = observer(
             2000,
             'success-toast'
           );
-          browserHistory.push('/dashboard');
+          this.props.history.push('/dashboard');
         }
       }
     };
 
-    setupPorts = ports => {
+    setupPorts = (ports) => {
       let userStore = this.userStore;
       // Receives a record from Elm, which comes in as a JS obect
       ports.handleSubmit.subscribe(function(model) {
         let loginPayload = {
           username: model.email,
-          password: model.password
+          password: model.password,
         };
         UserActions.login(loginPayload, userStore);
       });

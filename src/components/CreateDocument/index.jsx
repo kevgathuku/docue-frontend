@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
-import {browserHistory} from 'react-router';
 import DocActions from '../../actions/DocActions';
 import DocStore from '../../stores/DocStore';
 import RoleActions from '../../actions/RoleActions';
@@ -8,9 +8,12 @@ import RoleStore from '../../stores/RoleStore';
 import { handleFieldChange } from '../../utils/componentHelpers';
 
 class CreateDocument extends React.Component {
+  static propTypes = {
+    history: PropTypes.object,
+  };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       token: localStorage.getItem('user'),
       title: '',
@@ -38,7 +41,7 @@ class CreateDocument extends React.Component {
         window.Materialize.toast(data.error, 2000, 'error-toast');
       } else {
         window.Materialize.toast('Document created successfully!', 2000, 'success-toast');
-        browserHistory.push('/dashboard');
+        this.props.history.push('/dashboard');
       }
     }
   };

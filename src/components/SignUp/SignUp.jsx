@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { observe } from 'mobx';
-import { PropTypes } from 'mobx-react';
-import { browserHistory } from 'react-router';
+import { PropTypes as MobxPropTypes } from 'mobx-react';
 
 import { handleFieldChange } from '../../utils/componentHelpers';
 import UserActions from '../../actions/UserActions';
 
 class SignupForm extends React.Component {
   static propTypes = {
-    userStore: PropTypes.observableObject
+    history: PropTypes.object,
+    userStore: MobxPropTypes.observableObject,
   };
 
   constructor(props) {
@@ -22,7 +23,7 @@ class SignupForm extends React.Component {
       email: null,
       password: null,
       passwordConfirm: null,
-      result: null
+      result: null,
     };
   }
 
@@ -33,7 +34,7 @@ class SignupForm extends React.Component {
 
   comparePassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
-      window.Materialize.toast('passwords don\'t match', 2000, 'error-toast');
+      window.Materialize.toast("passwords don't match", 2000, 'error-toast');
       return false;
     } else if (password.length >= 1 && password.length < 6) {
       window.Materialize.toast(
@@ -61,12 +62,12 @@ class SignupForm extends React.Component {
           2000,
           'success-toast'
         );
-        browserHistory.push('/dashboard');
+        this.props.history.push('/dashboard');
       }
     }
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.comparePassword(this.state.password, this.state.passwordConfirm)) {
       let userPayload = {
@@ -74,13 +75,13 @@ class SignupForm extends React.Component {
         lastname: this.state.lastname,
         username: this.state.email,
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
       };
       UserActions.signup(userPayload, this.userStore);
     }
   };
 
-  handleFieldChange = event => {
+  handleFieldChange = (event) => {
     if (event.target.name === 'password-confirm') {
       this.setState({ passwordConfirm: event.target.value });
     } else {
@@ -95,65 +96,65 @@ class SignupForm extends React.Component {
         <form className="col s12" onSubmit={this.handleSubmit}>
           <div className="input-field col m6 s12">
             <input
-                className="validate"
-                id="firstname"
-                name="firstname"
-                onChange={this.handleFieldChange}
-                required
-                type="text"
+              className="validate"
+              id="firstname"
+              name="firstname"
+              onChange={this.handleFieldChange}
+              required
+              type="text"
             />
             <label htmlFor="firstname">First Name</label>
           </div>
           <div className="input-field col m6 s12">
             <input
-                className="validate"
-                id="lastname"
-                name="lastname"
-                onChange={this.handleFieldChange}
-                required
-                type="text"
+              className="validate"
+              id="lastname"
+              name="lastname"
+              onChange={this.handleFieldChange}
+              required
+              type="text"
             />
             <label htmlFor="lastname">Last Name</label>
           </div>
           <div className="input-field col s12">
             <input
-                className="validate"
-                id="email"
-                name="email"
-                onChange={this.handleFieldChange}
-                required
-                type="email"
+              className="validate"
+              id="email"
+              name="email"
+              onChange={this.handleFieldChange}
+              required
+              type="email"
             />
             <label htmlFor="email">Email</label>
           </div>
           <div className="input-field col s12">
             <input
-                className="validate"
-                id="password"
-                name="password"
-                onChange={this.handleFieldChange}
-                required
-                type="password"
+              className="validate"
+              id="password"
+              name="password"
+              onChange={this.handleFieldChange}
+              required
+              type="password"
             />
             <label htmlFor="password">Password</label>
           </div>
           <div className="input-field col s12">
             <input
-                className="validate"
-                id="password-confirm"
-                name="password-confirm"
-                onChange={this.handleFieldChange}
-                required
-                type="password"
+              className="validate"
+              id="password-confirm"
+              name="password-confirm"
+              onChange={this.handleFieldChange}
+              required
+              type="password"
             />
             <label htmlFor="password-confirm">Confirm Password</label>
           </div>
           <div className="col s12">
             <div className="center">
               <button
-                  className="btn waves-effect waves-light blue"
-                  name="action"
-                  type="submit"
+                className="btn waves-effect waves-light blue"
+                name="action"
+                type="submit"
               >
                 Sign up
               </button>

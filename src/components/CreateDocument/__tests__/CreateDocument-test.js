@@ -1,10 +1,7 @@
-'use strict';
-
 import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import { browserHistory } from 'react-router';
 import DocActions from '../../../actions/DocActions';
 import DocStore from '../../../stores/DocStore';
 import CreateDocument from '../index.jsx';
@@ -57,7 +54,6 @@ describe('CreateDocument', function() {
 
     describe('handleDocumentCreateResult', function() {
       it('should correctly handle document creation', function() {
-        browserHistory.push = jest.fn();
         DocStore.setDocCreateResult({
           doc: {
             title: 'Docue'

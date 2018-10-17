@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Elm from '../../utils/ReactElm';
-import { browserHistory } from 'react-router';
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
 import ElmComponents from '../CreateRole.elm';
@@ -8,6 +8,10 @@ import ElmComponents from '../CreateRole.elm';
 const token = localStorage.getItem('user');
 
 export default class Main extends React.Component {
+  static propTypes = {
+    history: PropTypes.object,
+  };
+
   componentDidMount() {
     RoleStore.addChangeListener(this.handleRoleCreateResult);
   }
@@ -47,7 +51,7 @@ export default class Main extends React.Component {
           2000,
           'success-toast'
         );
-        browserHistory.push('/admin/roles');
+        this.props.history.push('/admin/roles');
       }
     }
   };

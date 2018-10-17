@@ -1,10 +1,7 @@
-'use strict';
-
 import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import { browserHistory } from 'react-router';
 import RoleActions from '../../../actions/RoleActions';
 import RoleStore from '../../../stores/RoleStore';
 import CreateRole from '../CreateRole.jsx';
@@ -35,7 +32,6 @@ describe('CreateRole', function() {
 
     describe('handleRoleCreateResult', function() {
       it('should correctly handle role creation', function() {
-        browserHistory.push = jest.fn();
         let role = {
           title: 'admin'
         };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import DocActions from '../../actions/DocActions';
 import DocStore from '../../stores/DocStore';
@@ -6,9 +7,9 @@ import { handleFieldChange } from '../../utils/componentHelpers';
 
 class DocEdit extends React.Component {
   static propTypes = {
-    doc: React.PropTypes.object,
-    roles: React.PropTypes.arrayOf(React.PropTypes.object),
-    updateDoc: React.PropTypes.func
+    doc: PropTypes.object,
+    roles: PropTypes.arrayOf(PropTypes.object),
+    updateDoc: PropTypes.func
   };
 
   constructor(props) {

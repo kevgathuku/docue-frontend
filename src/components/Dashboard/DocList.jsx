@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cardImage from '../../images/abstract.jpeg';
 
 class DocList extends React.Component {
 
   static propTypes = {
-    docs:  React.PropTypes.arrayOf(React.PropTypes.object)
+    docs: PropTypes.arrayOf(PropTypes.object)
   };
 
   constructor(props) {

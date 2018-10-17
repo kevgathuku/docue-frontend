@@ -2,22 +2,6 @@
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "rules": {
-    "indent": [
-      "warn",
-      2
-    ],
-    "quotes": [
-      2,
-      "single"
-    ],
-    "linebreak-style": [
-      2,
-      "unix"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
     "no-console": 0,
     "no-case-declarations": 0,
     "no-class-assign": 0,
@@ -36,12 +20,8 @@
     "react/jsx-closing-bracket-location": 1,
     "react/jsx-curly-spacing": 1,
     "react/jsx-handler-names": 1,
-    "react/jsx-indent-props": 1,
     "react/jsx-key": 1,
     "react/jsx-max-props-per-line": 0,
-    "react/jsx-no-bind": [1, {
-        "allowBind": true
-    }],
     "react/jsx-no-duplicate-props": 1,
     "react/jsx-no-literals": 0,
     "react/jsx-no-undef": 1,
@@ -77,5 +57,5 @@
   },
   "plugins": [
     "react"
-  ],
+  ]
 }

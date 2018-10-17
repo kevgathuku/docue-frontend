@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  IndexRoute,
+  BrowserRouter as Router,
   Redirect,
-  Route,
-  Router,
-  browserHistory
-} from 'react-router';
+  Switch,
+} from 'react-router-dom';
 import Auth from './components/Auth/index.jsx';
 import Admin from './components/Admin/Admin.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
@@ -15,31 +13,35 @@ import DocumentPage from './components/DocumentPage/index.jsx';
 import Dashboard from './components/Dashboard/index.jsx';
 import Landing from './components/Landing/Landing.jsx';
 import Profile from './components/Profile/Profile.jsx';
-import Main from './components/Landing/Main.jsx';
+import { DefaultLayout } from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import RolesAdmin from './components/RolesAdmin/RolesAdmin.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
+import Provider from './components/Landing/Provider';
+import userStore from './stores/UserStore';
 
 import 'normalize.css/normalize.css';
 import 'react-select/dist/react-select.css';
 import './styles/style.css';
 
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Main}>
-      <IndexRoute component={Landing} />
-      <Route path="auth" component={Auth} />
-      <Route path="admin" component={Admin} />
-      <Route path="admin/roles" component={RolesAdmin} />
-      <Route path="admin/users" component={UsersAdmin} />
-      <Route path="admin/roles/create" component={CreateRole} />
-      <Route path="dashboard" component={Dashboard} />
-      <Route path="documents/create" component={CreateDocument} />
-      <Route path="documents/:id" component={DocumentPage} />
-      <Route path="profile" component={Profile} />
-      <Route path="404" component={NotFound} />
-      <Redirect from="*" to="404" />
-    </Route>
-  </Router>,
+  <Provider userStore={userStore}>
+    <Router>
+      <Switch>
+        <DefaultLayout exact path="/" component={Landing} />
+        <DefaultLayout path="/auth" component={Auth} />
+        <DefaultLayout path="/admin" component={Admin} />
+        <DefaultLayout path="/admin/roles" component={RolesAdmin} />
+        <DefaultLayout path="/admin/users" component={UsersAdmin} />
+        <DefaultLayout path="/admin/roles/create" component={CreateRole} />
+        <DefaultLayout path="/dashboard" component={Dashboard} />
+        <DefaultLayout path="/documents/create" component={CreateDocument} />
+        <DefaultLayout path="/documents/:id" component={DocumentPage} />
+        <DefaultLayout path="/profile" component={Profile} />
+        <DefaultLayout path="/404" component={NotFound} />
+        <Redirect path="*" to="404" />
+      </Switch>
+    </Router>
+  </Provider>,
   document.getElementById('content')
 );
