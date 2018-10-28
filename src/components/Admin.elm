@@ -1,10 +1,11 @@
-module Admin exposing (Flags, Model, Msg(..), Stats, decodeStats, emptyStats, getStatsCount, getWithToken, httpErrorToString, init, intialModel, main, subscriptions, update, view)
+module Admin exposing (Flags, Model, Msg(..), Stats, decodeStats, emptyStats, getStatsCount, getWithToken, init, intialModel, main, subscriptions, update, view)
 
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http exposing (..)
 import HttpBuilder exposing (..)
+import HttpUtils exposing (httpErrorToString)
 import Json.Decode as Decode exposing (field, int, map3)
 
 
@@ -65,29 +66,6 @@ decodeStats =
         (field "documents" int)
         (field "users" int)
         (field "roles" int)
-
-
-httpErrorToString : Http.Error -> String
-httpErrorToString error =
-    case error of
-        BadUrl text ->
-            "Bad Url: " ++ text
-
-        Timeout ->
-            "Http Timeout"
-
-        NetworkError ->
-            "Network Error"
-
-        BadStatus response ->
-            "Bad Http Status: " ++ String.fromInt response.status.code
-
-        BadPayload message response ->
-            "Bad Http Payload: "
-                ++ message
-                ++ " ("
-                ++ String.fromInt response.status.code
-                ++ ")"
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

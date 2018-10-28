@@ -1,4 +1,4 @@
-port module RolesAdmin exposing (Flags, Model, Msg(..), Role, decodeRoles, fetchRoles, getWithToken, httpErrorToString, init, intialModel, main, renderRole, roleDecoder, subscriptions, tooltips, update, view)
+port module RolesAdmin exposing (Flags, Model, Msg(..), Role, decodeRoles, fetchRoles, getWithToken, init, intialModel, main, renderRole, roleDecoder, subscriptions, tooltips, update, view)
 
 import Browser
 import Html exposing (..)
@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onMouseEnter)
 import Http exposing (..)
 import HttpBuilder exposing (..)
+import HttpUtils exposing (httpErrorToString)
 import Json.Decode as Decode exposing (field, int, map3, string)
 
 
@@ -60,29 +61,6 @@ roleDecoder =
 decodeRoles : Decode.Decoder (List Role)
 decodeRoles =
     Decode.list roleDecoder
-
-
-httpErrorToString : Http.Error -> String
-httpErrorToString error =
-    case error of
-        BadUrl text ->
-            "Bad Url: " ++ text
-
-        Timeout ->
-            "Http Timeout"
-
-        NetworkError ->
-            "Network Error"
-
-        BadStatus response ->
-            "Bad Http Status: " ++ String.fromInt response.status.code
-
-        BadPayload message response ->
-            "Bad Http Payload: "
-                ++ message
-                ++ " ("
-                ++ String.fromInt response.status.code
-                ++ ")"
 
 
 type Msg
