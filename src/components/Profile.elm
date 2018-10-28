@@ -1,4 +1,4 @@
-port module Profile exposing (Flags, Model, Msg(..), PasswordState(..), User, comparePassword, decodeUserUpdateResponse, editForm, httpErrorToString, init, main, materializeToast, onClickNoDefault, profileView, putWithToken, subscriptions, update, updateCachedUserInfo, updateUserDetails, userBody, userBodyWithPassword, view)
+port module Profile exposing (Flags, Model, Msg(..), PasswordState(..), User, comparePassword, decodeUserUpdateResponse, editForm, init, main, materializeToast, onClickNoDefault, profileView, putWithToken, subscriptions, update, updateCachedUserInfo, updateUserDetails, userBody, userBodyWithPassword, view)
 
 import Browser
 import Html exposing (..)
@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput, preventDefaultOn)
 import Http exposing (..)
 import HttpBuilder exposing (..)
+import HttpUtils exposing (httpErrorToString)
 import Json.Decode as Decode
 import Json.Encode as Encode
 
@@ -74,29 +75,6 @@ comparePassword password confirmPassword =
 
     else
         ( Match, Cmd.none )
-
-
-httpErrorToString : Http.Error -> String
-httpErrorToString error =
-    case error of
-        BadUrl text ->
-            "Bad Url: " ++ text
-
-        Timeout ->
-            "Http Timeout"
-
-        NetworkError ->
-            "Network Error"
-
-        BadStatus response ->
-            "Bad Http Status: " ++ String.fromInt response.status.code
-
-        BadPayload message response ->
-            "Bad Http Payload: "
-                ++ message
-                ++ " ("
-                ++ String.fromInt response.status.code
-                ++ ")"
 
 
 decodeUserUpdateResponse : Decode.Decoder User
