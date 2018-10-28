@@ -1,5 +1,6 @@
 import React from 'react';
-import { observer, PropTypes } from 'mobx-react';
+import { observer, PropTypes as MobxPropTypes } from 'mobx-react';
+import PropTypes from 'prop-types';
 
 import Login from '../Login/Login.jsx';
 import SignUp from '../SignUp/SignUp.jsx';
@@ -7,7 +8,8 @@ import SignUp from '../SignUp/SignUp.jsx';
 const Authenticate = observer(
   class Authenticate extends React.PureComponent {
     static propTypes = {
-      userStore: PropTypes.observableObject
+      history: PropTypes.object,
+      userStore: MobxPropTypes.observableObject,
     };
 
     constructor(props) {
@@ -33,15 +35,23 @@ const Authenticate = observer(
                           </a>
                         </li>
                         <li className="tab col s4">
-                          <a className="blue-text" href="#signup">Signup</a>
+                          <a className="blue-text" href="#signup">
+                            Signup
+                          </a>
                         </li>
                       </ul>
                     </div>
                     <div id="login" className="col s12">
-                      <Login userStore={this.userStore} />
+                      <Login
+                        userStore={this.userStore}
+                        history={this.props.history}
+                      />
                     </div>
                     <div id="signup" className="col s12">
-                      <SignUp userStore={this.userStore} />
+                      <SignUp
+                        userStore={this.userStore}
+                        history={this.props.history}
+                      />
                     </div>
                   </div>
                 </div>
