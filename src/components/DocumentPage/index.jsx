@@ -29,7 +29,7 @@ class DocumentPage extends React.Component {
   }
 
   componentDidMount() {
-    DocActions.fetchDoc(this.props.params.id, this.state.token);
+    DocActions.fetchDoc(this.props.match.params.id, this.state.token);
     RoleActions.getRoles(this.state.token);
     DocStore.addChangeListener(this.handleDeleteResult);
     DocStore.addChangeListener(this.handleDocumentFetch, 'getDoc');
