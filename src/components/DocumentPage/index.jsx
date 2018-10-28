@@ -13,7 +13,7 @@ import 'sweetalert/dist/sweetalert.css';
 class DocumentPage extends React.Component {
   static propTypes = {
     history: PropTypes.object,
-    params: PropTypes.object,
+    match: PropTypes.object,
   };
 
   constructor(props) {
