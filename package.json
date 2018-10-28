@@ -24,6 +24,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "1.0.0-rc.2",
     "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "superagent": "^3.7.0",
     "sweetalert": "^1.1.3"
   },
