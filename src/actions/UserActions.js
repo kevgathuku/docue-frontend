@@ -22,15 +22,6 @@ export default {
       });
   },
 
-  signup: (user, store) => {
-    request
-      .post(`${BaseActions.BASE_URL}/api/users`)
-      .send(user)
-      .end((err, result) => {
-        store.setSignupResult(result.body);
-      });
-  },
-
   update: (userID, user, token, store) => {
     request
       .put(BaseActions.BASE_URL + `/api/users/${userID}`)

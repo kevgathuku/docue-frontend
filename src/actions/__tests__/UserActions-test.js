@@ -76,22 +76,6 @@ describe('UserActions', function() {
     );
   });
 
-  it('signup triggers change in userStore', function(done) {
-    UserActions.signup(payload, store);
-
-    when(
-      () => store.signupResult,
-      () => {
-        try {
-          expect(store.signupResult).toEqual(response);
-          done();
-        } catch (e) {
-          done.fail(e);
-        }
-      }
-    );
-  });
-
   it('update triggers change in userStore', function(done) {
     UserActions.update(userID, payload, 'token', store);
 

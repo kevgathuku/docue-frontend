@@ -6,8 +6,10 @@ const initialState = {
   session: null,
   loginResult: null,
   logoutResult: null,
-  signupResult: null,
+  signupError: null,
   profileUpdateResult: null,
+  token: '',
+  user: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,6 +22,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         usersError: action.payload.error,
       });
+    case AppConstants.SIGNUP_ERROR:
+      return Object.assign({}, state, {
+        signupError: action.payload.error,
+      });
+    case AppConstants.SIGNUP_SUCCESS:
+      const { token, user } = action.payload.signupResult;
+      return Object.assign({}, state, { token, user });
     default:
       return state;
   }

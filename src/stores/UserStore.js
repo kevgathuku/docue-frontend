@@ -7,7 +7,6 @@ class UserStore {
       session: null,
       loginResult: null,
       logoutResult: null,
-      signupResult: null,
       profileUpdateResult: null,
 
       setSession: action(function(session) {
@@ -20,10 +19,6 @@ class UserStore {
 
       setLogoutResult: action(function(logoutResult) {
         this.logoutResult = logoutResult;
-      }),
-
-      setSignupResult: action(function(signupResult) {
-        this.signupResult = signupResult;
       }),
 
       setProfileUpdateResult: action(function(profileUpdateResult) {

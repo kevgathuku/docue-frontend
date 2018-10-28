@@ -12,12 +12,6 @@ const Authenticate = observer(
       userStore: MobxPropTypes.observableObject,
     };
 
-    constructor(props) {
-      super(props);
-
-      this.userStore = this.props.userStore;
-    }
-
     render() {
       return (
         <div className="container">
@@ -43,13 +37,13 @@ const Authenticate = observer(
                     </div>
                     <div id="login" className="col s12">
                       <Login
-                        userStore={this.userStore}
+                        userStore={this.props.userStore}
                         history={this.props.history}
                       />
                     </div>
                     <div id="signup" className="col s12">
                       <SignUp
-                        userStore={this.userStore}
+                        userStore={this.props.userStore}
                         history={this.props.history}
                       />
                     </div>

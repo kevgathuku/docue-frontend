@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observe } from 'mobx';
-import { PropTypes as MobxPropTypes } from 'mobx-react';
+import { connect } from 'react-redux';
 
 import { handleFieldChange } from '../../utils/componentHelpers';
-import UserActions from '../../actions/UserActions';
+import { initiateSignup } from '../../actions/actionCreators';
 
 class SignupForm extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     history: PropTypes.object,
-    userStore: MobxPropTypes.observableObject,
+    signupError: PropTypes.object,
+    token: PropTypes.string,
+    user: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
 
-    this.userStore = this.props.userStore;
     this.state = {
       username: null,
       firstname: null,
@@ -27,9 +28,26 @@ class SignupForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // Mobx eventListeners
-    observe(this.userStore, 'signupResult', this.handleSignup);
+  componentDidUpdate(prevProps) {
+    let { signupError, user, token } = this.props;
+    if (signupError && prevProps.signupError !== this.props.signupError) {
+      window.Materialize.toast(signupError.error, 2000, 'error-toast');
+    }
+
+    if (token && prevProps.token !== this.props.token) {
+      localStorage.setItem('user', token);
+    }
+
+    if (user && prevProps.user !== this.props.user) {
+      // The signup was successful. Save user's info in localStorage
+      localStorage.setItem('userInfo', JSON.stringify(user));
+      window.Materialize.toast(
+        'Your Account has been created successfully!',
+        2000,
+        'success-toast'
+      );
+      this.props.history.push('/dashboard');
+    }
   }
 
   comparePassword = (password, confirmPassword) => {
@@ -48,25 +66,6 @@ class SignupForm extends React.Component {
     }
   };
 
-  handleSignup = () => {
-    let data = this.userStore.signupResult;
-    if (data) {
-      if (data.error) {
-        window.Materialize.toast(data.error, 2000, 'error-toast');
-      } else {
-        // The signup was successful. Save user's info in localStorage
-        localStorage.setItem('user', data.token);
-        localStorage.setItem('userInfo', JSON.stringify(data.user));
-        window.Materialize.toast(
-          'Your Account has been created successfully!',
-          2000,
-          'success-toast'
-        );
-        this.props.history.push('/dashboard');
-      }
-    }
-  };
-
   handleSubmit = (event) => {
     event.preventDefault();
     if (this.comparePassword(this.state.password, this.state.passwordConfirm)) {
@@ -77,7 +76,8 @@ class SignupForm extends React.Component {
         email: this.state.email,
         password: this.state.password,
       };
-      UserActions.signup(userPayload, this.userStore);
+      this.props.dispatch(initiateSignup(userPayload));
+      // UserActions.signup(userPayload, this.props.userStore);
     }
   };
 
@@ -166,4 +166,12 @@ class SignupForm extends React.Component {
   }
 }
 
-export default SignupForm;
+const mapStateToProps = (state) => {
+  return {
+    signupError: state.signupError,
+    token: state.token,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(SignupForm);

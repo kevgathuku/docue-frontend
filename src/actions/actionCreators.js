@@ -19,6 +19,18 @@ export const fetchUsersSuccess = (users) => ({
   payload: { users },
 });
 
+export const signupStart = () => ({ type: AppConstants.SIGNUP_START });
+
+export const signupFailure = (error) => ({
+  type: AppConstants.SIGNUP_ERROR,
+  payload: { error },
+});
+
+export const signupSuccess = (signupResult) => ({
+  type: AppConstants.SIGNUP_SUCCESS,
+  payload: { signupResult },
+});
+
 export const fetchUsers = (token) => (dispatch) => {
   dispatch(fetchUsersStart());
 
@@ -30,6 +42,21 @@ export const fetchUsers = (token) => (dispatch) => {
         dispatch(fetchUsersFailure(err));
       } else {
         dispatch(fetchUsersSuccess(result.body));
+      }
+    });
+};
+
+export const initiateSignup = (user) => (dispatch) => {
+  dispatch(signupStart());
+
+  request
+    .post(`${BaseActions.BASE_URL}/api/users`)
+    .send(user)
+    .end((err, result) => {
+      if (err) {
+        dispatch(signupFailure(err));
+      } else {
+        dispatch(signupSuccess(result.body));
       }
     });
 };
