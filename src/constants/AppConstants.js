@@ -1,11 +1,12 @@
-import keyMirror from 'keymirror';
-export default keyMirror({
-  CREATE_DOC: null,
-  CREATE_ROLE: null,
-  DELETE_DOC: null,
-  EDIT_DOC: null,
-  GET_DOC: null,
-  GET_ROLES: null,
-  GET_USERS: null,
-  USER_DOCS: null
-});
+const actions = {
+  CREATE_DOC: 'CREATE_DOC',
+  CREATE_ROLE: 'CREATE_ROLE',
+  DELETE_DOC: 'DELETE_DOC',
+  EDIT_DOC: 'EDIT_DOC',
+  GET_DOC: 'GET_DOC',
+  GET_ROLES: 'GET_ROLES',
+  GET_USERS: 'GET_USERS',
+  USER_DOCS: 'USER_DOCS',
+};
+
+export default actions;
