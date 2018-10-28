@@ -29,7 +29,6 @@ describe('UsersAdmin', function() {
 
     beforeEach(function() {
       sinon.stub(RoleActions, 'getRoles').returns(true);
-      sinon.stub(UserActions, 'fetchAllUsers').returns(true);
       sinon.stub(UserActions, 'update').returns(true);
       window.Materialize.toast = sinon.spy();
       usersAdmin = mount(<UsersAdmin userStore={userStore} />);
@@ -37,7 +36,6 @@ describe('UsersAdmin', function() {
 
     afterEach(function() {
       RoleActions.getRoles.restore();
-      UserActions.fetchAllUsers.restore();
       UserActions.update.restore();
       usersAdmin.unmount();
     });
@@ -47,11 +45,11 @@ describe('UsersAdmin', function() {
         let user = {
           _id: 1,
           role: {
-            _id: 22
-          }
+            _id: 22,
+          },
         };
         let val = {
-          _id: 1
+          _id: 1,
         };
         const instance = usersAdmin.instance();
         sinon.spy(instance, 'handleSelectChange');
@@ -65,31 +63,12 @@ describe('UsersAdmin', function() {
       it('should correctly update the state', function() {
         let val = [
           {
-            _id: 1
-          }
+            _id: 1,
+          },
         ];
         RoleStore.setRoles(val);
         expect(RoleStore.getRoles()).toEqual(val);
         expect(usersAdmin.state().roles).toBe(val);
-      });
-    });
-
-    describe('handleUsersResult', function() {
-      it('should correctly update the state', function() {
-        let users = [
-          {
-            _id: 1,
-            name: {
-              first: 'Kevin',
-              last: 'wknflfwe'
-            },
-            role: {
-              title: 'viewer'
-            }
-          }
-        ];
-        userStore.users = users;
-        expect(usersAdmin.text()).toMatch(users[0].name.first);
       });
     });
   });

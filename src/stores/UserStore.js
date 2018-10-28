@@ -4,16 +4,11 @@ class UserStore {
   constructor() {
     extendObservable(this, {
       // Minimally defined state
-      users: null,
       session: null,
       loginResult: null,
       logoutResult: null,
       signupResult: null,
       profileUpdateResult: null,
-
-      setUsers: action(function(users) {
-        this.users = users;
-      }),
 
       setSession: action(function(session) {
         this.session = session;
@@ -33,7 +28,7 @@ class UserStore {
 
       setProfileUpdateResult: action(function(profileUpdateResult) {
         this.profileUpdateResult = profileUpdateResult;
-      })
+      }),
     });
   }
 }

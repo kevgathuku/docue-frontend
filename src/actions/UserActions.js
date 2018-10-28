@@ -49,13 +49,4 @@ export default {
         store.setSession(result.body);
       });
   },
-
-  fetchAllUsers: (token, store) => {
-    request
-      .get(BaseActions.BASE_URL + '/api/users')
-      .set('x-access-token', token)
-      .end((err, result) => {
-        store.setUsers(result.body);
-      });
-  }
 };
