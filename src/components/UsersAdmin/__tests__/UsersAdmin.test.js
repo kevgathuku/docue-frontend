@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
