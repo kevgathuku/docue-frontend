@@ -81,13 +81,12 @@
     "elm-test": "^0.18.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
-    "expect": "^1.14.0",
+    "enzyme-to-json": "^3.3.4",
     "expect-jsx": "^5.0.0",
     "firebase-tools": "^3.9.0",
     "flow-bin": "^0.36.0",
     "localStorage": "^1.0.3",
     "nock": "^9.0.2",
-    "react-test-renderer": "^16.6.0",
     "sessionstorage": "^0.0.1",
     "sinon": "^1.17.3"
   },
@@ -113,6 +112,10 @@
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
       "react-app-polyfill/jsdom"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx}",
