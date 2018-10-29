@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import expect from 'expect';
 import expectJSX from 'expect-jsx';
 import Main from '../Main.jsx';
 import NavBar from '../../NavBar/NavBar.jsx';

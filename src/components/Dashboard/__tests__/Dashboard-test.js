@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import Dashboard from '../index.jsx';

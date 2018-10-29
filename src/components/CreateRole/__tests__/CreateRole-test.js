@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import RoleActions from '../../../actions/RoleActions';
@@ -33,7 +32,7 @@ describe('CreateRole', function() {
     describe('handleRoleCreateResult', function() {
       it('should correctly handle role creation', function() {
         let role = {
-          title: 'admin'
+          title: 'admin',
         };
         RoleStore.setCreatedRole(role);
         expect(RoleStore.getCreatedRole()).toBe(role);
@@ -44,7 +43,7 @@ describe('CreateRole', function() {
 
       it('should correctly handle document creation error', function() {
         let errorResponse = {
-          error: 'Error Occurred'
+          error: 'Error Occurred',
         };
         RoleStore.setCreatedRole(errorResponse);
         expect(RoleStore.getCreatedRole()).toBe(errorResponse);
@@ -59,9 +58,9 @@ describe('CreateRole', function() {
         let fieldChangeEvent = {
           target: {
             name: 'email',
-            value: 'my@email.com'
+            value: 'my@email.com',
           },
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = createRole.instance();
         sinon.spy(instance, 'handleFieldChange');
@@ -77,13 +76,13 @@ describe('CreateRole', function() {
       it('should not submit without a valid role', function() {
         // simulate the submit form event
         let createRoleEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = createRole.instance();
         sinon.spy(instance, 'handleSubmit');
         sinon.spy(createRoleEvent, 'preventDefault');
         createRole.setState({
-          role: null
+          role: null,
         });
         // Submit the form
         createRole.find('form').simulate('submit', createRoleEvent);
@@ -99,13 +98,13 @@ describe('CreateRole', function() {
       it('should successfully submit if the form is valid', function() {
         // simulate the submit form event
         let createRoleEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         sinon.spy(createRoleEvent, 'preventDefault');
         const instance = createRole.instance();
         sinon.spy(instance, 'handleSubmit');
         createRole.setState({
-          title: 'viewer'
+          title: 'viewer',
         });
         // Submit the form
         createRole.find('form').simulate('submit', createRoleEvent);

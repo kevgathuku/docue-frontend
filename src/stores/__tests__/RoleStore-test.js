@@ -1,7 +1,6 @@
 import AppDispatcher from '../../dispatcher/AppDispatcher';
 import RoleStore from '../RoleStore';
 import constants from '../../constants/AppConstants';
-import expect from 'expect';
 import sinon from 'sinon';
 
 describe('RoleStore', function() {
@@ -26,7 +25,7 @@ describe('RoleStore', function() {
     sinon.spy(RoleStore, 'setRoles');
     var rolesPayload = {
       actionType: constants.GET_ROLES,
-      data: 'Another One'
+      data: 'Another One',
     };
     AppDispatcher.dispatch(rolesPayload);
     expect(RoleStore.setRoles.called).toBe(true);
@@ -38,7 +37,7 @@ describe('RoleStore', function() {
     sinon.spy(RoleStore, 'setCreatedRole');
     var rolePayload = {
       actionType: constants.CREATE_ROLE,
-      data: 'Another One'
+      data: 'Another One',
     };
     AppDispatcher.dispatch(rolePayload);
     expect(RoleStore.setCreatedRole.called).toBe(true);

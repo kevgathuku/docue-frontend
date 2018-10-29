@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import DocActions from '../../../actions/DocActions';

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import DocActions from '../../../actions/DocActions';
@@ -78,26 +77,26 @@ describe('DocumentPage', function() {
             _id: 3,
             name: {
               first: 'Kevin',
-              last: 'wkejbfekjwbf'
-            }
-          }
+              last: 'wkejbfekjwbf',
+            },
+          },
         };
         let roles = [
           {
             _id: '5816eeee66fe25b861af286d',
             accessLevel: 0,
-            title: 'viewer'
+            title: 'viewer',
           },
           {
             _id: '5816eeee66fe25b861af286e',
             accessLevel: 1,
-            title: 'staff'
+            title: 'staff',
           },
           {
             _id: '5816eeee66fe25b861af286f',
             accessLevel: 2,
-            title: 'admin'
-          }
+            title: 'admin',
+          },
         ];
         DocStore.getDoc.mockReturnValue(doc);
         RoleStore.getRoles.mockReturnValue(roles);
@@ -116,7 +115,7 @@ describe('DocumentPage', function() {
       it('should set state correctly on doc fetch', function() {
         sinon.spy(DocStore, 'getDocDeleteResult');
         let result = {
-          statusCode: 204
+          statusCode: 204,
         };
         DocStore.setDocDeleteResult(result);
         // Should respond correctly
@@ -135,9 +134,9 @@ describe('DocumentPage', function() {
           _id: 3,
           name: {
             first: 'Kevin',
-            last: 'wkejbfekjwbf'
-          }
-        }
+            last: 'wkejbfekjwbf',
+          },
+        },
       };
       it('should correctly update the state', function() {
         const instance = docPage.instance();
