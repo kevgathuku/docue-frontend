@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "node scripts/test.js",
     "test:ci": "node scripts/test.js --env=jsdom --coverage",
     "test:elm": "elm-test"
   },
@@ -79,13 +79,15 @@
     "coveralls": "^2.11.14",
     "elm-hot-webpack-loader": "^1.0.2",
     "elm-test": "^0.18.2",
-    "enzyme": "^2.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "expect": "^1.14.0",
     "expect-jsx": "^5.0.0",
     "firebase-tools": "^3.9.0",
     "flow-bin": "^0.36.0",
     "localStorage": "^1.0.3",
     "nock": "^9.0.2",
+    "react-test-renderer": "^16.6.0",
     "sessionstorage": "^0.0.1",
     "sinon": "^1.17.3"
   },
