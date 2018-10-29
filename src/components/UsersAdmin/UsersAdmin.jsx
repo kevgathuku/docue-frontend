@@ -11,9 +11,10 @@ import {
   initiateUpdateProfile,
 } from '../../actions/actionCreators';
 
-class UsersAdmin extends React.Component {
+export class UsersAdmin extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    fetchUsers: PropTypes.func.isRequired,
+    updateProfile: PropTypes.func.isRequired,
     users: PropTypes.array,
   };
 
@@ -23,7 +24,6 @@ class UsersAdmin extends React.Component {
     this.state = {
       token: localStorage.getItem('user'),
       selectedRole: null,
-      users: null,
       roles: [],
       access: {
         viewer: 'Public Documents',
@@ -36,7 +36,7 @@ class UsersAdmin extends React.Component {
 
   componentDidMount() {
     RoleActions.getRoles(this.state.token);
-    this.props.dispatch(fetchUsers(this.state.token));
+    this.props.fetchUsers(this.state.token);
     RoleStore.addChangeListener(this.handleRolesResult);
   }
 
@@ -51,29 +51,19 @@ class UsersAdmin extends React.Component {
 
   // Prepend the user object to the function arguments through bind
   handleSelectChange = (user, val) => {
-    let stateObject = (function() {
-      let returnObj = {};
-      returnObj[user._id] = val;
-      return returnObj;
-    })();
-    this.setState(stateObject);
     // Update the user's Role
     // Don't update if the already existing role is the one chosen
     if (user.role._id !== val._id) {
       user.role = val;
 
-      this.props.dispatch(
-        initiateUpdateProfile(user._id, user, this.state.token)
-      );
+      this.props.updateProfile(user._id, user, this.state.token);
     }
   };
 
   render() {
-    let renderUser = (user) => {
-      let access = this.state[user._id]
-        ? this.state[user._id].title
-        : user.role.title;
-      let description = this.state.access[access];
+    const renderUser = (user) => {
+      const access = user.role.title;
+      const description = this.state.access[access];
       return (
         <tr key={user._id}>
           <td>{`${user.name.first} ${user.name.last}`}</td>
@@ -130,4 +120,18 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UsersAdmin);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfile: (userId, updatedUserObject, token) => {
+      dispatch(initiateUpdateProfile(userId, updatedUserObject, token));
+    },
+    fetchUsers: (token) => {
+      dispatch(fetchUsers(token));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UsersAdmin);
