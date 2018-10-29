@@ -32,6 +32,7 @@ class SignupForm extends React.Component {
     let { signupError, user, token } = this.props;
     if (signupError && prevProps.signupError !== this.props.signupError) {
       window.Materialize.toast(signupError.error, 2000, 'error-toast');
+      return;
     }
 
     if (token && prevProps.token !== this.props.token) {

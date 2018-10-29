@@ -43,6 +43,16 @@ export const loginSuccess = (loginResult) => ({
   payload: { loginResult },
 });
 
+export const logoutFailure = (error) => ({
+  type: AppConstants.LOGOUT_ERROR,
+  payload: { error },
+});
+
+export const logoutSuccess = (logoutResult) => ({
+  type: AppConstants.LOGOUT_SUCCESS,
+  payload: { logoutResult },
+});
+
 export const fetchUsers = (token) => (dispatch) => {
   dispatch(fetchUsersStart());
 
@@ -84,6 +94,20 @@ export const initiateLogin = (payload) => (dispatch) => {
         dispatch(loginFailure(err.response.body.error));
       } else {
         dispatch(loginSuccess(result.body));
+      }
+    });
+};
+
+export const initiateLogout = (token) => (dispatch) => {
+  request
+    .post(`${BaseActions.BASE_URL}/api/users/logout`)
+    .set('x-access-token', token)
+    .send({})
+    .end((err, result) => {
+      if (err) {
+        dispatch(logoutFailure(err.response.body.error));
+      } else {
+        dispatch(logoutSuccess(result.body));
       }
     });
 };

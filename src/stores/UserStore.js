@@ -5,15 +5,10 @@ class UserStore {
     extendObservable(this, {
       // Minimally defined state
       session: null,
-      logoutResult: null,
       profileUpdateResult: null,
 
       setSession: action(function(session) {
         this.session = session;
-      }),
-
-      setLogoutResult: action(function(logoutResult) {
-        this.logoutResult = logoutResult;
       }),
 
       setProfileUpdateResult: action(function(profileUpdateResult) {

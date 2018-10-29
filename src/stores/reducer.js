@@ -6,6 +6,7 @@ const initialState = {
   session: null,
   loginError: '',
   logoutResult: null,
+  logoutError: '',
   signupError: null,
   profileUpdateResult: null,
   token: '',
@@ -31,6 +32,17 @@ const reducer = (state = initialState, action) => {
         loginError: '',
         token,
         user,
+      });
+    }
+    case AppConstants.LOGOUT_ERROR:
+      return Object.assign({}, state, { logoutError: action.payload.error });
+    case AppConstants.LOGOUT_SUCCESS: {
+      const { message } = action.payload.logoutResult;
+      return Object.assign({}, state, {
+        logoutError: '',
+        token: '',
+        user: {},
+        logoutResult: message,
       });
     }
     default:

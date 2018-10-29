@@ -60,22 +60,6 @@ describe('UserActions', function() {
     );
   });
 
-  it('logout triggers change in userStore', function(done) {
-    UserActions.logout(payload, 'token', store);
-
-    when(
-      () => store.logoutResult,
-      () => {
-        try {
-          expect(store.logoutResult).toEqual(response);
-          done();
-        } catch (e) {
-          done.fail(e);
-        }
-      }
-    );
-  });
-
   it('update triggers change in userStore', function(done) {
     UserActions.update(userID, payload, 'token', store);
 
