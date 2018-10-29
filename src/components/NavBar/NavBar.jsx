@@ -72,7 +72,7 @@ class NavBar extends React.Component {
   };
 
   render() {
-    return this.props.pathname === '/' ? null : (
+    return (
       <nav className="transparent black-text" role="navigation">
         <div className="nav-wrapper container">
           <a className="brand-logo brand-logo-small" href="/">

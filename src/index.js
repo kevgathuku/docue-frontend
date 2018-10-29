@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Switch,
+  Route,
+} from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
@@ -30,7 +35,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <DefaultLayout exact path="/" component={Landing} />
+        <Route exact path="/" component={Landing} />
         <DefaultLayout path="/auth" component={Auth} />
         <DefaultLayout exact path="/admin" component={Admin} />
         <DefaultLayout path="/admin/roles" component={RolesAdmin} />
