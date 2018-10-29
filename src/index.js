@@ -18,8 +18,6 @@ import { DefaultLayout } from './components/Landing/Main.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import RolesAdmin from './components/RolesAdmin/RolesAdmin.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
-import CustomProvider from './components/Landing/Provider';
-import userStore from './stores/UserStore';
 
 import 'normalize.css/normalize.css';
 import 'react-select/dist/react-select.css';
@@ -30,24 +28,22 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <CustomProvider userStore={userStore}>
-      <Router>
-        <Switch>
-          <DefaultLayout exact path="/" component={Landing} />
-          <DefaultLayout path="/auth" component={Auth} />
-          <DefaultLayout exact path="/admin" component={Admin} />
-          <DefaultLayout path="/admin/roles" component={RolesAdmin} />
-          <DefaultLayout path="/admin/users" component={UsersAdmin} />
-          <DefaultLayout path="/admin/roles/create" component={CreateRole} />
-          <DefaultLayout path="/dashboard" component={Dashboard} />
-          <DefaultLayout path="/documents/create" component={CreateDocument} />
-          <DefaultLayout path="/documents/:id" component={DocumentPage} />
-          <DefaultLayout path="/profile" component={Profile} />
-          <DefaultLayout path="/404" component={NotFound} />
-          <Redirect path="*" to="404" />
-        </Switch>
-      </Router>
-    </CustomProvider>
+    <Router>
+      <Switch>
+        <DefaultLayout exact path="/" component={Landing} />
+        <DefaultLayout path="/auth" component={Auth} />
+        <DefaultLayout exact path="/admin" component={Admin} />
+        <DefaultLayout path="/admin/roles" component={RolesAdmin} />
+        <DefaultLayout path="/admin/users" component={UsersAdmin} />
+        <DefaultLayout path="/admin/roles/create" component={CreateRole} />
+        <DefaultLayout path="/dashboard" component={Dashboard} />
+        <DefaultLayout path="/documents/create" component={CreateDocument} />
+        <DefaultLayout path="/documents/:id" component={DocumentPage} />
+        <DefaultLayout path="/profile" component={Profile} />
+        <DefaultLayout path="/404" component={NotFound} />
+        <Redirect path="*" to="404" />
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById('content')
 );

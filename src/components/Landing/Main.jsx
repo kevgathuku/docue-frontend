@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import userStore from '../../stores/UserStore';
 import Provider from './Provider';
 
 import NavBar from '../NavBar/NavBar.jsx';
@@ -12,7 +11,7 @@ export const DefaultLayout = ({ component: Component, ...rest }) => {
       {...rest}
       render={(matchProps) => {
         return (
-          <Provider userStore={userStore}>
+          <Provider>
             <NavBar pathname={matchProps.location.pathname} {...matchProps} />
             <Component {...matchProps} />
           </Provider>

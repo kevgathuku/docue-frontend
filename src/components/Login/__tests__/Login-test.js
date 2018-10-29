@@ -4,7 +4,6 @@ import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import userStore from '../../../stores/UserStore';
 import Login from '../Login.jsx';
 
 describe('Login', function() {
@@ -27,7 +26,7 @@ describe('Login', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      login = mount(<Login userStore={userStore} />);
+      login = mount(<Login />);
     });
 
     afterEach(function() {
@@ -47,7 +46,6 @@ describe('Login', function() {
             },
           },
         };
-        userStore.loginResult = response;
         // Should be handled correctly
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
@@ -61,7 +59,6 @@ describe('Login', function() {
         let response = {
           error: 'Error Occurred',
         };
-        userStore.loginResult = response;
         // Should be handled correctly
         expect(window.Materialize.toast.withArgs(response.error).called).toBe(
           true

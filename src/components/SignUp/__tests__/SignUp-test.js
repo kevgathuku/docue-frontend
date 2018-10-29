@@ -1,32 +1,21 @@
-'use strict';
-
 import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import UserActions from '../../../actions/UserActions';
 import SignUp from '../SignUp.jsx';
-import userStore from '../../../stores/UserStore';
 
 describe('SignUp', function() {
   describe('Component Rendering', function() {
     it('displays the correct contents', function() {
       // It should find the correct content
-      expect(shallow(<SignUp userStore={userStore} />).text()).toMatch(
-        /First Name/
-      );
-      expect(shallow(<SignUp userStore={userStore} />).text()).toMatch(
-        /Sign up/
-      );
+      expect(shallow(<SignUp />).text()).toMatch(/First Name/);
+      expect(shallow(<SignUp />).text()).toMatch(/Sign up/);
     });
 
     it('renders the correct component', function() {
-      expect(shallow(<SignUp userStore={userStore} />).is('.row')).toEqual(
-        true
-      );
-      expect(
-        shallow(<SignUp userStore={userStore} />).find('.input-field').length
-      ).toEqual(5);
+      expect(shallow(<SignUp />).is('.row')).toEqual(true);
+      expect(shallow(<SignUp />).find('.input-field').length).toEqual(5);
     });
   });
 
@@ -37,7 +26,7 @@ describe('SignUp', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      signUp = mount(<SignUp userStore={userStore} />);
+      signUp = mount(<SignUp />);
     });
 
     afterEach(function() {
@@ -79,11 +68,11 @@ describe('SignUp', function() {
           user: {
             name: 'kevin',
             role: {
-              title: 'viewer'
-            }
-          }
+              title: 'viewer',
+            },
+          },
         };
-        userStore.signupResult = response;
+        // userStore.signupResult = response;
         // Should be handled correctly
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
@@ -94,9 +83,9 @@ describe('SignUp', function() {
       it('should return the correct result if signup raised error', function() {
         // Trigger a change in the signup store
         let response = {
-          error: 'Error Occurred'
+          error: 'Error Occurred',
         };
-        userStore.signupResult = response;
+        // userStore.signupResult = response;
         // Should be handled correctly
         expect(window.Materialize.toast.withArgs(response.error).called).toBe(
           true
@@ -109,9 +98,9 @@ describe('SignUp', function() {
         let fieldChangeEvent = {
           target: {
             name: 'email',
-            value: 'my@email.com'
+            value: 'my@email.com',
           },
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = signUp.instance();
         sinon.spy(instance, 'handleFieldChange');
@@ -126,9 +115,9 @@ describe('SignUp', function() {
         let fieldChangeEvent = {
           target: {
             name: 'password-confirm',
-            value: 'my@email.com'
+            value: 'my@email.com',
           },
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = signUp.instance();
         sinon.spy(instance, 'handleFieldChange');
@@ -145,7 +134,7 @@ describe('SignUp', function() {
         sinon.stub(UserActions, 'signup').returns(true);
         // simulate the submit form event
         let signUpEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = signUp.instance();
         sinon.spy(instance, 'handleSubmit');
@@ -153,7 +142,7 @@ describe('SignUp', function() {
         sinon.spy(signUpEvent, 'preventDefault');
         signUp.setState({
           password: 'password',
-          passwordConfirm: 'password'
+          passwordConfirm: 'password',
         });
         // Submit the form
         signUp.find('form').simulate('submit', signUpEvent);
