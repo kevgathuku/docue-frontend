@@ -181,4 +181,4 @@ class DocumentPage extends React.Component {
   }
 }
 
-module.exports = DocumentPage;
+export default DocumentPage;

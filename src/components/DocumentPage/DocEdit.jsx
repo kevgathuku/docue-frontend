@@ -9,7 +9,7 @@ class DocEdit extends React.Component {
   static propTypes = {
     doc: PropTypes.object,
     roles: PropTypes.arrayOf(PropTypes.object),
-    updateDoc: PropTypes.func
+    updateDoc: PropTypes.func,
   };
 
   constructor(props) {
@@ -20,7 +20,7 @@ class DocEdit extends React.Component {
       title: this.props.doc.title,
       content: this.props.doc.content,
       role: this.props.doc.role,
-      options: []
+      options: [],
     };
   }
 
@@ -42,13 +42,9 @@ class DocEdit extends React.Component {
     let documentPayload = {
       title: this.state.title,
       content: this.state.content,
-      role: this.state.role
+      role: this.state.role,
     };
-    DocActions.editDoc(
-      this.props.doc._id,
-      documentPayload,
-      this.state.token
-    );
+    DocActions.editDoc(this.props.doc._id, documentPayload, this.state.token);
   };
 
   handleEditResult = () => {
@@ -63,20 +59,9 @@ class DocEdit extends React.Component {
     }
   };
 
-  getOptions = (input, callback) => {
-    setTimeout(() => {
-      callback(null, {
-        options: this.props.roles,
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true
-      });
-    }, 1000);
-  };
-
   handleSelectChange = (val) => {
     this.setState({
-      role: val
+      role: val,
     });
   };
 
@@ -88,43 +73,61 @@ class DocEdit extends React.Component {
           <div className="row">
             <form className="col s12">
               <div className="input-field col s6">
-                <input className="validate"
-                    id="title"
-                    name="title"
-                    value={this.state.title}
-                    onChange={this.handleFieldChange}
-                    type="text"
+                <input
+                  className="validate"
+                  id="title"
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleFieldChange}
+                  type="text"
                 />
-              <label className="active" htmlFor="title">Title</label>
+                <label className="active" htmlFor="title">
+                  Title
+                </label>
               </div>
               <div className="input-field col s6">
-                <Select.Async style={{top: 10}}
-                    labelKey="title"
-                    valueKey="_id"
-                    loadOptions={this.getOptions}
-                    name="role"
-                    options={this.state.options}
-                    onChange={this.handleSelectChange}
-                    placeholder="Select Role"
-                    value={this.state.role}
+                <Select
+                  getOptionLabel={(option) => {
+                    return option.title;
+                  }}
+                  getOptionValue={(option) => {
+                    return option._id;
+                  }}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      color: 'white',
+                      maxHeight: '50px',
+                    }),
+                  }}
+                  name="role"
+                  options={this.props.roles}
+                  onChange={this.handleSelectChange}
+                  placeholder="Select Role"
+                  value={this.state.role}
+                  isSearchable={false}
                 />
               </div>
               <div className="input-field col s12">
-                <textarea className="validate materialize-textarea"
-                    id="content"
-                    name="content"
-                    value={this.state.content}
-                    onChange={this.handleFieldChange}
+                <textarea
+                  className="validate materialize-textarea"
+                  id="content"
+                  name="content"
+                  value={this.state.content}
+                  onChange={this.handleFieldChange}
                 />
-              <label className="active" htmlFor="content">Content</label>
+                <label className="active" htmlFor="content">
+                  Content
+                </label>
               </div>
             </form>
           </div>
         </div>
         <div className="modal-footer">
           <div className="container">
-            <button className="btn modal-action modal-close waves-effect blue right"
-                onClick={this.handleSubmit}
+            <button
+              className="btn modal-action modal-close waves-effect blue right"
+              onClick={this.handleSubmit}
             >
               update
             </button>

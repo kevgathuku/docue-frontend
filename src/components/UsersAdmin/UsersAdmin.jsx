@@ -11,8 +11,6 @@ import {
   initiateUpdateProfile,
 } from '../../actions/actionCreators';
 
-import 'react-select/dist/react-select.css';
-
 class UsersAdmin extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -26,7 +24,7 @@ class UsersAdmin extends React.Component {
       token: localStorage.getItem('user'),
       selectedRole: null,
       users: null,
-      roles: null,
+      roles: [],
       access: {
         viewer: 'Public Documents',
         staff: 'Staff and Public Documents',
@@ -49,17 +47,6 @@ class UsersAdmin extends React.Component {
   handleRolesResult = () => {
     let roles = RoleStore.getRoles();
     this.setState({ roles: roles });
-  };
-
-  getOptions = (input, callback) => {
-    setTimeout(() => {
-      callback(null, {
-        options: this.state.roles,
-        // CAREFUL! Only set this to true when there are no more options,
-        // or more specific queries will not be sent to the server.
-        complete: true,
-      });
-    }, 1000);
   };
 
   // Prepend the user object to the function arguments through bind
@@ -92,16 +79,20 @@ class UsersAdmin extends React.Component {
           <td>{`${user.name.first} ${user.name.last}`}</td>
           <td>{user.email}</td>
           <td>
-            <Select.Async
-              clearable={false}
-              labelKey="title"
-              valueKey="_id"
-              loadOptions={this.getOptions}
+            <Select
+              getOptionLabel={(option) => {
+                return option.title;
+              }}
+              getOptionValue={(option) => {
+                return option._id;
+              }}
+              styles={{ control: (base) => ({ ...base, maxHeight: '50px' }) }}
               name="role"
-              options={this.state.options}
+              options={this.state.roles}
               onChange={this.handleSelectChange.bind(null, user)}
               placeholder="Select Role"
               value={user.role}
+              isSearchable={false}
             />
           </td>
           <td>{description}</td>
