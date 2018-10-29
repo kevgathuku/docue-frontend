@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 
 import RoleActions from '../../actions/RoleActions';
 import RoleStore from '../../stores/RoleStore';
-import UserActions from '../../actions/UserActions';
 
-import { fetchUsers } from '../../actions/actionCreators';
+import {
+  fetchUsers,
+  initiateUpdateProfile,
+} from '../../actions/actionCreators';
 
 import 'react-select/dist/react-select.css';
 
@@ -72,7 +74,10 @@ class UsersAdmin extends React.Component {
     // Don't update if the already existing role is the one chosen
     if (user.role._id !== val._id) {
       user.role = val;
-      UserActions.update(user._id, user, this.state.token, this.userStore);
+
+      this.props.dispatch(
+        initiateUpdateProfile(user._id, user, this.state.token)
+      );
     }
   };
 

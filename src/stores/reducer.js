@@ -12,6 +12,7 @@ const initialState = {
   logoutError: '',
   signupError: null,
   profileUpdateResult: null,
+  profileUpdateError: '',
   token: '',
   user: {},
   loggedIn: {},
@@ -34,6 +35,21 @@ const reducer = (state = initialState, action) => {
       const { token, user } = action.payload.loginResult;
       return Object.assign({}, state, { loginError: '', token, user });
     }
+    case AppConstants.PROFILE_UPDATE_ERROR:
+      return Object.assign({}, state, {
+        profileUpdateError: action.payload.error,
+      });
+    case AppConstants.PROFILE_UPDATE_SUCCESS: {
+      const { user: updatedUser } = action.payload;
+      const users = state.users.map((user) => {
+        if (user._id === updatedUser._id) {
+          return updatedUser;
+        } else {
+          return user;
+        }
+      });
+      return Object.assign({}, state, { profileUpdateError: '', users });
+    }
     case AppConstants.LOGOUT_ERROR:
       return Object.assign({}, state, { logoutError: action.payload.error });
     case AppConstants.LOGOUT_SUCCESS: {
@@ -46,9 +62,7 @@ const reducer = (state = initialState, action) => {
       });
     }
     case AppConstants.GET_SESSION_ERROR:
-      return Object.assign({}, state, {
-        sessionError: action.payload.error,
-      });
+      return Object.assign({}, state, { sessionError: action.payload.error });
     case AppConstants.GET_SESSION_SUCCESS:
       {
         const { loggedIn } = action.payload.session;

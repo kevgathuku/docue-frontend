@@ -25,6 +25,10 @@ export const loginStart = () => ({ type: AppConstants.LOGIN_START });
 
 export const getSessionStart = () => ({ type: AppConstants.GET_SESSION_START });
 
+export const profileUpdateStart = () => ({
+  type: AppConstants.PROFILE_UPDATE_START,
+});
+
 export const signupFailure = (error) => ({
   type: AppConstants.SIGNUP_ERROR,
   payload: { error },
@@ -63,6 +67,16 @@ export const getSessionFailure = (error) => ({
 export const getSessionSuccess = (session) => ({
   type: AppConstants.GET_SESSION_SUCCESS,
   payload: { session },
+});
+
+export const profileUpdateFailure = (error) => ({
+  type: AppConstants.PROFILE_UPDATE_ERROR,
+  payload: { error },
+});
+
+export const profileUpdateSuccess = (user) => ({
+  type: AppConstants.PROFILE_UPDATE_SUCCESS,
+  payload: { user },
 });
 
 export const fetchUsers = (token) => (dispatch) => {
@@ -120,6 +134,22 @@ export const initiateLogout = (token) => (dispatch) => {
         dispatch(logoutFailure(err.response.body.error));
       } else {
         dispatch(logoutSuccess(result.body));
+      }
+    });
+};
+
+export const initiateUpdateProfile = (userId, payload, token) => (dispatch) => {
+  dispatch(profileUpdateStart());
+
+  request
+    .put(`${BaseActions.BASE_URL}/api/users/${userId}`)
+    .set('x-access-token', token)
+    .send(payload)
+    .end((err, result) => {
+      if (err) {
+        dispatch(profileUpdateFailure(err.response.body.error));
+      } else {
+        dispatch(profileUpdateSuccess(result.body));
       }
     });
 };
