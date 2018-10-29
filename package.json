@@ -100,8 +100,15 @@
   "proxy": "http://localhost:8000",
   "homepage": "https://docue-5105d.firebaseapp.com",
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
     ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
