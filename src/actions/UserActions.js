@@ -3,15 +3,6 @@ import request from 'superagent';
 import BaseActions from './BaseActions';
 
 export default {
-  login: (user, store) => {
-    request
-      .post(`${BaseActions.BASE_URL}/api/users/login`)
-      .send(user)
-      .end((err, result) => {
-        store.setLoginResult(result.body);
-      });
-  },
-
   logout: (data, token, store) => {
     request
       .post(`${BaseActions.BASE_URL}/api/users/logout`)
