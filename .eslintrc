@@ -41,8 +41,7 @@
     "react/react-in-jsx-scope": 1,
     "react/require-extension": 0,
     "react/self-closing-comp": 1,
-    "react/sort-comp": 1,
-    "react/wrap-multilines": 1
+    "react/sort-comp": 1
   },
   "env": {
     "es6": true,
@@ -51,9 +50,6 @@
     "jasmine": true,
     "mocha": true,
     "jest": true
-  },
-  "ecmaFeatures": {
-    "jsx": true
   },
   "plugins": [
     "react"

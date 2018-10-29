@@ -1,11 +1,8 @@
 {
-  "presets": [
-    "react",
-    "es2015",
-    "stage-0"
-  ],
+  "presets": ["react-app", "@babel/preset-env"],
   "plugins": [
-    "syntax-flow",
-    "transform-flow-strip-types"
+    "@babel/plugin-syntax-flow",
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-proposal-class-properties"
   ]
 }
