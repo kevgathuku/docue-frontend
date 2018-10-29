@@ -7,6 +7,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "test:ci": "node scripts/test.js --env=jsdom --coverage",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "test:elm": "elm-test"
   },
   "dependencies": {
@@ -76,7 +77,7 @@
     "@babel/plugin-syntax-flow": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "^3.0.0",
     "elm-hot-webpack-loader": "^1.0.2",
     "elm-test": "^0.18.2",
     "enzyme": "^3.7.0",
