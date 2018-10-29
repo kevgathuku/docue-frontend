@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import Profile from '../Profile.jsx';
 import UserActions from '../../../actions/UserActions';
-import userStore from '../../../stores/UserStore';
 
 describe('Profile', function() {
   beforeAll(function() {
@@ -14,12 +13,12 @@ describe('Profile', function() {
       _id: 1,
       name: {
         first: 'Khaled',
-        last: 'Another One'
+        last: 'Another One',
       },
       role: {
-        title: 'viewer'
+        title: 'viewer',
       },
-      email: 'khaled@anotherone.com'
+      email: 'khaled@anotherone.com',
     };
     var storage = sinon.stub(localStorage, 'getItem');
     storage.withArgs('userInfo').returns(JSON.stringify(user));
@@ -46,7 +45,7 @@ describe('Profile', function() {
 
     it('displays the edit form on edit click', function() {
       let toggleClickEvent = {
-        preventDefault: function() {}
+        preventDefault: function() {},
       };
       sinon.spy(toggleClickEvent, 'preventDefault');
       let profile = shallow(<Profile />);
@@ -67,10 +66,10 @@ describe('Profile', function() {
       window.Materialize.toast = sinon.mock();
       // simulate the edit button click to display the edit form
       let toggleClickEvent = {
-        preventDefault: function() {}
+        preventDefault: function() {},
       };
       sinon.spy(toggleClickEvent, 'preventDefault');
-      profile = mount(<Profile userStore={userStore} />);
+      profile = mount(<Profile />);
       profile.find('a.btn-floating').simulate('click', toggleClickEvent);
     });
 
@@ -88,7 +87,7 @@ describe('Profile', function() {
         instance.comparePassword.restore();
       });
 
-      it('should return false if the passwords don\'t match', function() {
+      it("should return false if the passwords don't match", function() {
         const instance = profile.instance();
         sinon.spy(instance, 'comparePassword');
         instance.comparePassword('password', 'paewewjwenfssword');
@@ -107,7 +106,7 @@ describe('Profile', function() {
       it('should call comparePassword on submit click', function() {
         // simulate the submit form event
         let editProfileEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = profile.instance();
         sinon.spy(instance, 'handleSubmit');
@@ -115,7 +114,7 @@ describe('Profile', function() {
         sinon.spy(editProfileEvent, 'preventDefault');
         profile.setState({
           password: 'pass',
-          passwordConfirm: 'pass'
+          passwordConfirm: 'pass',
         });
         expect(profile.state().password).toEqual('pass');
         expect(profile.state().passwordConfirm).toEqual('pass');
@@ -134,11 +133,11 @@ describe('Profile', function() {
 
       it('should send the password if the passwords match', function() {
         let editProfileEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         let passwordStates = {
           password: 'password',
-          passwordConfirm: 'password'
+          passwordConfirm: 'password',
         };
         const instance = profile.instance();
         sinon.spy(instance, 'handleSubmit');
@@ -162,14 +161,13 @@ describe('Profile', function() {
           firstname: profile.state().firstname,
           lastname: profile.state().lastname,
           email: profile.state().email,
-          password: profile.state().password
+          password: profile.state().password,
         };
         expect(
           UserActions.update.withArgs(
             profile.state().user._id,
             payload,
-            profile.state().token,
-            profile.props().userStore
+            profile.state().token
           ).called
         ).toBe(true);
         expect(UserActions.update.called).toBe(true);
@@ -179,14 +177,14 @@ describe('Profile', function() {
 
       it('should not send password if it has not changed', function() {
         let editProfileEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = profile.instance();
         sinon.spy(instance, 'handleSubmit');
         sinon.spy(instance, 'comparePassword');
         sinon.spy(editProfileEvent, 'preventDefault');
         profile.setState({
-          password: 'password'
+          password: 'password',
         });
         // Submit the edit form
         profile
@@ -198,15 +196,14 @@ describe('Profile', function() {
         let payload = {
           firstname: profile.state().firstname,
           lastname: profile.state().lastname,
-          email: profile.state().email
+          email: profile.state().email,
         };
         expect(UserActions.update.called).toBe(true);
         expect(
           UserActions.update.withArgs(
             profile.state().user._id,
             payload,
-            profile.state().token,
-            profile.props().userStore
+            profile.state().token
           ).called
         ).toBe(true);
         instance.comparePassword.restore();
@@ -216,7 +213,7 @@ describe('Profile', function() {
     describe('handleEditToggle', function() {
       it('should toggle the edit form', function() {
         let toggleClickEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = profile.instance();
         sinon.spy(instance, 'handleEditToggle');

@@ -6,7 +6,6 @@ import { shallow } from 'enzyme';
 import Auth from '../index.jsx';
 import Login from '../../Login/Login.jsx';
 import SignUp from '../../SignUp/SignUp.jsx';
-import userStore from '../../../stores/UserStore';
 
 describe('Auth', function() {
   describe('Component Rendering', function() {
@@ -23,7 +22,7 @@ describe('Auth', function() {
 
     it('renders the children components', function() {
       // It renders the provided child components
-      const auth = shallow(<Auth userStore={userStore} />);
+      const auth = shallow(<Auth />);
       expect(auth.find(Login)).toExist();
       expect(auth.find(SignUp)).toExist();
     });

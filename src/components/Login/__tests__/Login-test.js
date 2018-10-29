@@ -4,8 +4,6 @@ import React from 'react';
 import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import UserActions from '../../../actions/UserActions';
-import userStore from '../../../stores/UserStore';
 import Login from '../Login.jsx';
 
 describe('Login', function() {
@@ -28,7 +26,7 @@ describe('Login', function() {
 
     beforeEach(function() {
       window.Materialize.toast = sinon.spy();
-      login = mount(<Login userStore={userStore} />);
+      login = mount(<Login />);
     });
 
     afterEach(function() {
@@ -44,11 +42,10 @@ describe('Login', function() {
           user: {
             name: 'kevin',
             role: {
-              title: 'viewer'
-            }
-          }
+              title: 'viewer',
+            },
+          },
         };
-        userStore.loginResult = response;
         // Should be handled correctly
         expect(localStorage.setItem.withArgs('user').called).toBe(true);
         expect(localStorage.setItem.withArgs('userInfo').called).toBe(true);
@@ -60,9 +57,8 @@ describe('Login', function() {
       it('should return the correct result if login raised error', function() {
         // Trigger a change in the login store
         let response = {
-          error: 'Error Occurred'
+          error: 'Error Occurred',
         };
-        userStore.loginResult = response;
         // Should be handled correctly
         expect(window.Materialize.toast.withArgs(response.error).called).toBe(
           true
@@ -75,9 +71,9 @@ describe('Login', function() {
         let fieldChangeEvent = {
           target: {
             name: 'email',
-            value: 'my@email.com'
+            value: 'my@email.com',
           },
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = login.instance();
         sinon.spy(instance, 'handleFieldChange');
@@ -91,24 +87,22 @@ describe('Login', function() {
 
     describe('handleSubmit', function() {
       it('should call handleSubmit on submit click', function() {
-        sinon.stub(UserActions, 'login').returns(true);
         // simulate the submit form event
         let loginEvent = {
-          preventDefault: function() {}
+          preventDefault: function() {},
         };
         const instance = login.instance();
         sinon.spy(instance, 'handleSubmit');
         sinon.spy(loginEvent, 'preventDefault');
         login.setState({
           password: 'password',
-          passwordConfirm: 'password'
+          passwordConfirm: 'password',
         });
         // Submit the form
         login.find('form').simulate('submit', loginEvent);
         expect(loginEvent.preventDefault.called).toBe(true);
         expect(instance.handleSubmit.calledOnce).toBe(true);
         instance.handleSubmit.restore();
-        UserActions.login.restore();
       });
     });
   });

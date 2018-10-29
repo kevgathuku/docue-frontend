@@ -1,64 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Elm from '../../utils/ReactElm';
-import { observe } from 'mobx';
-import { observer, PropTypes as MobxPropTypes } from 'mobx-react';
 import ElmComponents from '../Login.elm';
+import { initiateLogin } from '../../actions/actionCreators';
 
-import UserActions from '../../actions/UserActions';
+class Login extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object,
+    loginError: PropTypes.string,
+    token: PropTypes.string,
+    user: PropTypes.object,
+  };
 
-const LoginForm = observer(
-  class LoginForm extends React.Component {
-    static propTypes = {
-      history: PropTypes.object,
-      userStore: MobxPropTypes.observableObject,
-    };
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-      super(props);
-      this.userStore = this.props.userStore;
+    this.setupPorts = this.setupPorts.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { loginError, user, token } = this.props;
+
+    if (loginError) {
+      this.showLoginError();
     }
 
-    componentDidMount() {
-      // Mobx eventListeners
-      observe(this.userStore, 'loginResult', this.handleLoginResult);
+    // The login was successful. Store user data in localStorage
+    if (token && prevProps.token !== this.props.token) {
+      localStorage.setItem('user', token);
     }
 
-    handleLoginResult = () => {
-      let data = this.userStore.loginResult;
-      if (data) {
-        if (data.error) {
-          window.Materialize.toast(data.error, 2000, 'error-toast');
-        } else {
-          // The login was successful. Store user data in localStorage
-          localStorage.setItem('user', data.token);
-          localStorage.setItem('userInfo', JSON.stringify(data.user));
-          window.Materialize.toast(
-            'Logged in Successfully!',
-            2000,
-            'success-toast'
-          );
-          this.props.history.push('/dashboard');
-        }
-      }
-    };
-
-    setupPorts = (ports) => {
-      let userStore = this.userStore;
-      // Receives a record from Elm, which comes in as a JS obect
-      ports.handleSubmit.subscribe(function(model) {
-        let loginPayload = {
-          username: model.email,
-          password: model.password,
-        };
-        UserActions.login(loginPayload, userStore);
-      });
-    };
-
-    render() {
-      return <Elm src={ElmComponents.Elm.Login} ports={this.setupPorts} />;
+    if (user && prevProps.user !== this.props.user) {
+      // The signup was successful. Save user's info in localStorage
+      localStorage.setItem('userInfo', JSON.stringify(user));
+      window.Materialize.toast(
+        'Logged in Successfully!',
+        2000,
+        'success-toast'
+      );
+      this.props.history.push('/dashboard');
     }
   }
-);
 
-module.exports = LoginForm;
+  showLoginError = () => {
+    const { loginError } = this.props;
+    return window.Materialize.toast(loginError, 2000, 'error-toast');
+  };
+
+  setupPorts(ports) {
+    const component = this;
+    // Receives a record from Elm, which comes in as a JS obect
+    ports.handleSubmit.subscribe(function(model) {
+      let loginPayload = {
+        username: model.email,
+        password: model.password,
+      };
+      component.props.dispatch(initiateLogin(loginPayload));
+    });
+  }
+
+  render() {
+    return <Elm src={ElmComponents.Elm.Login} ports={this.setupPorts} />;
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    loginError: state.loginError,
+    token: state.token,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(Login);
