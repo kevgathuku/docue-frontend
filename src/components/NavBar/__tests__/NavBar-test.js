@@ -5,17 +5,8 @@ import sinon from 'sinon';
 import expect from 'expect';
 import { mount, shallow } from 'enzyme';
 import NavBar from '../NavBar.jsx';
-import UserActions from '../../../actions/UserActions';
 
 describe('NavBar', function() {
-  beforeEach(function() {
-    sinon.stub(UserActions, 'getSession').returns(true);
-  });
-
-  afterEach(function() {
-    UserActions.getSession.restore();
-  });
-
   describe('Component Rendering', function() {
     beforeEach(function() {
       localStorage.clear();
@@ -56,29 +47,14 @@ describe('NavBar', function() {
       expect(navBar.state().pathname).toEqual('/');
     });
 
-    it('calls registered callbacks on mount', () => {
-      // Mount the component
-      mount(<NavBar />);
-      expect(UserActions.getSession.calledOnce).toBe(true);
-    });
-
     it('renders relevant links if user is logged in', function() {
       let navBar = mount(<NavBar />);
-      // userStore.session = {
-      //   loggedIn: 'true',
-      //   user: {
-      //     name: 'Kevin',
-      //     role: {
-      //       title: 'admin',
-      //     },
-      //   },
-      // };
       expect(navBar.text()).toMatch(/Settings/);
       expect(navBar.text()).toMatch(/Profile/);
     });
 
     it('should activate the materialize dropdowns', function(done) {
-      mount(<NavBar />); // Mount the component
+      mount(<NavBar />);
       // The menu activators should be activated after component mount & update
       expect(window.$.withArgs('.dropdown-button').called).toBe(true);
       expect(window.$.withArgs('.button-collapse').called).toBe(true);
@@ -94,16 +70,7 @@ describe('NavBar', function() {
 
       it('sets the correct state if the response is valid', function() {
         let navBar = mount(<NavBar />);
-        // Trigger a change in the UserStore
-        userStore.session = {
-          loggedIn: 'true',
-          user: {
-            name: 'Kevin',
-            role: {
-              title: 'viewer',
-            },
-          },
-        };
+        // TODO: Trigger a change in the UserStore
         expect(navBar.state().loggedIn).toEqual('true');
         expect(navBar.state().user).toBeA('object');
       });
@@ -232,7 +199,6 @@ describe('NavBar', function() {
       let mockEvent = {
         preventDefault: function() {},
       };
-      sinon.stub(UserActions, 'logout').returns(true);
       let user = {
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         user: {
@@ -251,9 +217,7 @@ describe('NavBar', function() {
       expect(navBar.find('#logout-btn').length).toBe(1);
       navBar.find('#logout-btn').simulate('click', mockEvent);
       expect(mockEvent.preventDefault.called).toBe(true);
-      expect(UserActions.logout.withArgs({}, user.token).called).toBe(true);
       expect(inst.handleLogoutSubmit.calledOnce).toBe(true);
-      UserActions.logout.restore();
     });
   });
 });
