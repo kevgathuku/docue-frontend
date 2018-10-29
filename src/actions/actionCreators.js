@@ -23,6 +23,8 @@ export const signupStart = () => ({ type: AppConstants.SIGNUP_START });
 
 export const loginStart = () => ({ type: AppConstants.LOGIN_START });
 
+export const getSessionStart = () => ({ type: AppConstants.GET_SESSION_START });
+
 export const signupFailure = (error) => ({
   type: AppConstants.SIGNUP_ERROR,
   payload: { error },
@@ -51,6 +53,16 @@ export const logoutFailure = (error) => ({
 export const logoutSuccess = (logoutResult) => ({
   type: AppConstants.LOGOUT_SUCCESS,
   payload: { logoutResult },
+});
+
+export const getSessionFailure = (error) => ({
+  type: AppConstants.GET_SESSION_ERROR,
+  payload: { error },
+});
+
+export const getSessionSuccess = (session) => ({
+  type: AppConstants.GET_SESSION_SUCCESS,
+  payload: { session },
 });
 
 export const fetchUsers = (token) => (dispatch) => {
@@ -108,6 +120,21 @@ export const initiateLogout = (token) => (dispatch) => {
         dispatch(logoutFailure(err.response.body.error));
       } else {
         dispatch(logoutSuccess(result.body));
+      }
+    });
+};
+
+export const getSession = (token) => (dispatch) => {
+  dispatch(getSessionStart());
+
+  request
+    .get(`${BaseActions.BASE_URL}/api/users/session`)
+    .set('x-access-token', token)
+    .end((err, result) => {
+      if (err) {
+        dispatch(getSessionFailure(err.response.body.error));
+      } else {
+        dispatch(getSessionSuccess(result.body));
       }
     });
 };

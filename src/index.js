@@ -6,7 +6,7 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './stores/reducer';
 
-import Auth from './components/Auth/index.jsx';
+import Auth from './components/Auth/Auth.jsx';
 import Admin from './components/Admin/Admin.jsx';
 import CreateDocument from './components/CreateDocument/index.jsx';
 import CreateRole from './components/CreateRole/CreateRole.jsx';

@@ -5,7 +5,6 @@ import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
 import RoleStore from '../../../stores/RoleStore';
-import userStore from '../../../stores/UserStore';
 import RoleActions from '../../../actions/RoleActions';
 import UserActions from '../../../actions/UserActions';
 import UsersAdmin from '../UsersAdmin.jsx';
@@ -13,12 +12,8 @@ import UsersAdmin from '../UsersAdmin.jsx';
 describe('UsersAdmin', function() {
   describe('Component Rendering', function() {
     it('renders the correct component', function() {
-      expect(
-        shallow(<UsersAdmin userStore={userStore} />).is('.container')
-      ).toEqual(true);
-      expect(shallow(<UsersAdmin userStore={userStore} />).text()).toMatch(
-        /Manage Users/
-      );
+      expect(shallow(<UsersAdmin />).is('.container')).toEqual(true);
+      expect(shallow(<UsersAdmin />).text()).toMatch(/Manage Users/);
     });
   });
 
@@ -31,7 +26,7 @@ describe('UsersAdmin', function() {
       sinon.stub(RoleActions, 'getRoles').returns(true);
       sinon.stub(UserActions, 'update').returns(true);
       window.Materialize.toast = sinon.spy();
-      usersAdmin = mount(<UsersAdmin userStore={userStore} />);
+      usersAdmin = mount(<UsersAdmin />);
     });
 
     afterEach(function() {

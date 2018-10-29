@@ -78,7 +78,6 @@ class SignupForm extends React.Component {
         password: this.state.password,
       };
       this.props.dispatch(initiateSignup(userPayload));
-      // UserActions.signup(userPayload, this.props.userStore);
     }
   };
 

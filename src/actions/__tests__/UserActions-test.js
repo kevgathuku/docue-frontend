@@ -75,20 +75,4 @@ describe('UserActions', function() {
       }
     );
   });
-
-  it('getSession triggers change in userStore', function(done) {
-    UserActions.getSession('token', store);
-
-    when(
-      () => store.session,
-      () => {
-        try {
-          expect(store.session).toEqual(response);
-          done();
-        } catch (e) {
-          done.fail(e);
-        }
-      }
-    );
-  });
 });

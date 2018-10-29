@@ -12,13 +12,4 @@ export default {
         store.setProfileUpdateResult(result.body);
       });
   },
-
-  getSession: (token, store) => {
-    request
-      .get(BaseActions.BASE_URL + '/api/users/session')
-      .set('x-access-token', token)
-      .end((err, result) => {
-        store.setSession(result.body);
-      });
-  },
 };

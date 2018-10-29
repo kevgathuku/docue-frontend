@@ -3,14 +3,18 @@ import AppConstants from '../constants/AppConstants';
 const initialState = {
   users: null,
   usersError: null,
-  session: null,
+  session: {
+    loggedIn: false,
+  },
+  sessionError: '',
   loginError: '',
-  logoutResult: null,
+  logoutResult: '',
   logoutError: '',
   signupError: null,
   profileUpdateResult: null,
   token: '',
   user: {},
+  loggedIn: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,11 +32,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { loginError: action.payload.error });
     case AppConstants.LOGIN_SUCCESS: {
       const { token, user } = action.payload.loginResult;
-      return Object.assign({}, state, {
-        loginError: '',
-        token,
-        user,
-      });
+      return Object.assign({}, state, { loginError: '', token, user });
     }
     case AppConstants.LOGOUT_ERROR:
       return Object.assign({}, state, { logoutError: action.payload.error });
@@ -45,6 +45,34 @@ const reducer = (state = initialState, action) => {
         logoutResult: message,
       });
     }
+    case AppConstants.GET_SESSION_ERROR:
+      return Object.assign({}, state, {
+        sessionError: action.payload.error,
+      });
+    case AppConstants.GET_SESSION_SUCCESS:
+      {
+        const { loggedIn } = action.payload.session;
+
+        if (loggedIn === 'false') {
+          return Object.assign({}, state, {
+            token: '',
+            user: {},
+            session: {
+              loggedIn: false,
+            },
+          });
+        }
+
+        if (loggedIn === 'true') {
+          return Object.assign({}, state, {
+            session: {
+              loggedIn: true,
+            },
+            user: action.payload.session.user,
+          });
+        }
+      }
+      break;
     default:
       return state;
   }

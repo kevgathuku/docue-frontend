@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observe } from 'mobx';
-import { PropTypes as mobxPropTypes } from 'mobx-react';
 import { connect } from 'react-redux';
 
-import UserActions from '../../actions/UserActions';
-import { initiateLogout } from '../../actions/actionCreators';
+import { getSession, initiateLogout } from '../../actions/actionCreators';
 import logoSrc from '../../images/favicon.png';
 
 class NavBar extends React.Component {
@@ -13,25 +10,20 @@ class NavBar extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object,
+    loggedIn: PropTypes.bool,
+    logoutResult: PropTypes.string,
     pathname: PropTypes.string,
+    session: PropTypes.shape({
+      loggedIn: PropTypes.bool,
+    }),
     token: PropTypes.string,
     user: PropTypes.object,
-    userStore: mobxPropTypes.observableObject,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      token: localStorage.getItem('user'),
-    };
-  }
-
   componentDidMount() {
+    const token = localStorage.getItem('user');
     // Send a request to check if the user is logged in
-    UserActions.getSession(this.state.token, this.props.userStore);
-    // Acts as eventListeners
-    observe(this.props.userStore, 'session', this.userSession);
+    this.props.dispatch(getSession(token));
 
     window.$('.dropdown-button').dropdown();
     window.$('.button-collapse').sideNav();
@@ -41,55 +33,37 @@ class NavBar extends React.Component {
     window.$('.dropdown-button').dropdown();
     // window.$('.button-collapse').sideNav();
 
-    const { logoutResult } = this.props;
+    const { logoutResult, session } = this.props;
 
     if (logoutResult && prevProps.logoutResult !== logoutResult) {
       // Remove the user's token and info
       localStorage.removeItem('user');
       localStorage.removeItem('userInfo');
 
-      // Set the state to update the navbar links
-      this.setState({ loggedIn: null });
-
       this.props.history.push('/');
     }
-  }
 
-  afterLoginUpdate = () => {
-    // Update the state after a user login event
-    let data = this.props.userStore.loginResult;
-    if (data && !data.error) {
-      this.setState({
-        loggedIn: 'true',
-      });
-    }
-  };
-
-  userSession = () => {
-    // Returns 'true' + the user object or 'false'
-    let response = this.props.userStore.session;
-    if (response && !response.error) {
-      this.setState({
-        loggedIn: response.loggedIn,
-        user: response.user,
-      });
-      if (response.loggedIn === 'false') {
+    if (session && prevProps.session !== session) {
+      // session contains 'true' + the user object or 'false'
+      if (session.loggedIn === false) {
         // If there is a user token in localStorage, remove it
         // because it is invalid now
         localStorage.removeItem('user');
         localStorage.removeItem('userInfo');
+
         // If the user is not logged in and is not on the homepage
         // redirect them to the login page
         if (this.props.pathname !== '/') {
           this.props.history.push('/auth');
         }
-      } else if (response.loggedIn === 'true') {
+      } else if (session.loggedIn) {
+        // Redirect to the dashboard if logged in and on the auth page or homepage
         if (this.props.pathname === '/auth' || this.props.pathname === '/') {
           this.props.history.push('/dashboard');
         }
       }
     }
-  };
+  }
 
   handleLogoutSubmit = (event) => {
     event.preventDefault();
@@ -115,14 +89,14 @@ class NavBar extends React.Component {
               <a href="/">Home</a>
             </li>
             <li>
-              {this.props.loggedIn === 'true' ? (
+              {this.props.loggedIn ? (
                 <a href="/profile">Profile</a>
               ) : (
                 <a href="/auth">Login</a>
               )}
             </li>
             <li>
-              {this.state.loggedIn === 'true' ? (
+              {this.props.loggedIn ? (
                 <a href="/#" onClick={this.handleLogoutSubmit}>
                   Logout
                 </a>
@@ -133,7 +107,7 @@ class NavBar extends React.Component {
           </ul>
           <ul className="right hide-on-med-and-down" id="nav-mobile">
             <li>
-              {this.state.loggedIn === 'true' ? (
+              {this.props.loggedIn ? (
                 <div>
                   <ul id="dropdown" className="dropdown-content">
                     <li>
@@ -183,8 +157,9 @@ const mapStateToProps = (state) => {
   return {
     token: state.token,
     user: state.user,
-    loggedIn: state.user._id && state.token,
+    loggedIn: state.user._id && state.session.loggedIn,
     logoutResult: state.logoutResult,
+    session: state.session,
   };
 };
 
