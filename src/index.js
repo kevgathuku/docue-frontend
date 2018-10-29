@@ -21,7 +21,6 @@ import RolesAdmin from './components/RolesAdmin/RolesAdmin.jsx';
 import UsersAdmin from './components/UsersAdmin/UsersAdmin.jsx';
 
 import 'normalize.css/normalize.css';
-import 'react-select/dist/react-select.css';
 import './styles/style.css';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
