@@ -1,10 +1,11 @@
 import nock from 'nock';
-import BaseActions from '../BaseActions';
 
-describe('UserActions', function() {
-  let response = {
-    status: 'OK',
-  };
+import AppConstants from '../../constants/AppConstants';
+import BaseActions from '../BaseActions';
+import { fetchUsersStart } from '../actionCreators';
+
+describe('UserActions', () => {
+  let response = { status: 'OK' };
   let userID = 4;
 
   beforeEach(function() {
@@ -31,5 +32,10 @@ describe('UserActions', function() {
     nock(BaseActions.BASE_URL)
       .get('/api/users')
       .reply(200, response);
+  });
+
+  it('should create a fetchUsersStart action', () => {
+    const expectedAction = { type: AppConstants.FETCH_USERS_START };
+    expect(fetchUsersStart()).toEqual(expectedAction);
   });
 });

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getSession, initiateLogout } from '../../actions/actionCreators';
 import logoSrc from '../../images/favicon.png';
 
-class NavBar extends React.Component {
+export class NavBar extends React.Component {
   // Receive the current pathname as a prop
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -72,7 +72,7 @@ class NavBar extends React.Component {
   };
 
   render() {
-    return this.props.pathname === '/' ? null : (
+    return (
       <nav className="transparent black-text" role="navigation">
         <div className="nav-wrapper container">
           <a className="brand-logo brand-logo-small" href="/">

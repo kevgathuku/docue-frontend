@@ -1,7 +1,6 @@
 'use strict';
 
 import sinon from 'sinon';
-import expect from 'expect';
 import request from 'superagent';
 import AppDispatcher from '../../dispatcher/AppDispatcher';
 import BaseActions from '../BaseActions';
@@ -11,7 +10,7 @@ describe('BaseActions', function() {
   let fakeActionType = 'ANOTHER_ONE';
   let response = {
     body: 'response',
-    statusCode: 418
+    statusCode: 418,
   };
   let fakeURL = '/api/khaled';
 
@@ -34,7 +33,7 @@ describe('BaseActions', function() {
         AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body,
-          statusCode: response.statusCode
+          statusCode: response.statusCode,
         }).called
       ).toBe(true);
     });
@@ -44,7 +43,7 @@ describe('BaseActions', function() {
       expect(
         AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
-          data: response.body
+          data: response.body,
         }).called
       ).toBe(true);
     });
@@ -54,7 +53,7 @@ describe('BaseActions', function() {
       expect(
         AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
-          data: response.body
+          data: response.body,
         }).called
       ).toBe(true);
     });
@@ -65,7 +64,7 @@ describe('BaseActions', function() {
         AppDispatcher.dispatch.withArgs({
           actionType: fakeActionType,
           data: response.body,
-          statusCode: response.statusCode
+          statusCode: response.statusCode,
         }).called
       ).toBe(true);
     });

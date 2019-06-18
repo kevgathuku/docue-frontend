@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
-import Provider from './Provider';
 
 import NavBar from '../NavBar/NavBar.jsx';
 
@@ -11,10 +10,10 @@ export const DefaultLayout = ({ component: Component, ...rest }) => {
       {...rest}
       render={(matchProps) => {
         return (
-          <Provider>
+          <React.Fragment>
             <NavBar pathname={matchProps.location.pathname} {...matchProps} />
             <Component {...matchProps} />
-          </Provider>
+          </React.Fragment>
         );
       }}
     />

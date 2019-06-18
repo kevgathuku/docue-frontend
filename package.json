@@ -5,8 +5,10 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "node scripts/test.js",
+    "test:watch": "npm test -- --watch",
     "test:ci": "node scripts/test.js --env=jsdom --coverage",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "test:elm": "elm-test"
   },
   "dependencies": {
@@ -14,7 +16,6 @@
     "@svgr/webpack": "2.4.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
-    "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.2.2",
     "babel-preset-react-app": "^5.0.4",
@@ -37,9 +38,6 @@
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
-    "jest": "23.6.0",
-    "jest-pnp-resolver": "1.0.1",
-    "jest-resolve": "23.6.0",
     "mini-css-extract-plugin": "0.4.3",
     "moment": "^2.11.2",
     "normalize.css": "^7.0.0",
@@ -74,15 +72,20 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-syntax-flow": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "babel-jest": "^24.8.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "^3.0.0",
     "elm-hot-webpack-loader": "^1.0.2",
     "elm-test": "^0.19.0-rev6",
-    "enzyme": "^2.0.0",
-    "expect": "^1.14.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "expect-jsx": "^5.0.0",
     "firebase-tools": "^3.9.0",
     "flow-bin": "^0.75.0",
+    "jest": "^24.8.0",
+    "jest-pnp-resolver": "^1.0.1",
+    "jest-resolve": "^24.8.0",
     "localStorage": "^1.0.3",
     "nock": "^9.0.2",
     "sessionstorage": "^0.0.1",
@@ -98,12 +101,23 @@
   "proxy": "http://localhost:8000",
   "homepage": "https://docue-5105d.firebaseapp.com",
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
     ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
       "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": ["<rootDir>src/setupTests.js"],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx}",

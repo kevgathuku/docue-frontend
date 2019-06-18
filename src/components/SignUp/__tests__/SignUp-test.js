@@ -1,8 +1,6 @@
 import React from 'react';
-import expect from 'expect';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import UserActions from '../../../actions/UserActions';
 import SignUp from '../SignUp.jsx';
 
 describe('SignUp', function() {
@@ -131,7 +129,6 @@ describe('SignUp', function() {
 
     describe('handleSubmit', function() {
       it('should call comparePassword on submit click', function() {
-        sinon.stub(UserActions, 'signup').returns(true);
         // simulate the submit form event
         let signUpEvent = {
           preventDefault: function() {},
@@ -151,7 +148,6 @@ describe('SignUp', function() {
         expect(instance.comparePassword.called).toBe(true);
         instance.comparePassword.restore();
         instance.handleSubmit.restore();
-        UserActions.signup.restore();
       });
     });
   });

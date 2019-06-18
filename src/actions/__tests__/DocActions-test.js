@@ -1,7 +1,6 @@
 'use strict';
 
 import sinon from 'sinon';
-import expect from 'expect';
 import AppConstants from '../../constants/AppConstants';
 import BaseActions from '../BaseActions';
 import DocActions from '../DocActions';

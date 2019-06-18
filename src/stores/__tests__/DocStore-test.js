@@ -1,7 +1,6 @@
 import AppDispatcher from '../../dispatcher/AppDispatcher';
 import DocStore from '../DocStore';
 import constants from '../../constants/AppConstants';
-import expect from 'expect';
 import sinon from 'sinon';
 
 describe('DocStore', function() {
@@ -26,7 +25,7 @@ describe('DocStore', function() {
     sinon.spy(DocStore, 'setDocs');
     var docsAction = {
       actionType: constants.USER_DOCS,
-      data: 'Another One'
+      data: 'Another One',
     };
     AppDispatcher.dispatch(docsAction);
     expect(DocStore.setDocs.called).toBe(true);
@@ -38,7 +37,7 @@ describe('DocStore', function() {
     sinon.spy(DocStore, 'setDocCreateResult');
     var createDocAction = {
       actionType: constants.CREATE_DOC,
-      data: 'Another One'
+      data: 'Another One',
     };
     AppDispatcher.dispatch(createDocAction);
     expect(DocStore.setDocCreateResult.called).toBe(true);
@@ -51,7 +50,7 @@ describe('DocStore', function() {
     var editDocAction = {
       actionType: constants.EDIT_DOC,
       data: 'Another One',
-      statusCode: 200
+      statusCode: 200,
     };
     AppDispatcher.dispatch(editDocAction);
     expect(DocStore.setDocEditResult.called).toBe(true);
@@ -65,7 +64,7 @@ describe('DocStore', function() {
     var deleteDocAction = {
       actionType: constants.DELETE_DOC,
       data: 'Another One',
-      statusCode: 204
+      statusCode: 204,
     };
     AppDispatcher.dispatch(deleteDocAction);
     expect(DocStore.setDocDeleteResult.called).toBe(true);

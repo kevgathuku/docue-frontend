@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UsersAdmin Component Rendering renders correctly given no users 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="card-panel"
+  >
+    <h2
+      className="header center-align"
+    >
+      Manage Users
+    </h2>
+    <div
+      className="row"
+    >
+      <div
+        className="col s10 offset-s1 center-align"
+      >
+        <table
+          className="centered"
+        >
+          <thead>
+            <tr>
+              <th
+                data-field="id"
+              >
+                Name
+              </th>
+              <th
+                data-field="name"
+              >
+                Email
+              </th>
+              <th
+                data-field="role"
+              >
+                Role
+              </th>
+              <th
+                data-field="role"
+              >
+                Access
+              </th>
+            </tr>
+          </thead>
+          <tbody />
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UsersAdmin Component Rendering renders correctly when users are provided 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="card-panel"
+  >
+    <h2
+      className="header center-align"
+    >
+      Manage Users
+    </h2>
+    <div
+      className="row"
+    >
+      <div
+        className="col s10 offset-s1 center-align"
+      >
+        <table
+          className="centered"
+        >
+          <thead>
+            <tr>
+              <th
+                data-field="id"
+              >
+                Name
+              </th>
+              <th
+                data-field="name"
+              >
+                Email
+              </th>
+              <th
+                data-field="role"
+              >
+                Role
+              </th>
+              <th
+                data-field="role"
+              >
+                Access
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              key="somehting"
+            >
+              <td>
+                efwfeww 
+              </td>
+              <td>
+                some@ht.ing
+              </td>
+              <td>
+                <StateManager
+                  defaultInputValue=""
+                  defaultMenuIsOpen={false}
+                  defaultValue={null}
+                  getOptionLabel={[Function]}
+                  getOptionValue={[Function]}
+                  isSearchable={false}
+                  name="role"
+                  onChange={[Function]}
+                  options={Array []}
+                  placeholder="Select Role"
+                  styles={
+                    Object {
+                      "control": [Function],
+                    }
+                  }
+                  value={
+                    Object {
+                      "_id": "roleID",
+                      "title": "fefefe",
+                    }
+                  }
+                />
+              </td>
+              <td />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;
