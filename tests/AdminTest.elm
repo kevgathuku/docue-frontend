@@ -4,7 +4,7 @@ import Admin
 import Expect
 import Test exposing (..)
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (attribute, class, className, classes, id, tag, text)
+import Test.Html.Selector exposing (attribute, class, classes, id, tag, text)
 
 
 suite : Test
@@ -25,27 +25,27 @@ rendering =
             \() ->
                 Admin.view Admin.intialModel
                     |> Query.fromHtml
-                    |> Query.findAll [ className "col s4 center-align" ]
+                    |> Query.findAll [ classes (String.split " " "col s4 center-align") ]
                     |> Query.count (Expect.equal 3)
         , test "Displays the Users section with the correct content" <|
             \() ->
                 Admin.view Admin.intialModel
                     |> Query.fromHtml
-                    |> Query.findAll [ className "col s4 center-align" ]
+                    |> Query.findAll [ classes (String.split " " "col s4 center-align") ]
                     |> Query.first
                     |> Query.has [ text "Total Users" ]
         , test "Displays the Documents section with the correct content" <|
             \() ->
                 Admin.view Admin.intialModel
                     |> Query.fromHtml
-                    |> Query.findAll [ className "col s4 center-align" ]
+                    |> Query.findAll [ classes (String.split " " "col s4 center-align") ]
                     |> Query.index 1
                     |> Query.has [ text "Total Documents" ]
         , test "Displays the Roles section with the correct content" <|
             \() ->
                 Admin.view Admin.intialModel
                     |> Query.fromHtml
-                    |> Query.findAll [ className "col s4 center-align" ]
+                    |> Query.findAll [ classes (String.split " " "col s4 center-align") ]
                     |> Query.index 2
                     |> Query.has [ text "Total Roles" ]
         , test "Displays all Buttons" <|
