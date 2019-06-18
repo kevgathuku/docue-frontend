@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getSession, initiateLogout } from '../../actions/actionCreators';
 import logoSrc from '../../images/favicon.png';
 
-class NavBar extends React.Component {
+export class NavBar extends React.Component {
   // Receive the current pathname as a prop
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

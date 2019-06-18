@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavBar Component Rendering renders the correct content 1`] = `
+<nav
+  className="transparent black-text"
+  role="navigation"
+>
+  <div
+    className="nav-wrapper container"
+  >
+    <a
+      className="brand-logo brand-logo-small"
+      href="/"
+    >
+      <img
+        alt="Docue Logo"
+        id="header-logo"
+        src="favicon.png"
+      />
+            Docue
+    </a>
+    <a
+      className="button-collapse"
+      data-activates="mobile-demo"
+      href="#"
+    >
+      <i
+        className="material-icons"
+        style={
+          Object {
+            "color": "grey",
+          }
+        }
+      >
+        menu
+      </i>
+    </a>
+    <ul
+      className="side-nav"
+      id="mobile-demo"
+    >
+      <li>
+        <a
+          href="/"
+        >
+          Home
+        </a>
+      </li>
+      <li>
+        <a
+          href="/auth"
+        >
+          Login
+        </a>
+      </li>
+      <li>
+        <a
+          href="/auth"
+        >
+          Sign Up
+        </a>
+      </li>
+    </ul>
+    <ul
+      className="right hide-on-med-and-down"
+      id="nav-mobile"
+    >
+      <li />
+    </ul>
+  </div>
+</nav>
+`;
