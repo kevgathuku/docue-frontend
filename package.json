@@ -81,7 +81,7 @@
     "enzyme": "^2.0.0",
     "expect": "^1.14.0",
     "expect-jsx": "^5.0.0",
-    "firebase-tools": "^3.9.0",
+    "firebase-tools": "^6.3.0",
     "flow-bin": "^0.75.0",
     "localStorage": "^1.0.3",
     "nock": "^9.0.2",
